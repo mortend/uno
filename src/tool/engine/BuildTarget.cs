@@ -20,6 +20,7 @@ namespace Uno.Build
         public virtual bool IsExperimental => false;
         public virtual bool IsObsolete => false;
         public virtual bool DefaultStrip => true;
+        public virtual bool DefaultLazy => false;
 
         public virtual Backend CreateBackend()
         {

@@ -7,6 +7,7 @@ namespace Uno.Build
     {
         public BuildConfiguration Configuration = BuildConfiguration.Debug;
         public bool Force;
+        public bool? Lazy;
         public bool NativeBuild = true;
         public bool Parallel = true;
         public bool? UpdateLibrary;
@@ -31,6 +32,7 @@ namespace Uno.Build
             var hash = 27;
             hash = 3 * hash + Configuration.GetHashCode();
             hash = 3 * hash + UpdateLibrary.NullableHashCode();
+            hash = 3 * hash + Lazy.NullableHashCode();
             hash = 3 * hash + Strip.NullableHashCode();
             hash = 2 * hash + Test.GetHashCode();
             hash = 13 * hash + MainClass.NullableHashCode();

@@ -183,9 +183,10 @@ namespace Uno.Compiler.Core.Syntax.Builders
 
             result.SetMasterDefinition(definition.MasterDefinition);
             ParameterizeInnerTypes(definition, definition, map, result);
-            EnqueueType(result,
+            _q.EnqueueType(result,
                 x => ParameterizeBaseType(definition, map, x),
                 x => ParameterizeMembers(definition, definition, map, x));
+
             return result;
         }
 
@@ -289,7 +290,7 @@ namespace Uno.Compiler.Core.Syntax.Builders
 
             if (result != null)
             {
-                map.Add(arg, result);
+                map[arg] = result;
                 return result;
             }
 
@@ -364,7 +365,7 @@ namespace Uno.Compiler.Core.Syntax.Builders
 
                 t.SetMasterDefinition(e.MasterDefinition);
 
-                EnqueueType(t,
+                _q.EnqueueType(t,
                     x => ParameterizeBaseType(e, map, x),
                     x => ParameterizeMembers(definition, e, map, x));
                 ParameterizeInnerTypes(definition, e, map, t);
