@@ -44,6 +44,7 @@ namespace Uno.Compiler.Core.IL.Testing
             _testSetupType = ILFactory.GetType("Uno.Testing.TestSetup");
 
             _appClass = Essentials.Application;
+            _appClass.PopulateMembers();
 
             _source = Package.Source;
             _testRegistryType = ILFactory.GetType("Uno.Testing.Registry");

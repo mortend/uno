@@ -52,14 +52,10 @@ namespace Uno.Compiler.Core.Syntax.Builders
                         var pl = _compiler.CompileParameterList(gt ?? parameterizedType, md.Parameters, deferredActions);
                         var rt = _resolver.GetType(gt ?? parameterizedType, md.ReturnType);
                         var me = new Method(md.Name.Source, result, md.DocComment, GetMemberModifiers(md.Name.Source, parameterizedType, md.Modifiers), md.Name.Symbol, gt, rt, pl);
+                        _q.EnqueueAttributes(me, parameterizedType, md.Attributes);
+                        _q.EnqueueFunction(me, parameterizedType, md.OptionalBody);
                         result.Methods.Add(me);
-
-                        if (md.Attributes.Count > 0)
-                            EnqueueAttributes(me, x => me.SetAttributes(_compiler.CompileAttributes(parameterizedType, md.Attributes)));
-
                         gt?.Methods.Add(me);
-
-                        EnqueueCompiler(new FunctionCompiler(_compiler, me, parameterizedType, md.OptionalBody));
 
                         if (md.OptionalInterfaceType != null)
                         {
@@ -82,12 +78,8 @@ namespace Uno.Compiler.Core.Syntax.Builders
                         var md = item as AstConstructor;
                         var pl = _compiler.CompileParameterList(parameterizedType, md.Parameters, deferredActions);
                         var ctor = new Constructor(md.Source, result, md.DocComment, md.Modifiers, pl);
-
-                        if (md.Attributes.Count > 0)
-                            EnqueueAttributes(ctor, x => ctor.SetAttributes(_compiler.CompileAttributes(parameterizedType, md.Attributes)));
-
-                        var fc = new FunctionCompiler(_compiler, ctor, parameterizedType, md.OptionalBody);
-                        EnqueueCompiler(fc);
+                        var fc = _q.EnqueueFunction(ctor, parameterizedType, md.OptionalBody);
+                        _q.EnqueueAttributes(ctor, parameterizedType, md.Attributes);
 
                         if (ctor.IsStatic)
                         {
@@ -114,7 +106,8 @@ namespace Uno.Compiler.Core.Syntax.Builders
                             if (ctor.Body == null)
                                 Log.Error(md.Source, ErrorCode.E0000, ctor.Quote() + " cannot call constructor without method body");
                             else if (md.CallType != AstConstructorCallType.Base || parameterizedType.Base != DataType.Invalid)
-                                _enqueuedActions.Add(() =>
+                                _q.Enqueue(
+                                    () =>
                                     {
                                         var bt = md.CallType == AstConstructorCallType.Base ? parameterizedType.Base : parameterizedType;
                                         bt.PopulateMembers();
@@ -131,8 +124,8 @@ namespace Uno.Compiler.Core.Syntax.Builders
                             parameterizedType.Base != null &&
                             parameterizedType.TypeType != TypeType.Struct &&
                             ctor.Body != null)
-                        {
-                            _enqueuedActions.Add(() =>
+                            _q.Enqueue(
+                                () =>
                                 {
                                     Constructor callCtor;
                                     Expression[] callArgs;
@@ -141,7 +134,6 @@ namespace Uno.Compiler.Core.Syntax.Builders
                                     else
                                         ctor.Body.Statements.Add(new CallConstructor(md.Source, callCtor, callArgs));
                                 });
-                        }
                         break;
                     }
                     case AstMemberType.Finalizer:
@@ -149,15 +141,13 @@ namespace Uno.Compiler.Core.Syntax.Builders
                         var fd = item as AstFinalizer;
                         var pl = _compiler.CompileParameterList(parameterizedType, fd.Parameters, deferredActions);
                         var finalizer = new Finalizer(fd.Source, result, fd.DocComment, fd.Modifiers, pl);
-
-                        if (fd.Attributes.Count > 0)
-                            EnqueueAttributes(finalizer, x => finalizer.SetAttributes(_compiler.CompileAttributes(parameterizedType, fd.Attributes)));
+                        _q.EnqueueAttributes(finalizer, parameterizedType, fd.Attributes);
+                        _q.EnqueueFunction(finalizer, parameterizedType, fd.OptionalBody);
 
                         if (result.Finalizer != null)
                             Log.Error(fd.Source, ErrorCode.E3002, parameterizedType.Quote() + " already has a finalizer");
 
                         result.Finalizer = finalizer;
-                        EnqueueCompiler(new FunctionCompiler(_compiler, finalizer, parameterizedType, fd.OptionalBody));
                         break;
                     }
                     case AstMemberType.Property:
@@ -189,24 +179,21 @@ namespace Uno.Compiler.Core.Syntax.Builders
                                 {
                                     prop.CreateImplicitField(prop.Source);
 
-                                    var getScope = new Scope(pd.Get.Source);
-                                    prop.CreateGetMethod(pd.Get.Source, GetAccessorModifiers(pd.Get.Source, prop, pd.Get.Modifiers) | Modifiers.Generated, getScope);
-
-                                    var setScope = new Scope(pd.Set.Source);
-                                    var setMethod = prop.CreateSetMethod(pd.Set.Source, GetAccessorModifiers(pd.Set.Source, prop, pd.Set.Modifiers) | Modifiers.Generated, setScope);
+                                    var getMethod = prop.CreateGetMethod(pd.Get.Source, GetAccessorModifiers(pd.Get.Source, prop, pd.Get.Modifiers) | Modifiers.Generated);
+                                    var setMethod = prop.CreateSetMethod(pd.Set.Source, GetAccessorModifiers(pd.Set.Source, prop, pd.Set.Modifiers) | Modifiers.Generated);
                                     var propIndex = result.Properties.Count - 1;
-
-                                    _enqueuedActions.Add(() =>
+                                    _q.Enqueue(
+                                        () =>
                                         {
                                             parameterizedType.PopulateMembers();
 
                                             var obj = prop.Modifiers.HasFlag(Modifiers.Static) ? null : new This(prop.Source, parameterizedType).Address;
                                             var field = parameterizedType.Properties[propIndex].ImplicitField;
 
-                                            getScope.Statements.Add(
-                                                new Return(pd.Get.Source, new LoadField(pd.Get.Source, obj, field)));
-                                            setScope.Statements.Add(
-                                                new StoreField(pd.Set.Source, obj, field, new LoadArgument(pd.Set.Source, setMethod, 0)));
+                                            getMethod.SetBody(new Scope(pd.Get.Source,
+                                                new Return(pd.Get.Source, new LoadField(pd.Get.Source, obj, field))));
+                                            setMethod.SetBody(new Scope(pd.Set.Source,
+                                                new StoreField(pd.Set.Source, obj, field, new LoadArgument(pd.Set.Source, setMethod, 0))));
                                         });
 
                                     hasImplicitImplementation = true;
@@ -215,7 +202,7 @@ namespace Uno.Compiler.Core.Syntax.Builders
                         }
 
                         if (pd.Attributes.Count > 0)
-                            EnqueueAttributes(prop,
+                            _q.EnqueueAttributes(prop,
                                 x =>
                                 {
                                     prop.SetAttributes(_compiler.CompileAttributes(parameterizedType, pd.Attributes));
@@ -227,9 +214,9 @@ namespace Uno.Compiler.Core.Syntax.Builders
                         if (!hasImplicitImplementation)
                         {
                             if (pd.Get != null)
-                                EnqueueCompiler(new FunctionCompiler(_compiler, prop.CreateGetMethod(pd.Get.Source, GetAccessorModifiers(pd.Get.Source, prop, pd.Get.Modifiers)), parameterizedType, pd.Get.OptionalBody));
+                                _q.EnqueueFunction(prop.CreateGetMethod(pd.Get.Source, GetAccessorModifiers(pd.Get.Source, prop, pd.Get.Modifiers)), parameterizedType, pd.Get.OptionalBody);
                             if (pd.Set != null)
-                                EnqueueCompiler(new FunctionCompiler(_compiler, prop.CreateSetMethod(pd.Set.Source, GetAccessorModifiers(pd.Set.Source, prop, pd.Set.Modifiers)), parameterizedType, pd.Set.OptionalBody));
+                                _q.EnqueueFunction(prop.CreateSetMethod(pd.Set.Source, GetAccessorModifiers(pd.Set.Source, prop, pd.Set.Modifiers)), parameterizedType, pd.Set.OptionalBody);
                         }
 
                         if (pd.OptionalInterfaceType != null)
@@ -256,10 +243,8 @@ namespace Uno.Compiler.Core.Syntax.Builders
                         if (f.FieldModifiers.HasFlag(FieldModifiers.Const))
                         {
                             var m = new Literal(f.Name.Source, result, f.Name.Symbol, f.DocComment, GetMemberModifiers(f.Name.Source, parameterizedType, f.Modifiers), dt, f.InitValue);
+                            _q.EnqueueAttributes(m, parameterizedType, f.Attributes);
                             result.Literals.Add(m);
-
-                            if (f.Attributes.Count > 0)
-                                EnqueueAttributes(m, x => m.SetAttributes(_compiler.CompileAttributes(parameterizedType, f.Attributes)));
 
                             if (f.InitValue == null)
                                 Log.Error(f.Name.Source, ErrorCode.E3007, "'const' fields must provide a constant value");
@@ -269,11 +254,9 @@ namespace Uno.Compiler.Core.Syntax.Builders
                         else
                         {
                             var m = new Field(f.Name.Source, result, f.Name.Symbol, f.DocComment, GetMemberModifiers(f.Name.Source, parameterizedType, f.Modifiers), f.FieldModifiers, dt);
+                            _q.EnqueueAttributes(m, parameterizedType, f.Attributes);
                             fieldInitializers.Add(f.InitValue);
                             result.Fields.Add(m);
-
-                            if (f.Attributes.Count > 0)
-                                EnqueueAttributes(m, x => m.SetAttributes(_compiler.CompileAttributes(parameterizedType, f.Attributes)));
                         }
                         break;
                     }
@@ -283,12 +266,9 @@ namespace Uno.Compiler.Core.Syntax.Builders
                         var rt = _resolver.GetType(parameterizedType, od.ReturnType);
                         var pl = _compiler.CompileParameterList(parameterizedType, od.Parameters, deferredActions);
                         var op = new Operator(od.Source, result, od.Operator, od.DocComment, GetMemberModifiers(od.Source, parameterizedType, od.Modifiers), rt, pl);
+                        _q.EnqueueAttributes(op, parameterizedType, od.Attributes);
+                        _q.EnqueueFunction(op, parameterizedType, od.OptionalBody);
                         result.Operators.Add(op);
-
-                        if (od.Attributes.Count > 0)
-                            EnqueueAttributes(op, x => op.SetAttributes(_compiler.CompileAttributes(parameterizedType, od.Attributes)));
-
-                        EnqueueCompiler(new FunctionCompiler(_compiler, op, parameterizedType, od.OptionalBody));
                         break;
                     }
                     case AstMemberType.Converter:
@@ -298,12 +278,9 @@ namespace Uno.Compiler.Core.Syntax.Builders
                         var pl = _compiler.CompileParameterList(parameterizedType, cd.Parameters, deferredActions);
                         var type = cd.Modifiers.HasFlag(Modifiers.Implicit) ? CastModifier.Implicit : CastModifier.Explicit;
                         var cast = new Cast(cd.TargetType.Source, result, type, cd.DocComment, GetMemberModifiers(cd.TargetType.Source, parameterizedType, cd.Modifiers), rt, pl);
+                        _q.EnqueueAttributes(cast, parameterizedType, cd.Attributes);
+                        _q.EnqueueFunction(cast, parameterizedType, cd.OptionalBody);
                         result.Casts.Add(cast);
-
-                        if (cd.Attributes.Count > 0)
-                            EnqueueAttributes(cast, x => cast.SetAttributes(_compiler.CompileAttributes(parameterizedType, cd.Attributes)));
-
-                        EnqueueCompiler(new FunctionCompiler(_compiler, cast, parameterizedType, cd.OptionalBody));
                         break;
                     }
                     case AstMemberType.Indexer:
@@ -315,7 +292,8 @@ namespace Uno.Compiler.Core.Syntax.Builders
                         result.Properties.Add(indexer);
 
                         if (id.Attributes.Count > 0)
-                            EnqueueAttributes(indexer,
+                            _q.EnqueueAttributes(
+                                indexer,
                                 x =>
                                 {
                                     indexer.SetAttributes(_compiler.CompileAttributes(parameterizedType, id.Attributes));
@@ -324,9 +302,13 @@ namespace Uno.Compiler.Core.Syntax.Builders
                                 });
 
                         if (id.Get != null)
-                            EnqueueCompiler(new FunctionCompiler(_compiler, indexer.CreateGetMethod(id.Get.Source, GetAccessorModifiers(id.Get.Source, indexer, id.Get.Modifiers)), parameterizedType, id.Get.OptionalBody));
+                            _q.EnqueueFunction(
+                                indexer.CreateGetMethod(id.Get.Source, GetAccessorModifiers(id.Get.Source, indexer, id.Get.Modifiers)), 
+                                parameterizedType, id.Get.OptionalBody);
                         if (id.Set != null)
-                            EnqueueCompiler(new FunctionCompiler(_compiler, indexer.CreateSetMethod(id.Set.Source, GetAccessorModifiers(id.Set.Source, indexer, id.Set.Modifiers)), parameterizedType, id.Set.OptionalBody));
+                            _q.EnqueueFunction(
+                                indexer.CreateSetMethod(id.Set.Source, GetAccessorModifiers(id.Set.Source, indexer, id.Set.Modifiers)), 
+                                parameterizedType, id.Set.OptionalBody);
 
                         if (id.OptionalInterfaceType != null)
                         {
@@ -359,7 +341,7 @@ namespace Uno.Compiler.Core.Syntax.Builders
                         result.Events.Add(ev);
 
                         if (ed.Attributes.Count > 0)
-                            EnqueueAttributes(ev,
+                            _q.EnqueueAttributes(ev,
                                 x =>
                                 {
                                     ev.SetAttributes(_compiler.CompileAttributes(parameterizedType, ed.Attributes));
@@ -374,31 +356,32 @@ namespace Uno.Compiler.Core.Syntax.Builders
                             {
                                 ev.CreateImplicitField(ed.Name.Source);
 
-                                var addScope = new Scope(ed.Name.Source);
-                                var addMethod = ev.CreateAddMethod(ev.Source, ev.Modifiers | Modifiers.Generated, addScope);
-                                var removeScope = new Scope(ed.Name.Source);
-                                var removeMethod = ev.CreateRemoveMethod(ev.Source, ev.Modifiers | Modifiers.Generated, removeScope);
+                                var addMethod = ev.CreateAddMethod(ev.Source, ev.Modifiers | Modifiers.Generated);
+                                var removeMethod = ev.CreateRemoveMethod(ev.Source, ev.Modifiers | Modifiers.Generated);
                                 var eventIndex = result.Events.Count - 1;
 
-                                _enqueuedActions.Add(() =>
+                                _q.Enqueue(
+                                    () =>
                                     {
                                         parameterizedType.PopulateMembers();
 
-                                        var obj = ev.IsStatic ? null : new This(ev.Source, parameterizedType).Address;
+                                        var obj = ev.IsStatic 
+                                            ? null 
+                                            : new This(ev.Source, parameterizedType).Address;
                                         var field = parameterizedType.Events[eventIndex].ImplicitField;
 
-                                        addScope.Statements.Add(
+                                        addMethod.SetBody(new Scope(ed.Name.Source,
                                             new StoreField(ev.Source, obj, field,
                                                 new CastOp(ev.Source, ev.ReturnType,
                                                     _ilf.CallMethod(ev.Source, _ilf.Essentials.Delegate, "Combine",
                                                         new CastOp(ev.Source, _ilf.Essentials.Delegate, new LoadField(ev.Source, obj, field)),
-                                                        new LoadArgument(ev.Source, addMethod, 0)))));
-                                        removeScope.Statements.Add(
+                                                        new LoadArgument(ev.Source, addMethod, 0))))));
+                                        removeMethod.SetBody(new Scope(ed.Name.Source,
                                             new StoreField(ev.Source, obj, field,
                                                 new CastOp(ev.Source, ev.ReturnType,
                                                     _ilf.CallMethod(ev.Source, _ilf.Essentials.Delegate, "Remove",
                                                         new CastOp(ev.Source, _ilf.Essentials.Delegate, new LoadField(ev.Source, obj, field)),
-                                                        new LoadArgument(ev.Source, removeMethod, 0)))));
+                                                        new LoadArgument(ev.Source, removeMethod, 0))))));
                                     });
                             }
                             else
@@ -414,9 +397,9 @@ namespace Uno.Compiler.Core.Syntax.Builders
                             Log.Error(ed.Name.Source, ErrorCode.E3040, "Modifiers can not be placed on event accessor declarations");
 
                         if (ed.Add != null)
-                            EnqueueCompiler(new FunctionCompiler(_compiler, ev.CreateAddMethod(ed.Add.Source, ev.Modifiers), parameterizedType, ed.Add.OptionalBody));
+                            _q.EnqueueFunction(ev.CreateAddMethod(ed.Add.Source, ev.Modifiers), parameterizedType, ed.Add.OptionalBody);
                         if (ed.Remove != null)
-                            EnqueueCompiler(new FunctionCompiler(_compiler, ev.CreateRemoveMethod(ed.Remove.Source, ev.Modifiers), parameterizedType, ed.Remove.OptionalBody));
+                            _q.EnqueueFunction(ev.CreateRemoveMethod(ed.Remove.Source, ev.Modifiers), parameterizedType, ed.Remove.OptionalBody);
 
                         if (ed.OptionalInterfaceType != null)
                         {
@@ -488,7 +471,7 @@ namespace Uno.Compiler.Core.Syntax.Builders
 
             // Compile field initializers
             if (fieldInitializers.Count > 0)
-                _enqueuedActions.Add(() => CompileFieldInitializers(result, parameterizedType, fieldInitializers));
+                _q.Enqueue(() => CompileFieldInitializers(result, parameterizedType, fieldInitializers));
 
             // Create default constructor in non-static classes
             if (result.IsClass && !result.IsStatic && result.Constructors.Count == 0)
@@ -497,7 +480,7 @@ namespace Uno.Compiler.Core.Syntax.Builders
                     (parameterizedType.IsAbstract ? Modifiers.Protected : Modifiers.Public) | Modifiers.Generated, 
                     ParameterList.Empty, new Scope(parameterizedType.Source));
                 result.Constructors.Add(ctor);
-                _enqueuedActions.Add(() =>
+                _q.Enqueue(() =>
                     {
                         parameterizedType.AssignBaseType();
                         if (parameterizedType.Base == null)
@@ -555,7 +538,10 @@ namespace Uno.Compiler.Core.Syntax.Builders
             if (!result.IsInterface && result.Interfaces.Length > 0)
                 ImplementInterfaces(result);
 
-            _compiler.BlockBuilder.PopulateBlock(astClass, result.Block);
+            if (result.Block != null)
+                _q.EnqueueBlock(
+                    result.Block,
+                    x => _compiler.BlockBuilder.PopulateBlock(astClass, x));
 
             foreach (var action in deferredActions)
                 action();

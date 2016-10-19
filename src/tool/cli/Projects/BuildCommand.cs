@@ -41,6 +41,7 @@ namespace Uno.CLI.Projects
             WriteRow("-f, --force",                 "Build even if output is up-to-date");
             WriteRow("-l, --libs",                  "Rebuild package library if necessary");
             WriteRow("-p, --print-internals",       "Print a list of build system properties");
+            WriteRow("-L, --no-lazy",               "Disable lazy compilation (slower)");
             WriteRow("-N, --no-native",             "Disable native build step (faster)");
             WriteRow("-P, --no-parallel",           "Disable multi-threading (slower)");
             WriteRow("-S, --no-strip",              "Disable removal of unused code (slower)");
@@ -103,6 +104,7 @@ namespace Uno.CLI.Projects
                     { "m=|main=|main-class=",   value => options.MainClass = value },
                     { "n=|native-args=",        nativeArgs.Add },
                     { "a=|run-args=",           runArgs.Add },
+                    { "L|no-lazy",              value => options.Lazy = false },
                     { "P|no-parallel",          value => options.Parallel = false },
                     { "N|q|no-native",          value => options.NativeBuild = false },
                     { "S|e|no-strip",           value => options.Strip = false },
