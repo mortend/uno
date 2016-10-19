@@ -48,6 +48,7 @@ namespace Uno.Compiler.Core
         public readonly NameResolver NameResolver;
 
         // Building
+        public readonly BuildQueue Queue;
         public readonly BlockBuilder BlockBuilder;
         public readonly BundleBuilder BundleBuilder;
         public readonly TypeBuilder TypeBuilder;
@@ -90,8 +91,9 @@ namespace Uno.Compiler.Core
             var data = Data = new BuildData(il, extensions, ilf);
             var environment = Environment = new BuildEnvironment(backend, package, options, extensions, ilf, this);
             var input = Input = new SourceReader(log, package, environment);
-            var blockBuilder = BlockBuilder = new BlockBuilder(backend, il, ilf, resolver, this);
-            var typeBuilder = TypeBuilder = new TypeBuilder(environment, ilf, resolver, this);
+            var q = Queue = new BuildQueue(log, environment, backend, this);
+            var blockBuilder = BlockBuilder = new BlockBuilder(backend, il, ilf, resolver, this, q);
+            var typeBuilder = TypeBuilder = new TypeBuilder(environment, ilf, resolver, this, q);
             BundleBuilder = new BundleBuilder(backend, environment, ilf, this);
             AstProcessor = new AstProcessor(il, blockBuilder, typeBuilder, resolver, environment);
             UxlProcessor = new UxlProcessor(disk, backend.Name, il, extensions, environment, ilf);
@@ -131,20 +133,20 @@ namespace Uno.Compiler.Core
                 if (Backend.CanLink(upk))
                     upk.Flags |= SourcePackageFlags.CanLink;
 
-            using (Log.StartProfiler(TypeBuilder))
-                TypeBuilder.Build();
-            if (Log.HasErrors)
-                return;
-
-            Backend.ShaderBackend.Initialize(this, BundleBuilder);
-
-            using (Log.StartProfiler(BlockBuilder))
-                BlockBuilder.Build();
+            using (Log.StartProfiler(Queue))
+                Queue.BuildTypesAndFunctions();
             if (Log.HasErrors)
                 return;
 
             using (Log.StartProfiler(UxlProcessor))
                 UxlProcessor.CompileDocuments();
+            if (Log.HasErrors)
+                return;
+
+            Backend.ShaderBackend.Initialize(this, BundleBuilder);
+
+            using (Log.StartProfiler(Queue))
+                Queue.BuildEverything();
             if (Log.HasErrors)
                 return;
 
@@ -196,7 +198,6 @@ namespace Uno.Compiler.Core
             UxlProcessor.CompileRequirements();
             ILStripper.Begin();
             Run(_transforms);
-            TypeBuilder.BuildTypes();
 
             using (Log.StartProfiler(ILStripper))
                 ILStripper.End();

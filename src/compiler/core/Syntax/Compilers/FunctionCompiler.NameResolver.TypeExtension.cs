@@ -46,12 +46,16 @@ namespace Uno.Compiler.Core.Syntax.Compilers
             var extensionMethods = new List<Method>();
 
             foreach (var dt in staticClasses)
+            {
+                dt.PopulateMembers();
+
                 foreach (var m in dt.Methods)
                     if (m.IsStatic &&
                         m.Parameters.Length > 0 && m.Parameters[0].Modifier == ParameterModifier.This &&
                         (typeParamCount == null || m.IsGenericDefinition && m.GenericParameters.Length == typeParamCount) &&
                         m.Name == name)
                         extensionMethods.Add(m);
+            }
 
             if (extensionMethods.Count == 0)
                 return null;

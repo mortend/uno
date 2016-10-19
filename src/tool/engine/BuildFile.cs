@@ -6,6 +6,7 @@ namespace Uno.Build
 {
     public class BuildFile
     {
+        readonly int _hash;
         public readonly string RootDirectory;
         public readonly string FullName;
         public string UnoVersion;
@@ -20,13 +21,14 @@ namespace Uno.Build
                                          File.GetLastWriteTime(Path.Combine(RootDirectory, Product)) >= Timestamp &&
                                          UnoVersion == Diagnostics.UnoVersion.InformationalVersion;
 
-        public BuildFile(string dir)
+        public BuildFile(string dir, int hash = 0)
         {
             RootDirectory = dir;
             FullName = Path.Combine(dir, ".unobuild");
+            _hash = hash;
         }
 
-        public int Load()
+        public bool Load()
         {
             var stuff = StuffObject.Load(FullName);
             stuff.TryGetValue("$", out int hash);
@@ -34,14 +36,14 @@ namespace Uno.Build
             stuff.TryGetValue(nameof(BuildCommand), out BuildCommand);
             stuff.TryGetValue(nameof(RunCommand), out RunCommand);
             stuff.TryGetValue(nameof(Product), out Product);
-            return hash;
+            return hash == _hash;
         }
 
-        public void Save(int hash)
+        public void Save()
         {
             Directory.CreateDirectory(RootDirectory);
             new StuffObject {
-                {"$", hash },
+                {"$", _hash},
                 {nameof(UnoVersion), UnoVersion},
                 {nameof(BuildCommand), BuildCommand},
                 {nameof(RunCommand), RunCommand},

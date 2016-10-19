@@ -36,9 +36,8 @@ namespace Uno.Build
         readonly PackageCache _cache;
         IDisposable _anim;
 
-        public bool IsUpToDate => !_options.Force && _file.Exists &&
-                                  !_input.HasAnythingChangedSince(_file.Timestamp) &&
-                                  _file.Load() == GetHashCode();
+        public bool IsUpToDate => !_options.Force && _env.HasUpToDateOptions &&
+                                  !_input.HasAnythingChangedSince(_file.Timestamp);
         public bool CanBuildNative => _options.NativeBuild && _target.CanBuild(_file) && (
                                       _options.Force ||
                                       !_file.IsProductUpToDate);
@@ -80,6 +79,7 @@ namespace Uno.Build
                     : project.OutputDirectory,
                 MainClass = _options.MainClass,
                 Debug = _options.Configuration != BuildConfiguration.Release,
+                Lazy = _options.Lazy ?? _target.DefaultLazy,
                 Parallel = _options.Parallel,
                 Strip = _options.Strip ?? _target.DefaultStrip,
                 CanCacheIL = _options.PackageCache != null
@@ -108,7 +108,8 @@ namespace Uno.Build
             if (_options.Clean)
                 _compiler.Disk.DeleteDirectory(_env.OutputDirectory);
 
-            _file = new BuildFile(_env.OutputDirectory);
+            _file = new BuildFile(_env.OutputDirectory, GetBuildHash());
+            _env.HasUpToDateOptions = _file.Exists && _file.Load();
         }
 
         SourcePackage GetPackage()
@@ -242,7 +243,7 @@ namespace Uno.Build
 
                 if (!Log.HasErrors)
                 {
-                    _file.Save(GetHashCode());
+                    _file.Save();
                     _target.DeleteOutdated(_compiler.Disk, _env);
                 }
 
@@ -297,7 +298,7 @@ namespace Uno.Build
             Log.WriteLine(description + ":" + new string(' ', 13 - description.Length) + path.ToRelativePath());
         }
 
-        public override int GetHashCode()
+        int GetBuildHash()
         {
             var hash = 13 * _options.GetHashCode() + _target.Identifier.GetHashCode();
 

@@ -23,10 +23,12 @@ namespace Uno.Compiler.Core
         internal BuildStep Step;
 
         public bool Debug => Options.Debug;
+        public bool Lazy => Options.Lazy && Options.Strip;
         public bool Parallel => Options.Parallel;
         public bool Strip => Options.Strip;
         public bool IsGeneratingCode => Step == BuildStep.Generating;
         public bool CanCacheIL => Options.CanCacheIL;
+        public bool HasUpToDateOptions;
 
         public string CacheDirectory { get; }
         public string BundleDirectory { get; }
@@ -66,7 +68,7 @@ namespace Uno.Compiler.Core
 
         public bool IsUpToDate(SourcePackage upk, string filename)
         {
-            if (!upk.IsCached)
+            if (!upk.IsCached || !Options.Lazy || !HasUpToDateOptions)
                 return false;
 
             var file = Path.Combine(OutputDirectory, filename);
