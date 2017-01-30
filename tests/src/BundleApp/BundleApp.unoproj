@@ -1,4 +1,5 @@
 {
+  "OutputType": "Console",
   "Packages": [
     "BundleLib"
   ],
