@@ -160,10 +160,11 @@ namespace Uno.Compiler.API.Backends.Decompilers
             EndLine(";");
         }
 
-        public virtual void BeginReturn(Expression value = null)
+        public virtual ExpressionUsage BeginReturn(Expression value = null)
         {
             Write("return");
             WriteWhen(!Function.ReturnType.IsVoid, " ");
+            return ExpressionUsage.RValue;
         }
 
         public virtual void EndReturn(Expression value = null)
@@ -173,10 +174,10 @@ namespace Uno.Compiler.API.Backends.Decompilers
         public void WriteReturn(Return s)
         {
             BeginLine();
-            BeginReturn(s.Value);
+            var u = BeginReturn(s.Value);
 
             if (s.Value != null)
-                WriteExpression(s.Value);
+                WriteExpression(s.Value, u);
 
             EndReturn(s.Value);
             EndLine(";");

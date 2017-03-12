@@ -141,12 +141,12 @@ namespace Uno.Compiler.Backends.CPlusPlus
             _flags = 0;
         }
 
-        public override void BeginReturn(Expression value = null)
+        public override ExpressionUsage BeginReturn(Expression value = null)
         {
             Write("return");
 
             if (Function.ReturnType.IsVoid)
-                return;
+                return 0;
 
             Write(IsClassMember
                     ? " " :
@@ -155,6 +155,12 @@ namespace Uno.Compiler.Backends.CPlusPlus
                         ? " __retval.Store("
                         : " __retval.Store(" + GetTypeOf(Function.ReturnType) + ", "
                     : " *__retval = ");
+
+            return IsClassMember
+                    ? ExpressionUsage.RValue :
+                IsConstrained(Function.ReturnType)
+                    ? ExpressionUsage.Argument
+                    : ExpressionUsage.Operand;
         }
 
         public override void EndReturn(Expression value = null)
@@ -704,12 +710,13 @@ namespace Uno.Compiler.Backends.CPlusPlus
             {
                 CommaWhen(comma);
                 Write("&" + storage.Name + ")");
-                WriteWhen(u > 0, ", " + (
+                WriteWhen(u >= ExpressionUsage.RValue, ", " + (
                         u == ExpressionUsage.VarArg &&
                         IsConstrained(storage.ValueType)
                             ? "(void*)"
                             : null
-                    ) + storage.Name + ")");
+                    ) + storage.Name);
+                End(u >= ExpressionUsage.Argument);
             }
             else
                 Write(")");
@@ -717,7 +724,7 @@ namespace Uno.Compiler.Backends.CPlusPlus
 
         public void WriteCall(Source src, Function func, Expression obj, Expression[] args, Variable storage = null, ExpressionUsage u = ExpressionUsage.Argument)
         {
-            Begin(storage != null && u != 0);
+            Begin(storage != null && u >= ExpressionUsage.Argument);
             var cast = storage == null &&
                        u >= ExpressionUsage.Argument &&
                        func.MasterDefinition.ReturnType.IsGenericType &&
