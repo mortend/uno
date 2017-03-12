@@ -160,26 +160,27 @@ namespace Uno.Compiler.API.Backends.Decompilers
             EndLine(";");
         }
 
-        public virtual ExpressionUsage BeginReturn(Expression value = null)
+        public virtual ExpressionUsage BeginReturn(Expression value = null, bool isLastStatement = false)
         {
             Write("return");
             WriteWhen(!Function.ReturnType.IsVoid, " ");
             return ExpressionUsage.RValue;
         }
 
-        public virtual void EndReturn(Expression value = null)
+        public virtual void EndReturn(Expression value = null, bool isLastStatement = false)
         {
         }
 
         public void WriteReturn(Return s)
         {
             BeginLine();
-            var u = BeginReturn(s.Value);
+            var isLastStatement = s == Function.Body.Statements.Last();
+            var u = BeginReturn(s.Value, isLastStatement);
 
             if (s.Value != null)
                 WriteExpression(s.Value, u);
 
-            EndReturn(s.Value);
+            EndReturn(s.Value, isLastStatement);
             EndLine(";");
         }
 
@@ -293,7 +294,7 @@ namespace Uno.Compiler.API.Backends.Decompilers
         public void WriteExternScope(ExternScope s)
         {
             BeginLine();
-            WriteExternString(s.Source, s.String, s.Object, s.Arguments, s.Scopes);
+            WriteExternString(s.Source, s.String, s.Object, s.Arguments, s.Scopes, s == Function.Body.Statements.Last());
             EndLine();
         }
 

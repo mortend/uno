@@ -417,7 +417,7 @@ namespace Uno.Compiler.API.Backends.Decompilers
             Write(")");
         }
 
-        void WriteExternString(Source src, string str, Expression obj, Expression[] args, Namescope[] usings)
+        void WriteExternString(Source src, string str, Expression obj, Expression[] args, Namescope[] usings, bool isLastStatement = false)
         {
             // Extern vars are validated and decorated by ExternTransform
             const string Prefix = "@IL$";
@@ -425,6 +425,13 @@ namespace Uno.Compiler.API.Backends.Decompilers
 
             str = Environment.Expand(src, str, false, Function, usings);
             int i = 0;
+
+            if (isLastStatement)
+            {
+                var a = str.IndexOf(Prefix + "{", StringComparison.Ordinal);
+                isLastStatement = a == -1 ||
+                    str.IndexOf(Prefix + "{", a + 1, StringComparison.Ordinal) == -1;
+            }
 
             while (true)
             {
@@ -475,13 +482,13 @@ namespace Uno.Compiler.API.Backends.Decompilers
                     case '{':
                     {
                         ei = di + PrefixLength;
-                        BeginReturn();
+                        BeginReturn(null, isLastStatement);
                         break;
                     }
                     case '}':
                     {
                         ei = di + PrefixLength;
-                        EndReturn();
+                        EndReturn(null, isLastStatement);
                         break;
                     }
                     case '$':

@@ -141,35 +141,45 @@ namespace Uno.Compiler.Backends.CPlusPlus
             _flags = 0;
         }
 
-        public override ExpressionUsage BeginReturn(Expression value = null)
+        public override ExpressionUsage BeginReturn(Expression value = null, bool isLastStatement = false)
         {
-            Write("return");
+            if (IsClassMember)
+            {
+                Write("return");
+                if (!Function.ReturnType.IsVoid)
+                    Write(" ");
+                return ExpressionUsage.RValue;
+            }
 
-            if (Function.ReturnType.IsVoid)
+            if (!isLastStatement)
+            {
+                Write("return");
+                if (Function.ReturnType.IsVoid)
+                    return 0;
+                Write(" ");
+            }
+            else if (Function.ReturnType.IsVoid)
                 return 0;
 
-            Write(IsClassMember
-                    ? " " :
-                IsConstrained(Function.ReturnType)
-                    ? value.HasStorage()
-                        ? " __retval.Store("
-                        : " __retval.Store(" + GetTypeOf(Function.ReturnType) + ", "
-                    : " *__retval = ");
+            if (IsConstrained(Function.ReturnType))
+            {
+                Write(value.HasStorage()
+                        ? "__retval.Store("
+                        : "__retval.Store(" + GetTypeOf(Function.ReturnType) + ", ");
+                return ExpressionUsage.Argument;
+            }
 
-            return IsClassMember
-                    ? ExpressionUsage.RValue :
-                IsConstrained(Function.ReturnType)
-                    ? ExpressionUsage.Argument
-                    : ExpressionUsage.Operand;
+            Write("*__retval = ");
+            return ExpressionUsage.Operand;
         }
 
-        public override void EndReturn(Expression value = null)
+        public override void EndReturn(Expression value = null, bool isLastStatement = false)
         {
-            if (Function.ReturnType.IsVoid || IsClassMember)
+            if (IsClassMember || Function.ReturnType.IsVoid)
                 return;
 
             End(IsConstrained(Function.ReturnType));
-            Write(", void()");
+            WriteWhen(!isLastStatement, ", void()");
         }
 
         public void WriteComment(DataType dt)
