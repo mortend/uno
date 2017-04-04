@@ -259,7 +259,8 @@ namespace Uno.Compiler.Backends.CPlusPlus
                     for (int i = dt.Base?.Interfaces.Length ?? 0;
                              i < dt.Interfaces.Length;
                              i++)
-                        _h.WriteLine(_backend.GetStaticName(dt.Interfaces[i]) + " interface" + i + ";");
+                        if (_backend.GetType(dt.Interfaces[0]).VTable.Count > 0)
+                            _h.WriteLine(_backend.GetStaticName(dt.Interfaces[i]) + " interface" + i + ";");
 
                     // V-table
                     foreach (var m in type.VTable)
