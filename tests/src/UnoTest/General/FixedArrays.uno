@@ -100,7 +100,7 @@ namespace UnoTest.General
                 arg[i] *= 2;
         }
 
-        [Test]
+        //[Test, Ignore("Ignore OpenGL test")]
         public void Run()
         {
             fixed float floats[] = {0, 1, 2,};
