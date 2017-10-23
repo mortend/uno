@@ -62,11 +62,3 @@ struct uGLTextureInfo
 uImage::Texture* uLoadXliTexture(const uBase::String& filename, uArray* data);
 unsigned int uCreateGLTexture(uImage::Texture* texData, bool generateMipmap = true, uGLTextureInfo* outInfo = 0);
 /** @} */
-
-/**
-    \addtogroup BufferUtils
-    @{
-*/
-#define U_BUFFER_PTR(buffer) ((uint8_t*)(buffer)->_data->_ptr + (buffer)->_offset)
-#define U_BUFFER_SIZE(buffer) (buffer)->_sizeInBytes
-/** @} */

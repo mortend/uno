@@ -5,6 +5,8 @@ using Uno.IO;
 namespace Uno
 {
     [Obsolete("Use extension methods on Uno.ByteArrayExtensions instead")]
+    [extern(CPLUSPLUS) Require("Header.Declaration", "#define U_BUFFER_PTR(buffer) ((uint8_t*)(buffer)->_data->_ptr + (buffer)->_offset)")]
+    [extern(CPLUSPLUS) Require("Header.Declaration", "#define U_BUFFER_SIZE(buffer) (buffer)->_sizeInBytes")]
     public sealed class Buffer
     {
         public static Buffer Load(BundleFile file)
