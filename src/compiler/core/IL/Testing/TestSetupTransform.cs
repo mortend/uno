@@ -22,10 +22,8 @@ namespace Uno.Compiler.Core.IL.Testing
         private readonly DelegateType _actionType;
         private readonly DataType _testRegistryType;
         private readonly DataType _mainClass;
-        private readonly Constructor _mainConstructor;
-        private readonly Field _testSetupField;
+        private readonly Method _mainMethod;
         private TestOptions _testOptions;
-        private readonly DataType _appClass;
 
         public TestSetupTransform(CompilerPass parent)
             : base(parent)
@@ -43,20 +41,15 @@ namespace Uno.Compiler.Core.IL.Testing
             _actionType = (DelegateType)ILFactory.GetType("Uno.Action");
             _testSetupType = ILFactory.GetType("Uno.Testing.TestSetup");
 
-            _appClass = Essentials.Application;
-            _appClass.PopulateMembers();
 
             _source = Package.Source;
             _testRegistryType = ILFactory.GetType("Uno.Testing.Registry");
-            _mainClass = new ClassType(_source, Data.IL, null, Modifiers.Generated | Modifiers.Public, "MainClass");
-            _mainClass.SetBase(_appClass);
-            _mainConstructor = new Constructor(_source, _mainClass, null, Modifiers.Public, ParameterList.Empty);
-            _mainClass.Constructors.Add(_mainConstructor);
-
-            _testSetupField = new Field(_source, _mainClass, "_testSetup", null, Modifiers.Private, FieldModifiers.ReadOnly, _testSetupType);
-            _mainClass.Fields.Add(_testSetupField);
-
+            _mainClass = new ClassType(_source, Data.IL, null, Modifiers.Public | Modifiers.Static | Modifiers.Generated, "TestProgram");
+            _mainMethod = new Method(_source, _mainClass, null, Modifiers.Public | Modifiers.Static | Modifiers.Generated, "Main",
+                DataType.Void, ParameterList.Empty, new Scope(_source));
+            _mainClass.Methods.Add(_mainMethod);
             Data.IL.Types.Add(_mainClass);
+            Data.SetEntrypoint(_mainMethod);
         }
 
         public override bool Begin(DataType dt)
@@ -79,7 +72,6 @@ namespace Uno.Compiler.Core.IL.Testing
             try
             {
                 RegisterTestMethods();
-                Data.SetMainClass(_mainClass);
             }
             catch (SourceException e)
             {
@@ -166,9 +158,8 @@ namespace Uno.Compiler.Core.IL.Testing
         private void RegisterTestMethods()
         {
             var registryObject = ILFactory.NewObject(_source, _testRegistryType);
-            var registryVariable = new Variable(_source, _mainConstructor, "registry", _testRegistryType, VariableType.Default, registryObject);
-            var body = new Scope(_source);
-            body.Statements.Add(new CallConstructor(_source, _appClass.Constructors[0]));
+            var registryVariable = new Variable(_source, _mainMethod, "registry", _testRegistryType, VariableType.Default, registryObject);
+            var body = _mainMethod.Body;
             body.Statements.Add(new VariableDeclaration(registryVariable));
 
             var methods = _methods;
@@ -197,10 +188,7 @@ namespace Uno.Compiler.Core.IL.Testing
 
             var registryExpr = new LoadLocal(_source, registryVariable);
             var testSetupConstruction = ILFactory.NewObject(_source, _testSetupType, registryExpr);
-
-            body.Statements.Add(new StoreField(_source, new This(_source, _mainClass), _testSetupField, testSetupConstruction));
-
-            _mainConstructor.SetBody(body);
+            body.Statements.Add(ILFactory.CallMethod(testSetupConstruction, "RunAll"));
         }
 
         private Expression RegisterTest(TestMethod testMethod, Expression registryArgument, NewDelegate invokeDelegate)

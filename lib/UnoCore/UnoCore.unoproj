@@ -4,7 +4,8 @@
   "Publisher": "Fuse Open",
   "UnoCoreReference": false,
   "InternalsVisibleTo": [
-    "UnoCore.Test"
+    "UnoCore.Test",
+    "Uno.Testing"
   ],
   "Includes": [
     "Assets/Black.png:File",

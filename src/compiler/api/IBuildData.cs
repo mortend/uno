@@ -8,9 +8,7 @@ namespace Uno.Compiler.API
     public interface IBuildData
     {
         Namespace IL { get; }
-        DataType MainClass { get; }
         Method Entrypoint { get; }
-        Scope StartupCode { get; }
         ExtensionRoot Extensions { get; }
     }
 }

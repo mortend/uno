@@ -25,6 +25,11 @@ namespace Uno.Compiler.Backends.CIL
             if (_backend.EnableReflection)
                 EmitTypeAliasAttributes();
 
+            if (_package == _data.Entrypoint?.DeclaringType?.Package)
+                _assembly.SetEntryPoint(
+                    _linker.GetMethod(_data.Entrypoint),
+                    PEFileKinds.ConsoleApplication);
+
             Log.Verbose("Generated " + _types.Count + " .NET type".Plural(_types) + " for " + _assembly.GetName().Name.Quote() + " assembly");
         }
 

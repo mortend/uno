@@ -22,6 +22,7 @@ namespace Uno.Compiler.API
 
         void Set(string key, SourceValue value, Disambiguation disamg = 0);
         void Set(string key, string value);
+        void Set(string key, bool value);
 
         void Require(string key, SourceValue value);
         void Require(string key, string value);

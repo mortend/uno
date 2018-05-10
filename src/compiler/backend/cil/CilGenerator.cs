@@ -27,13 +27,14 @@ namespace Uno.Compiler.Backends.CIL
         readonly List<DataType> _linkedTypes = new List<DataType>();
         readonly Dictionary<string, ISymbolDocumentWriter> _documents = new Dictionary<string, ISymbolDocumentWriter>();
         readonly string _outputDir;
+        readonly string _filename;
 
         public readonly SortedSet<Location> Locations = new SortedSet<Location>();
         public Assembly Assembly => _assembly;
 
         public CilGenerator(Disk disk, IBuildData data, IEssentials essentials,
                             CilBackend backend, CilLinker linker, SourcePackage package,
-                            string outputDir)
+                            string outputDir, string filename)
             : base(disk)
         {
             _data = data;
@@ -42,13 +43,14 @@ namespace Uno.Compiler.Backends.CIL
             _package = package;
             _linker = linker;
             _outputDir = outputDir;
+            _filename = filename;
             _assembly = _linker.Universe.DefineDynamicAssembly(
                 new AssemblyName(package.Name) {Version = package.ParseVersion(Log)},
                 AssemblyBuilderAccess.Save,
                 outputDir);
             _module = _assembly.DefineDynamicModule(
-                package.Name, 
-                package.Name + ".dll", 
+                package.Name,
+                filename,
                 true);
             _types = new CilTypeFactory(backend, essentials, linker, _module);
         }
@@ -87,7 +89,7 @@ namespace Uno.Compiler.Backends.CIL
 
                 // Output assembly
                 Disk.CreateDirectory(_outputDir);
-                _assembly.Save(_assembly.GetName().Name + ".dll");
+                _assembly.Save(_filename);
             }
             finally
             {

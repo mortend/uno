@@ -42,7 +42,7 @@ namespace Uno.Compiler.Backends.CIL
 
         public override bool CanLink(SourcePackage upk)
         {
-            return Environment.IsUpToDate(upk, upk.Name + ".dll");
+            return Environment.IsUpToDate(upk, GetFilename(upk));
         }
 
         public override bool CanLink(DataType dt)
@@ -90,51 +90,21 @@ namespace Uno.Compiler.Backends.CIL
             // Copy native libraries
             foreach (var e in Environment.Enumerate("UnmanagedLibrary"))
                 Disk.CopyFile(e, _outputDir.UnixToNative());
-
-            // Check if we need AppLoader
-            if (Environment.IsDefined("LIBRARY") ||
-                    string.IsNullOrEmpty(Environment.GetString("AppLoader.Assembly")))
-                return;
-
-            var executable = Environment.Combine(Environment.GetString("Product").TrimPath());
-
-            // TODO: Check meta data
-            if (File.Exists(executable))
-                return;
-
-            // Create an executable for given architecture (-DX86 or -DX64)
-            using (Log.StartProfiler(typeof(AppLoader)))
-            {
-                var loader = new AppLoader(Environment.GetString("AppLoader.Assembly"));
-
-                if (Environment.IsDefined("X64"))
-                    loader.SetX64();
-                else if (Environment.IsDefined("X86"))
-                    loader.SetX86();
-
-                Log.Verbose("Creating executable: " + executable.ToRelativePath() + " (" + loader.Architecture + ")");
-                loader.SetAssemblyInfo(Input.Package.Name + "-loader",
-                    Input.Package.ParseVersion(Log),
-                    Environment.GetString);
-                loader.SetMainClass(Data.MainClass.CilTypeName(),
-                    Path.Combine(_outputDir, Input.Package.Name + ".dll"),
-                    Environment.GetString("AppLoader.Class"),
-                    Environment.GetString("AppLoader.Method"));
-                loader.ClearPublicKey();
-                loader.Save(executable);
-            }
         }
 
         public override BackendResult Build(SourcePackage package)
         {
+            var filename = GetFilename(package);
+
             if (package.CanLink)
             {
-                package.Tag = _linker.AddAssemblyFile(Path.Combine(_outputDir, package.Name + ".dll"));
+                package.Tag = _linker.AddAssemblyFile(Path.Combine(_outputDir, filename));
                 return null;
             }
 
             var g = new CilGenerator(Disk, Data, Essentials,
-                                     this, _linker, package, _outputDir);
+                                     this, _linker, package,
+                                     _outputDir, filename);
             g.Configure(Environment.Debug);
 
             using (Log.StartProfiler(g.GetType().FullName + ".Generate"))
@@ -147,6 +117,46 @@ namespace Uno.Compiler.Backends.CIL
                 g.Save();
 
             return new CilResult(g.Assembly, g.Locations);
+        }
+
+        internal string GetFilename(SourcePackage package)
+        {
+            return package.Name + (
+                package.IsStartup
+                    ? ".exe"
+                    : ".dll");
+        }
+
+        internal Version GetVersion(SourcePackage package)
+        {
+            var str = package.Version;
+
+            if (string.IsNullOrEmpty(str))
+                return new Version();
+
+            // Remove suffix
+            var i = str.IndexOf('-');
+            if (i != -1)
+            {
+                str = str.Substring(0, i);
+                if (string.IsNullOrEmpty(str))
+                    return new Version();
+            }
+
+            // Check that version string only contains numbers or periods (X.X.X)
+            foreach (var c in str)
+                if (!char.IsNumber(c) && c != '.')
+                    return new Version();
+
+            try
+            {
+                return new Version(str);
+            }
+            catch
+            {
+                Log.Warning(package.Source, null, "Failed to parse version string " + str.Quote());
+                return new Version();
+            }
         }
     }
 }

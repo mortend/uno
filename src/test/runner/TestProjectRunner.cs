@@ -49,6 +49,7 @@ namespace Uno.TestRunner
                         Test = true,
                         Force = true,
                         TestFilter = _options.Filter,
+                        MainClass = "TestProgram",
                         OutputDirectory = outputDirectory,
                         WarningLevel = 1,
                         UpdateLibrary = _options.UpdateLibrary

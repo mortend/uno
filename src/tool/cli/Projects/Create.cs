@@ -10,14 +10,14 @@ namespace Uno.CLI.Projects
     class Create : Command
     {
         public override string Name => "create";
-        public override string Description => "Create a new project file.";
+        public override string Description => "Create a new project.";
 
         public override void Help()
         {
             WriteUsage("[options] [file|directory]");
 
             WriteHead("Available options");
-            WriteRow("-c, --class=NAME",    "Initialize project with an empty class with this name", true);
+            WriteRow("-c, --class=NAME",    "Specify program class name", true);
             WriteRow("-n, --name=NAME",     "Specify project file name", true);
             WriteRow("-d, --defaults",      "Add default settings");
             WriteRow("-e, --empty",         "Create empty project without packages or items");
@@ -29,7 +29,7 @@ namespace Uno.CLI.Projects
         {
             var force = false;
             string projectName = null;
-            string className = null;
+            var className = "Program";
             var empty = false;
             var flatten = false;
             var defaults = false;
@@ -81,15 +81,9 @@ namespace Uno.CLI.Projects
 
                 foreach (var e in project.Config.GetStringArray("Packages.Default") ?? new string[0])
                     project.MutablePackageReferences.Add(e);
-            }
 
-            if (className != null)
-            {
                 var fileName = Path.Combine(project.RootDirectory, className + ".uno");
-                WriteEmptyClass(className, project.Name, fileName);
-
-                if (empty)
-                    project.MutableIncludeItems.Add(className + ".uno");
+                File.WriteAllText(fileName, string.Format(ProgramTemplate, project.Name.ToIdentifier(true), className.ToIdentifier()));
             }
 
             if (flatten)
@@ -98,19 +92,18 @@ namespace Uno.CLI.Projects
             project.Save();
         }
 
-        private static void WriteEmptyClass(string className, string projName, string fullName)
-        {
-            File.WriteAllText(fullName,
-                string.Format(AppTemplate, projName.ToIdentifier(), className.ToIdentifier()));
-        }
-
-        private const string AppTemplate =
+        const string ProgramTemplate =
 @"using Uno;
 
 namespace {0}
 {{
-    public class {1} : Application
+    class {1}
     {{
+        static int Main(string[] args)
+        {{
+            debug_log ""Hello, World!"";
+            return 0;
+        }}
     }}
 }}
 ";

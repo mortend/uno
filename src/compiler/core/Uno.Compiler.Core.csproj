@@ -89,8 +89,6 @@
     <Compile Include="IL\Validation\ILVerifier.Member.cs" />
     <Compile Include="IL\Validation\ILVerifier.Statement.cs" />
     <Compile Include="IL\Testing\TestSetupTransform.cs" />
-    <Compile Include="IL\Building\Entrypoint\BestMainClassSelector.cs" />
-    <Compile Include="IL\Building\Entrypoint\MainClassFinder.cs" />
     <Compile Include="IL\Optimizing\ConstantFolder.cs" />
     <Compile Include="IL\Optimizing\ILStripper.cs" />
     <Compile Include="IL\Building\Functions\BackendTransform.cs" />

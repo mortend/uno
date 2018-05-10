@@ -7,6 +7,7 @@ using Uno.Compiler.API.Backends;
 using Uno.Compiler.API.Domain.AST;
 using Uno.Compiler.API.Domain.Extensions;
 using Uno.Compiler.API.Domain.IL;
+using Uno.Compiler.API.Domain.IL.Members;
 using Uno.Compiler.Core.IL;
 using Uno.Compiler.Core.IL.Building.Functions;
 using Uno.Compiler.Core.IL.Building.Functions.Lambdas;
@@ -88,7 +89,7 @@ namespace Uno.Compiler.Core
             var essentials = Essentials = new Essentials();
             var resolver = NameResolver = new NameResolver(this);
             var ilf = ILFactory = new ILFactory(backend, il, essentials, resolver, this);
-            var data = Data = new BuildData(il, extensions, ilf);
+            var data = Data = new BuildData(log, il, extensions);
             var environment = Environment = new BuildEnvironment(backend, package, options, extensions, ilf, this);
             var input = Input = new SourceReader(log, package, environment);
             var q = Queue = new BuildQueue(log, environment, backend, this);
@@ -160,12 +161,12 @@ namespace Uno.Compiler.Core
             Backend.Configure();
 
             if (Environment.Options.TestOptions.HasValue)
-            {
                 Run(new TestSetupTransform(Pass));
-            }
+            else if (Environment.HasCustomEntrypoint)
+                Data.SetEntrypoint(ILFactory.GetEntity(Environment.Options.MainClass + ".Main") as Method);
 
-            if (Backend.BuildType == BuildType.Executable)
-                Data.ResolveMainClass(Pass, Environment);
+            if (Backend.BuildType == BuildType.Executable && Data.Entrypoint == null)
+                Log.Error(Input.Package.Source, null, "No suitable entrypoint was found");
 
             Run(new ExtensionTransform(Pass));
             Run(new FixedArrayTransform(Pass));
@@ -175,7 +176,6 @@ namespace Uno.Compiler.Core
 
             Run(_generators);
             BundleBuilder.Build();
-            Data.CreateEntrypoint();
             Run(ConstantFolder);
 
             Run(new ControlFlowVerifier(Pass));

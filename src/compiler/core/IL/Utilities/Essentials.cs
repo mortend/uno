@@ -38,8 +38,6 @@ namespace Uno.Compiler.Core.IL.Utilities
         public DataType Attribute { get; private set; }
         public DataType Delegate { get; private set; }
         public DataType Exception { get; private set; }
-        public DataType Application { get; private set; }
-        public DataType CoreApp { get; private set; }
         public DataType Texture2D { get; private set; }
         public DataType TextureCube { get; private set; }
         public DataType Sampler2D { get; private set; }
@@ -126,8 +124,6 @@ namespace Uno.Compiler.Core.IL.Utilities
             Attribute = ilf.GetType("Uno.Attribute");
             Delegate = ilf.GetType("Uno.Delegate");
             Exception = ilf.GetType("Uno.Exception");
-            Application = ilf.GetType("Uno.Application");
-            CoreApp = ilf.GetType("Uno.Platform.CoreApp");
             BuiltinTypes[(int) BuiltinType.Texture2D] = Texture2D = ilf.GetType("Uno.Graphics.Texture2D");
             BuiltinTypes[(int) BuiltinType.TextureCube] = TextureCube = ilf.GetType("Uno.Graphics.TextureCube");
             BuiltinTypes[(int) BuiltinType.Sampler2D] = Sampler2D = ilf.GetType("Uno.Graphics.Sampler2D");

@@ -3,6 +3,7 @@ using Uno.Diagnostics;
 using Uno.Platform;
 using Uno.Testing;
 using Uno.Threading;
+using System.Globalization;
 
 namespace Uno.Testing
 {
@@ -12,7 +13,7 @@ namespace Uno.Testing
 
         public TestSetup(Registry registry)
         {
-            if defined(Android)
+            if defined(ANDROID)
             {
                 // Increase the chance for uno to connect before we're done
                 // This is required because `uno build --run` on Android have
@@ -22,15 +23,24 @@ namespace Uno.Testing
                 // during testing at 1500ms, but never after increasing to this value.
                 Thread.Sleep(2500);
             }
+            else if defined(DOTNET)
+            {
+                // Use invariant culture when running tests on .NET
+                Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
+            }
 
             _runner = new RemoteRunner(registry);
-
-            Uno.Platform.Displays.MainDisplay.Tick += OnTick;
         }
 
-        void OnTick(object sender, TimerEventArgs args)
+        public void RunAll()
         {
-            _runner.Update();
+            _runner.EnsureStarted();
+
+            while (_runner.NextTest != null)
+            {
+                _runner.Update();
+                Uno.Platform.Displays.MainDisplay.OnTick(new TimerEventArgs(0, 0, 0));
+            }
         }
     }
 }

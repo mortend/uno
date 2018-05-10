@@ -83,13 +83,6 @@ namespace Uno.Compiler.API.Domain.IL
                 return;
 
             Data.IL.Visit(this);
-
-            if (Data.MainClass != null)
-            {
-                var dt = Type = Data.MainClass;
-                new Method(dt.Source, dt, null, 0, ".startup", DataType.Void, ParameterList.Empty, Data.StartupCode).Visit(this);
-            }
-
             End();
         }
 

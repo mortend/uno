@@ -28,6 +28,7 @@ namespace Uno.Compiler.Core
         public bool Strip => Options.Strip;
         public bool IsGeneratingCode => Step == BuildStep.Generating;
         public bool CanCacheIL => Options.CanCacheIL;
+        public bool HasCustomEntrypoint => Options.MainClass != null;
         public bool HasUpToDateOptions;
 
         public string CacheDirectory { get; }
@@ -80,6 +81,11 @@ namespace Uno.Compiler.Core
         public void Set(string key, SourceValue value, Disambiguation disamg = 0)
         {
             Extensions.Properties[key] = new Element(value.Source, value.String, disamg);
+        }
+
+        public void Set(string key, bool value)
+        {
+            Extensions.Properties[key] = new Element(Source.Unknown, value ? "1" : "0");
         }
 
         public void Set(string key, string value)
