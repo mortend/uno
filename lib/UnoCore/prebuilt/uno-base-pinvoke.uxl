@@ -12,35 +12,9 @@
     <Require IncludeDirectory="@(Base.IncludeDirectory)" />
     <Require LinkDirectory="@(Base.LinkDirectory)" />
 
-    <Template Name="freetype">
-        <Require LinkLibrary="freetype" Condition="!ANDROID" />
-        <Require StaticLibrary="@(Base.LinkDirectory)/libfreetype.a" Condition="ANDROID" />
-    </Template>
-
-    <Template Name="jpeg">
-        <Require LinkLibrary="jpeg" Condition="!ANDROID" />
-        <Require StaticLibrary="@(Base.LinkDirectory)/libjpeg.a" Condition="ANDROID" />
-    </Template>
-
-    <Template Name="png">
-        <Require LinkLibrary="png" Condition="!ANDROID" />
-        <Require StaticLibrary="@(Base.LinkDirectory)/libpng.a" Condition="ANDROID" />
-    </Template>
-
     <Template Name="uBase">
         <Require LinkLibrary="uBase" Condition="!ANDROID" />
         <Require StaticLibrary="@(Base.LinkDirectory)/libuBase.a" Condition="ANDROID" />
-    </Template>
-
-    <Template Name="uImage">
-        <Require Template="uBase" />
-        <Require Template="freetype" />
-        <Require Template="jpeg" />
-        <Require Template="png" />
-        <Require LinkLibrary="uImage" Condition="!ANDROID" />
-        <Require LinkLibrary="z" />
-        <Require LinkLibrary="bz2" Condition="OSX" />
-        <Require StaticLibrary="@(Base.LinkDirectory)/libuImage.a" Condition="ANDROID" />
     </Template>
 
     <Template Name="XliPlatform">
