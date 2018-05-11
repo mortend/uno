@@ -14,7 +14,7 @@ namespace Uno
             get { return defined(WIN32) ? "\r\n" : "\n"; }
         }
 
-        extern(!mobile) public static void Exit(int exitCode)
+        public static void Exit(int exitCode)
         {
             if defined(CPLUSPLUS)
                 extern "exit($0)";
@@ -22,7 +22,7 @@ namespace Uno
                 throw new NotSupportedException();
         }
 
-        extern(!mobile) public static string[] GetCommandLineArgs()
+        public static string[] GetCommandLineArgs()
         {
             if defined(WIN32)
             @{
@@ -55,7 +55,7 @@ namespace Uno
                 throw new NotSupportedException();
         }
 
-        extern(!mobile) public static string GetEnvironmentVariable(string variable)
+        public static string GetEnvironmentVariable(string variable)
         {
             if defined(CPLUSPLUS)
             @{

@@ -108,11 +108,8 @@
 
     <!-- C++ source -->
 
-    <ProcessFile SourceFile="Uno/EntryPoints.cpp" />
     <ProcessFile HeaderFile="Uno/JNIHelper.h" />
     <ProcessFile SourceFile="Uno/JNIHelper.cpp" />
-    <ProcessFile HeaderFile="Uno/Graphics/GLHelper.h" />
-    <ProcessFile SourceFile="Uno/Graphics/GLHelper.cpp" />
 
     <Require Entity="Android.Bootstrapper" />
     <Require Entity="Android.Base.JNI" />
@@ -141,8 +138,6 @@
     <Require Entity="Uno.Compiler.ExportTargetInterop.Foreign.Android.JavaUnoObject.BoxDelegate(object,Android.Base.Primitives.ConstCharPtr)" />
     <Require Entity="Uno.Compiler.ExportTargetInterop.Foreign.Android.JavaUnoObject.UnBox(Android.Base.Primitives.ujobject)" />
     <Require Entity="Uno.Compiler.ExportTargetInterop.Foreign.Android.JavaUnoObject.UnBoxFreeingLocalRef(Android.Base.Primitives.ujobject)" />
-    <Require Entity="Uno.Platform.EventSources.InterAppInvoke.ReceivedURI" />
-    <Require Entity="Uno.Platform.EventSources.InterAppInvoke.OnReceivedURI(string)" />
     <Require Entity="Uno.Compiler.ExportTargetInterop.Foreign.Android.JavaToUnoArrayEntrypoints.GetBool(object,int)" />
     <Require Entity="Uno.Compiler.ExportTargetInterop.Foreign.Android.JavaToUnoArrayEntrypoints.GetByte(object,int)" />
     <Require Entity="Uno.Compiler.ExportTargetInterop.Foreign.Android.JavaToUnoArrayEntrypoints.GetShort(object,int)" />
@@ -208,9 +203,6 @@
     <Declare Element="JavaFile" TargetDirectory="@(Java.SourceDirectory)" />
 
     <ProcessFile Name="@(Java.PackageDirectory)/@(Activity.Name).java" />
-    <ProcessFile JavaFile="com/foreign/UnoWrapped.java" />
-    <ProcessFile JavaFile="com/fuse/Activity.java" />
-    <ProcessFile JavaFile="com/fuse/ActivityNativeEntryPoints.java" />
     <ProcessFile JavaFile="com/fuse/ActivityState.java" />
     <ProcessFile JavaFile="com/fuse/App.java" />
     <ProcessFile JavaFile="com/fuse/AppRuntimeSettings.java" />

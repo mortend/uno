@@ -1,6 +1,5 @@
 using Uno;
 using Uno.Collections;
-using Uno.Platform;
 
 namespace Uno.Threading//.Tasks
 {
@@ -217,17 +216,10 @@ namespace Uno.Threading//.Tasks
                 if (_default == null)
                 {
                     _default = new ThreadPoolTaskScheduler();
-                    Uno.Platform.CoreApp.Terminating += OnAppTerminating;
                 }
 
                 return _default;
             }
-        }
-
-        static void OnAppTerminating(ApplicationState newState)
-        {
-            _default.Dispose();
-            _default = null;
         }
 
         readonly ThreadPool _threadPool;

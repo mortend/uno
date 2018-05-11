@@ -17,16 +17,6 @@
         <Require StaticLibrary="@(Base.LinkDirectory)/libuBase.a" Condition="ANDROID" />
     </Template>
 
-    <Template Name="XliPlatform">
-        <Require Template="uBase" />
-        <Require LinkLibrary="XliPlatform" Condition="!ANDROID" />
-        <Require LinkLibrary="EGL" Condition="ANDROID || LINUX && ARM" />
-        <Require LinkLibrary="GLESv2" Condition="ANDROID || LINUX && ARM" />
-        <Require LinkLibrary="GLEW" Condition="OSX || LINUX && !ARM || WIN32" />
-        <Require LinkLibrary="SDL2" Condition="OSX || LINUX" />
-        <Require StaticLibrary="@(Base.LinkDirectory)/libXliPlatform.a" Condition="ANDROID" />
-    </Template>
-
     <Template Name="XliHttpClient">
         <Require Template="uBase" />
         <Require LinkLibrary="XliHttpClient" Condition="!ANDROID" />

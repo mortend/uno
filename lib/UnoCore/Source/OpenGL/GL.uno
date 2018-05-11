@@ -6,6 +6,8 @@ using Uno.Runtime.InteropServices;
 namespace OpenGL
 {
     [extern(CPLUSPLUS) Require("Source.Include", "Uno/GLHelper.h")]
+    [extern(ANDROID || LINUX && ARM) Require("LinkLibrary", "GLESv2")]
+    [extern(MAC || WIN32 || LINUX && !ARM) Require("LinkLibrary", "GLEW")]
     extern(OPENGL) public static class GL
     {
         // Setting and getting state [5.14.3]

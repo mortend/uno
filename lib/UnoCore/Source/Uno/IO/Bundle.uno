@@ -6,7 +6,6 @@ using Uno.Collections;
 using Uno.Compiler;
 using Uno.Compiler.ExportTargetInterop;
 using Uno.Threading;
-using Uno.Platform;
 using Uno.Text;
 
 namespace System

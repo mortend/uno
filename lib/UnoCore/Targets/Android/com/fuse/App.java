@@ -81,19 +81,8 @@ public class App {
 
     public void onCreate(Bundle savedInstanceState)
     {
-        // start main loop
-        ActivityNativeEntryPoints.cppOnStartMainLoop(activityState.Resurrected);
-
         // ensure arrival of any intent
         onNewIntent(RootActivity.getIntent());
-
-        // call c++ for setup
-        ActivityNativeEntryPoints.cppOnCreate(RootActivity);
-        
-        // reset window background for app switcher to be able to take a screenshot of app content
-#if @(Project.Android.Splash.Enabled:Test(1, 0))
-        RootActivity.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-#endif
 
         // Finish
         HasCreated = true;
@@ -118,7 +107,6 @@ public class App {
 
     public void onPause() {
         focusOnPause();
-        ActivityNativeEntryPoints.cppOnPause();
         com.fuse.Activity.onPause();
     }
 
@@ -128,7 +116,6 @@ public class App {
             if (currentlyInteractive) {
                 currentlyInteractive = false;
                 cachedForResume = false;
-                ActivityNativeEntryPoints.cppOnWindowFocusChanged(false);
             }
         }
         allowedToChangeFocus = false;
@@ -137,13 +124,11 @@ public class App {
     //------------------------------------------------------------
 
     public void onResume() {
-        ActivityNativeEntryPoints.cppOnResume();
         com.fuse.Activity.onResume();
         focusOnResume();
 
         if (!pendingURI.equals(""))
         {
-            ActivityNativeEntryPoints.cppOnReceiveURI(pendingURI);
             pendingURI = "";
         }
     }
@@ -159,7 +144,6 @@ public class App {
             }
             if (cachedForResume) {
                 currentlyInteractive = true;
-                ActivityNativeEntryPoints.cppOnWindowFocusChanged(true);
             }
             cachedForResume = false;
             allowedToChangeFocus = true;
@@ -169,7 +153,6 @@ public class App {
     //------------------------------------------------------------
 
     public void onRestart() {
-        ActivityNativeEntryPoints.cppOnRestart();
     }
 
     //------------------------------------------------------------
@@ -197,7 +180,6 @@ public class App {
 
     public void onLowMemory() {
         if (!activityState.Destroyed) {
-            ActivityNativeEntryPoints.cppOnLowMemory();
             @(Activity.OnLowMemory.Declaration:Join())
         }
     }
@@ -245,11 +227,10 @@ public class App {
     public boolean onKeyUp(int keyCode, KeyEvent event)
     {
         if (keyCode == KeyEvent.KEYCODE_MENU) {
-            ActivityNativeEntryPoints.cppOnKeyUp(200);
             return true;
         }
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-            return ActivityNativeEntryPoints.cppOnKeyUp(201);
+            return true;
         }
         @(Activity.OnKeyUp.Declaration:Join())
         {
@@ -260,11 +241,10 @@ public class App {
     public boolean onKeyDown(int keyCode, KeyEvent event)
     {
         if (keyCode == KeyEvent.KEYCODE_MENU) {
-            ActivityNativeEntryPoints.cppOnKeyDown(200);
             return true;
         }
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-            return ActivityNativeEntryPoints.cppOnKeyDown(201);
+            return true;
         }
         @(Activity.OnKeyDown.Declaration:Join())
         {
@@ -293,7 +273,6 @@ public class App {
             if (arg0!=currentlyInteractive) {
                 if (allowedToChangeFocus) {
                     currentlyInteractive = arg0;
-                    ActivityNativeEntryPoints.cppOnWindowFocusChanged(arg0);
                 } else if (arg0=true) {
                     cachedForResume = true;
                 }

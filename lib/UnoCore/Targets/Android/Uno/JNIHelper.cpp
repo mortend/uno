@@ -1,6 +1,5 @@
 #include <stdarg.h>
 #include <Uno/JNIHelper.h>
-#include <XliPlatform/PlatformSpecific/Android.h>
 
 JavaVM* JniHelper::VM;
 jclass JniHelper::ActivityClass = 0;
@@ -23,8 +22,6 @@ void JniHelper::Init(JavaVM* vm, JNIEnv* env, jclass activityClass, jclass nativ
     ActivityClass = reinterpret_cast<jclass>(env->NewGlobalRef(activityClass));
     NativeExternClass = reinterpret_cast<jclass>(env->NewGlobalRef(nativeExternClass));
     pthread_setspecific(JniThreadKey, (void*)env);
-
-    Xli::PlatformSpecific::Android::PreInit(vm, env, ActivityClass);
 }
 
 JniHelper::JniHelper()
