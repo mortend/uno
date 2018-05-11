@@ -31,26 +31,12 @@ namespace Uno.Net.Http
             }
         }
 
-        static HttpMessageCache()
-        {
-            if defined(MOBILE||MAC)
-                Uno.Platform.CoreApp.Started += OnApplicationStarted;
-        }
-
-        static void OnApplicationStarted(Uno.Platform.ApplicationState state)
-        {
-            Init();
-        }
-
         public static void Init()
         {
             if (_isInitialized)
                 return;
 
             _isInitialized = true;
-
-            if defined(MOBILE||MAC)
-                Uno.Platform.CoreApp.Started -= OnApplicationStarted;
 
             if defined(ANDROID)
             {

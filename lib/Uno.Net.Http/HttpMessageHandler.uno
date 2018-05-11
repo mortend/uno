@@ -7,42 +7,12 @@ namespace Uno.Net.Http
 {
     public class HttpMessageHandler : IDisposable
     {
-        internal static class StaticData
+        public static void Update()
         {
-            static object _syncLock = new object();
-            static uint _totalPendingRequests;
-
-            internal static void IncrementPendingRequests()
-            {
-                if defined(CIL || LINUX || MSVC)
-                {
-                    lock (_syncLock)
-                    {
-                        if (++_totalPendingRequests == 1)
-                            Uno.Platform.Displays.MainDisplay.Tick += ProcessEvents;
-                    }
-                }
-            }
-
-            internal static void DecrementPendingRequests()
-            {
-                if defined(CIL || LINUX || MSVC)
-                {
-                    lock (_syncLock)
-                    {
-                        if (--_totalPendingRequests == 0)
-                            Uno.Platform.Displays.MainDisplay.Tick -= ProcessEvents;
-                    }
-                }
-            }
-
-            internal static void ProcessEvents(object sender, Uno.Platform.TimerEventArgs args)
-            {
-                if defined(CIL)
-                    CilHttpMessageHandler.ProcessEvents();
-                if defined(LINUX || MSVC)
-                    XliHttpMessageHandler.ProcessEvents();
-            }
+            if defined(CIL)
+                CilHttpMessageHandler.ProcessEvents();
+            if defined(LINUX || MSVC12)
+                XliHttpMessageHandler.ProcessEvents();
         }
 
         List<HttpMessageHandlerRequest> _pendingRequests;
@@ -82,8 +52,6 @@ namespace Uno.Net.Http
 
         public HttpMessageHandlerRequest CreateRequest(string method, string url, IDispatcher dispatcher)
         {
-            StaticData.IncrementPendingRequests();
-
             var request = new HttpMessageHandlerRequest(this, method, url, dispatcher);
 
             for (int i = 0; i < _pendingRequests.Count; ++i)
@@ -107,8 +75,6 @@ namespace Uno.Net.Http
                 if (_pendingRequests[i] == request)
                 {
                     _pendingRequests[i] = null;
-                    StaticData.DecrementPendingRequests();
-
                     break;
                 }
             }

@@ -1,6 +1,5 @@
 using Uno;
 using Uno.Diagnostics;
-using Uno.Platform;
 using Uno.Testing;
 using Uno.Threading;
 using System.Globalization;
@@ -39,7 +38,7 @@ namespace Uno.Testing
             while (_runner.NextTest != null)
             {
                 _runner.Update();
-                Uno.Platform.Displays.MainDisplay.OnTick(new TimerEventArgs(0, 0, 0));
+                Uno.Net.Http.HttpMessageHandler.Update();
             }
         }
     }
