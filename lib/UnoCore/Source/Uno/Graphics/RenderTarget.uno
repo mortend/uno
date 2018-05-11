@@ -46,7 +46,6 @@ namespace Uno.Graphics
         {
         }
 
-        [DotNetOverride]
         public static RenderTarget Create(texture2D texture, int mip, bool depth)
         {
             if defined(OPENGL)
@@ -55,7 +54,6 @@ namespace Uno.Graphics
                 build_error;
         }
 
-        [DotNetOverride]
         public static RenderTarget Create(textureCube texture, CubeFace face, int mip, bool depth)
         {
             if defined(OPENGL)

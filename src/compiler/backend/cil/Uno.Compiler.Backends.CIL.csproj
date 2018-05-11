@@ -50,7 +50,6 @@
   </ItemGroup>
   <Import Project="..\..\..\GlobalAssemblyInfo.targets" />
   <ItemGroup>
-    <Compile Include="AppLoader.cs" />
     <Compile Include="CilBackend.cs" />
     <Compile Include="CilGenerator.Compile.cs" />
     <Compile Include="CilGenerator.Generate.cs" />
@@ -87,6 +86,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="Uno.Compiler.Backends.CIL.nuspec" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.

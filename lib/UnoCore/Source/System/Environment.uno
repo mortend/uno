@@ -4,7 +4,7 @@ using Uno;
 
 namespace System
 {
-    [extern(DOTNET) DotNetType]
+    [DotNetType]
     public static extern(DOTNET) class Environment
     {
         public enum SpecialFolder

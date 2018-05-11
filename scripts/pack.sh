@@ -64,21 +64,6 @@ function filecompare {
     node_modules/.bin/filecompare "$i" "$file" | grep true > /dev/null
 }
 
-function rm-identical {
-    local root=$1
-    shift
-    IFS=$'\n'
-    for i in `find-all "$@"`; do
-        local file="$root/`basename $i`"
-        [ -f "$file" ] || continue
-        filecompare "$i" "$file" || continue
-        echo "stripping $file"
-        rm -rf "$file"
-        # Add placeholder for restore.js
-        touch "$file.restore"
-    done
-}
-
 h1 "Optimizing package"
 
 # OpenTK and Xamarin.Mac will be added back by restore.js

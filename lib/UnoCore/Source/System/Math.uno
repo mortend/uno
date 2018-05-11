@@ -2,7 +2,7 @@ using Uno.Compiler.ExportTargetInterop;
 
 namespace System
 {
-    [extern(DOTNET) DotNetType]
+    [DotNetType]
     public static extern(DOTNET) class Math
     {
         public static extern double Sin(double a);

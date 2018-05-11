@@ -3,7 +3,7 @@ using Uno;
 
 namespace System.IO
 {
-    [extern(DOTNET) DotNetType]
+    [DotNetType]
     extern(DOTNET) public abstract class FileSystemInfo
     {
         public extern FileAttributes Attributes { get; }

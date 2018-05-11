@@ -2,7 +2,7 @@ using Uno.Compiler.ExportTargetInterop;
 
 namespace System.IO
 {
-    [extern(DOTNET) DotNetType]
+    [DotNetType]
     extern(DOTNET) public sealed class FileInfo : FileSystemInfo
     {
         public extern FileInfo(string path);

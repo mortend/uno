@@ -3,7 +3,7 @@ using Uno.IO;
 
 namespace System
 {
-    [extern(DOTNET) DotNetType]
+    [DotNetType]
     public static extern(DOTNET) class Console
     {
         public static extern TextWriter Error { get; }

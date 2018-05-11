@@ -366,7 +366,6 @@
     "Targets/Android/Uno/Base/Wrappers.uno:Source",
     "Targets/Android/Uno/JNIHelper.cpp:File",
     "Targets/Android/Uno/JNIHelper.h:File",
-    "Targets/DotNet/@(AppDirectory)/Contents/Info.plist:File",
     "Targets/DotNet/Executable.uxl:Extensions",
     "Targets/DotNet/Library.uxl:Extensions",
     "Targets/iOS/@(Icons)/Contents.json:File",

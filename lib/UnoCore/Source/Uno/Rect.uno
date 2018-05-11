@@ -157,7 +157,6 @@ namespace Uno
                 Min(a.Bottom, b.Bottom));
         }
 
-        [DotNetOverride]
         public static Rect Transform(Rect r, float4x4 matrix)
         {
             return Rect.ContainingPoints(
