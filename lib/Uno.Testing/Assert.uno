@@ -1,4 +1,3 @@
-using Uno.UX;
 using Uno.Collections;
 using Uno.Compiler;
 using Uno.Text;
@@ -211,30 +210,6 @@ namespace Uno.Testing
                 ReportFailure(filePath, lineNumber, memberName, ToPrintable(expected), "null");
             if (!expected.Equals(actual))
                 ReportFailure(filePath, lineNumber, memberName, ToPrintable(expected), ToPrintable(actual));
-        }
-
-        /**
-            Asserts that `actual` is equal to `expected`
-
-            (Do not use the `filePath`, `lineNumber` and `memberName` arguments, as these are filled in automatically)
-        */
-        public static void AreEqualSize(Size expected, Size actual,
-            [CallerFilePath] string filePath = "", [CallerLineNumber] int lineNumber = 0, [CallerMemberName] string memberName = "")
-        {
-            if (expected != actual)
-                ReportFailure(filePath, lineNumber, memberName, expected.ToString(), actual.ToString());
-        }
-
-        /**
-            Asserts that `actual` is equal to `expected`
-
-            (Do not use the `filePath`, `lineNumber` and `memberName` arguments, as these are filled in automatically)
-        */
-        public static void AreEqualSize2(Size2 expected, Size2 actual,
-            [CallerFilePath] string filePath = "", [CallerLineNumber] int lineNumber = 0, [CallerMemberName] string memberName = "")
-        {
-            if (expected != actual)
-                ReportFailure(filePath, lineNumber, memberName, expected.ToString(), actual.ToString());
         }
 
         /**

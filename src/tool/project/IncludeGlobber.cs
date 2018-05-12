@@ -302,8 +302,6 @@ namespace Uno.ProjectFormat
             {
                 case ".UNO":
                     return IncludeItemType.Source;
-                case ".UX":
-                    return IncludeItemType.UX;
                 case ".UXL":
                     return IncludeItemType.Extensions;
                 case ".STUFF":

@@ -15,7 +15,6 @@ using Uno.Diagnostics;
 using Uno.IO;
 using Uno.Logging;
 using Uno.ProjectFormat;
-using Uno.UX.Markup.CodeGeneration;
 
 namespace Uno.Build
 {
@@ -147,8 +146,6 @@ namespace Uno.Build
                 _env.Define("DEBUG");
             if (_options.Configuration != BuildConfiguration.Debug)
                 _env.Define(_options.Configuration.ToString().ToUpperInvariant());
-            if (_options.Configuration == BuildConfiguration.Preview)
-                _env.Define("REFLECTION", "SIMULATOR", "STACKTRACE");
 
             foreach (var def in StuffFile.DefaultDefines)
                 _env.Define("HOST_" + def);
@@ -189,12 +186,6 @@ namespace Uno.Build
             _env.Set("uno", PlatformDetection.IsWindows
                 ? unoExe.QuoteSpace()
                 : MonoInfo.GetPath().QuoteSpace() + " " + unoExe.QuoteSpace());
-
-            if (Log.HasErrors)
-                return null;
-
-            using (Log.StartProfiler(typeof(UXProcessor)))
-                UXProcessor.Build(_compiler.Disk, _input.Packages);
 
             if (Log.HasErrors)
                 return null;

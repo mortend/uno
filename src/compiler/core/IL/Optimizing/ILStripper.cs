@@ -32,8 +32,6 @@ namespace Uno.Compiler.Core.IL.Optimizing
 
         internal new void Begin()
         {
-            if (Environment.IsDefined("SIMULATOR"))
-                KeepSimulatorEntities();
             if (Data.Entrypoint != null)
                 VisitFunction(Data.Entrypoint);
         }
@@ -1120,64 +1118,6 @@ namespace Uno.Compiler.Core.IL.Optimizing
             list.AddRange(n.Types);
             foreach (var ns in n.Namespaces)
                 FindTypes(ns, list);
-        }
-
-        void KeepSimulatorEntities()
-        {
-            var types = new List<DataType>();
-            FindTypes(Data.IL, types);
-
-            var neededTypes = types.Where(IsNeededBySimulator);
-
-            foreach (var t in neededTypes)
-            {
-                Keep(t);
-
-                foreach (var m in t.EnumerateMembersRecursive().Where(IsNeededBySimulator))
-                    Keep(m);
-            }
-        }
-
-        bool IsNeededBySimulator(Member m)
-        {
-            if (m.DeclaringType.FullName.Contains("Outracks.Simulator"))
-                return true;
-
-            var p = m as Property;
-
-            if (p != null)
-                return p.IsPublic;
-
-            var e = m as Event;
-            if (e != null)
-                return e.IsPublic;
-
-            var meth = m as Method;
-            if (meth != null)
-                return meth.IsPublic || meth.Prototype.IsConstructor;
-
-            return false;
-        }
-
-        bool IsNeededBySimulator(DataType dt)
-        {
-            // Don't strip stuff needed by preview simulator
-            if (dt.FullName.StartsWith("Outracks.Simulator.") ||
-                dt.FullName.StartsWith("Fuse."))
-                return true;
-
-            return dt.IsClass && dt.IsPublic && !dt.IsAbstract && (
-                    dt.TryGetDefaultConstructor() != null ||
-                    dt.EnumerateMembersRecursive().OfType<Constructor>().Any(IsUXConstructor)
-                );
-        }
-
-        bool IsUXConstructor(Constructor c)
-        {
-            return c.IsPublic && (
-                    c.Parameters.Length == 0 ||
-                    c.Attributes.Any(x => x.Constructor.DeclaringType.FullName == "Uno.UX.UXConstructorAttribute")
-                );
         }
     }
 }

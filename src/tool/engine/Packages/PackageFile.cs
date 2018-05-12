@@ -32,7 +32,6 @@ namespace Uno.Build.Packages
         public readonly List<FileItem> ExtensionsFiles = new List<FileItem>();
         public readonly List<FileItem> BundleFiles = new List<FileItem>();
         public readonly List<FileItem> StuffFiles = new List<FileItem>();
-        public readonly List<FileItem> UXFiles = new List<FileItem>();
         public readonly List<ForeignItem> ForeignSourceFiles = new List<ForeignItem>();
         public readonly HashSet<string> ExtensionsBackends = new HashSet<string>();
         public readonly HashSet<string> Namespaces = new HashSet<string>();
@@ -85,7 +84,6 @@ namespace Uno.Build.Packages
             ExtensionsFiles.AddRange(upk.ExtensionsFiles);
             BundleFiles.AddRange(upk.BundleFiles);
             StuffFiles.AddRange(upk.StuffFiles);
-            UXFiles.AddRange(upk.UXFiles);
             ForeignSourceFiles.AddRange(upk.ForeignSourceFiles);
 
             References.Sort();

@@ -57,7 +57,6 @@ namespace Uno.ProjectFormat
         public IEnumerable<FileItem> SourceFiles => GetFlattenedItems().Where(x => x.Type == IncludeItemType.Source).Select(x => new FileItem(x.Value, x.Condition));
         public IEnumerable<FileItem> ExtensionsFiles => GetFlattenedItems().Where(x => x.Type == IncludeItemType.Extensions).Select(x => new FileItem(x.Value, x.Condition));
         public IEnumerable<FileItem> StuffFiles => GetFlattenedItems().Where(x => x.Type == IncludeItemType.Stuff).Select(x => new FileItem(x.Value, x.Condition));
-        public IEnumerable<FileItem> UXFiles => GetFlattenedItems().Where(x => x.Type == IncludeItemType.UX).Select(x => new FileItem(x.Value, x.Condition));
         public IEnumerable<FileItem> AdditionalFiles => GetFlattenedItems().Where(x => x.Type == IncludeItemType.File).Select(x => new FileItem(x.Value, x.Condition));
         public IEnumerable<ForeignItem> ForeignSourceFiles => GetFlattenedItems().Where(x => IncludeItem.IsForeignIncludeType(x.Type)).Select(x => new ForeignItem(x.Value, x.ForeignSourceKind, x.Condition));
         public IEnumerable<FileItem> Folders => GetFlattenedItems().Where(x => x.Type == IncludeItemType.Folder).Select(x => new FileItem(x.Value, x.Condition));
@@ -388,7 +387,6 @@ namespace Uno.ProjectFormat
             upk.ExtensionsFiles.AddRange(ExtensionsFiles);
             upk.ForeignSourceFiles.AddRange(ForeignSourceFiles);
             upk.StuffFiles.AddRange(StuffFiles);
-            upk.UXFiles.AddRange(UXFiles);
 
             foreach (var p in InternalsVisibleTo)
                 upk.InternalsVisibleTo.Add(p.String);

@@ -38,7 +38,6 @@ namespace Uno.Compiler
         public readonly List<FileItem> StuffFiles = new List<FileItem>();
         public readonly List<FileItem> BundleFiles = new List<FileItem>();
         public readonly List<FileItem> AdditionalFiles = new List<FileItem>();
-        public readonly List<FileItem> UXFiles = new List<FileItem>();
 
         public IEnumerable<FileItem> AllFiles
         {
@@ -55,8 +54,6 @@ namespace Uno.Compiler
                 foreach (var f in BundleFiles)
                     yield return f;
                 foreach (var f in AdditionalFiles)
-                    yield return f;
-                foreach (var f in UXFiles)
                     yield return f;
             }
         }

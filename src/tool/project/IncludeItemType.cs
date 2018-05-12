@@ -11,7 +11,6 @@ namespace Uno.ProjectFormat
         CSource = 6,
         CHeader = 7,
         Extensions = 8,
-        UX = 9,
         Bundle = 10,
         ObjCSource = 11,
         ObjCHeader = 12,
@@ -25,6 +24,7 @@ namespace Uno.ProjectFormat
         CSourceFile = 106,
         CHeaderFile = 107,
         ExtensionsFile = 108,
-        UXFile = 109,
+        UXFile = 102,
+        UX = 102
     }
 }
