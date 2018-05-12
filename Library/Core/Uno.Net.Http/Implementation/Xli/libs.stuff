@@ -1,0 +1,3 @@
+if WIN32 {
+    curl: "https://www.nuget.org/api/v2/package/curl-vc141-static-x64/7.59.0"
+}

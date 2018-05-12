@@ -34,6 +34,7 @@
     "Implementation/iOS/iOSHttpRequest.uno:Source",
     "Implementation/iOS/iOSHttpSharedCache.cpp.uxl:Extensions",
     "Implementation/iOS/iOSHttpSharedCache.uno:Source",
+    "Implementation/Xli/libs.stuff:Stuff",
     "Implementation/Xli/XliHttpClient/CurlHttpClient.cpp:File",
     "Implementation/Xli/XliHttpClient/CurlHttpClient.h:File",
     "Implementation/Xli/XliHttpClient/HttpClient.h:File",

@@ -18,12 +18,16 @@
     </Type>
 
     <Type Name="XliHttpRequest">
-        <Require PreprocessorDefinition="CURL_STATICLIB" Condition="WIN32" />
+        <Require Condition="UNIX" LinkLibrary="curl" />
 
-        <Require LinkLibrary="curl" />
-        <Require LinkLibrary="ws2_32" Condition="WIN32" />
-        <Require LinkLibrary="wldap32" Condition="WIN32" />
-        <Require LinkLibrary="advapi32" Condition="WIN32" />
+        <Require Condition="WIN32" IncludeDirectory="@('curl/build/native/include':Path)" />
+        <Require Condition="WIN32" LinkDirectory="@('curl/build/native/lib':Path)" />
+        <Require Condition="WIN32" LinkLibrary.Debug="libcurl-d" />
+        <Require Condition="WIN32" LinkLibrary.Release="libcurl" />
+        <Require Condition="WIN32" LinkLibrary="ws2_32" />
+        <Require Condition="WIN32" LinkLibrary="wldap32" />
+        <Require Condition="WIN32" LinkLibrary="advapi32" />
+        <Require Condition="WIN32" PreprocessorDefinition="CURL_STATICLIB" />
 
         <CopyFile HeaderFile="XliHttpClient/HttpClient.h" />
         <CopyFile SourceFile="XliHttpClient/CurlHttpClient.h" />
