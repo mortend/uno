@@ -18,7 +18,16 @@
     </Type>
 
     <Type Name="XliHttpRequest">
-        <Require Template="XliHttpClient" />
+        <Require PreprocessorDefinition="CURL_STATICLIB" Condition="WIN32" />
+
+        <Require LinkLibrary="curl" />
+        <Require LinkLibrary="ws2_32" Condition="WIN32" />
+        <Require LinkLibrary="wldap32" Condition="WIN32" />
+        <Require LinkLibrary="advapi32" Condition="WIN32" />
+
+        <CopyFile HeaderFile="XliHttpClient/HttpClient.h" />
+        <CopyFile SourceFile="XliHttpClient/CurlHttpClient.h" />
+        <CopyFile SourceFile="XliHttpClient/CurlHttpClient.cpp" />
 
         <Require Source.Include="XliHttpClient/HttpClient.h" />
 

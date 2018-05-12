@@ -21,16 +21,6 @@
         <Require StaticLibrary="@(Base.LinkDirectory)/libXliPlatform.a" Condition="ANDROID" />
     </Template>
 
-    <Template Name="XliHttpClient">
-        <Require Template="uBase" />
-        <Require LinkLibrary="XliHttpClient" Condition="!ANDROID" />
-        <Require LinkLibrary="curl" Condition="OSX || LINUX || WIN32" />
-        <Require LinkLibrary="ws2_32" Condition="MSVC" />
-        <Require LinkLibrary="wldap32" Condition="MSVC" />
-        <Require LinkLibrary="advapi32" Condition="MSVC" />
-        <Require StaticLibrary="@(Base.LinkDirectory)/libXliHttpClient.a" Condition="ANDROID" />
-    </Template>
-
     <Template Name="XliSoundPlayer">
         <Require Template="uBase" />
         <Require LinkLibrary="XliSoundPlayer" Condition="!ANDROID" />
