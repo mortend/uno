@@ -79,13 +79,6 @@ namespace Uno.Compiler.Core.Syntax.Macros
 
         string ExpandMacros(Source src, string text, bool escape, object context)
         {
-            // HACK: Disable package reference checking on Android, because they need to reference
-            // members from higher-level packages.
-            if (_env.IsDefined("ANDROID") && (
-                    text.Contains(" JNICALL ") ||
-                    text.EndsWith(":Include}")))
-                src = Source.Unknown;
-
             text = MacroParser.Expand(src, text, escape, context, ExpandConfigMacro, "@(", ')');
             return MacroParser.Expand(src, text, escape, context, ExpandEntityMacro, "@{", '}');
         }
