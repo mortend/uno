@@ -1,7 +1,5 @@
 <Extensions Backend="CPlusPlus">
 
-    <Require Template="uBase" />
-
     <ProcessFile HeaderFile="uno.h" />
     <ProcessFile HeaderFile="Uno/_config.h" />
     <ProcessFile HeaderFile="Uno/_internal.h" />
@@ -21,5 +19,32 @@
     <ProcessFile HeaderFile="Uno/WinAPIHelper.h" Condition="WIN32" />
     <ProcessFile SourceFile="Uno/Reflection.cpp" Condition="REFLECTION" />
     <ProcessFile HeaderFile="Uno/Reflection.h" Condition="REFLECTION" />
+
+    <ProcessFile HeaderFile="uBase/Array.h" />
+    <ProcessFile HeaderFile="uBase/ArrayStream.h" />
+    <ProcessFile SourceFile="uBase/ArrayStream.cpp" />
+    <ProcessFile HeaderFile="uBase/Atomic.h" />
+    <ProcessFile SourceFile="uBase/Buffer.cpp" />
+    <ProcessFile HeaderFile="uBase/Buffer.h" />
+    <ProcessFile SourceFile="uBase/BufferStream.cpp" />
+    <ProcessFile HeaderFile="uBase/BufferStream.h" />
+    <ProcessFile HeaderFile="uBase/Config.h" />
+    <ProcessFile HeaderFile="uBase/Exception.h" />
+    <ProcessFile HeaderFile="uBase/HashMap.h" />
+    <ProcessFile HeaderFile="uBase/Memory.h" />
+    <ProcessFile SourceFile="uBase/Object.cpp" />
+    <ProcessFile HeaderFile="uBase/Object.h" />
+    <ProcessFile SourceFile="uBase/Stream.cpp" />
+    <ProcessFile HeaderFile="uBase/Stream.h" />
+    <ProcessFile SourceFile="uBase/String.cpp" />
+    <ProcessFile HeaderFile="uBase/String.h" />
+    <ProcessFile SourceFile="uBase/Traits.cpp" />
+    <ProcessFile HeaderFile="uBase/Traits.h" />
+
+    <ProcessFile HeaderFile="ConvertUTF.h" />
+    <ProcessFile SourceFile="ConvertUTF.c" />
+
+    <Require Condition="ANDROID" LinkLibrary="android" />
+    <Require Condition="ANDROID" LinkLibrary="log" />
 
 </Extensions>

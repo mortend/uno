@@ -1,7 +1,7 @@
 #include <Implementation/Posix/posix_mutex.h>
 #include <pthread.h>
 #include <errno.h>
-#include <uBase/Time.h>
+@{Uno.Diagnostics.Clock:IncludeDirective}
 
 bool uPthreadCreateMutex(pthread_mutex_t* mutex)
 {
@@ -21,10 +21,10 @@ bool uPthreadWaitOneMutex(pthread_mutex_t* mutexHandle, int millisecondsTimeout)
         return pthread_mutex_trylock(mutexHandle) == 0;
 
     // spin-based emulation
-    long long timeout = uBase::GetTicks() + millisecondsTimeout * 10000ll;
+    long long timeout = @{Uno.Diagnostics.Clock.GetTicks():Call()} + millisecondsTimeout * 10000ll;
     while (pthread_mutex_trylock(mutexHandle) == EBUSY)
     {
-        long long now = uBase::GetTicks();
+        long long now = @{Uno.Diagnostics.Clock.GetTicks():Call()};
         if (now >= timeout)
             return false;
 
