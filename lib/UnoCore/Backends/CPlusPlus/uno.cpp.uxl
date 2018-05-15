@@ -3,12 +3,10 @@
     <ProcessFile HeaderFile="uno.h" />
     <ProcessFile HeaderFile="Uno/_config.h" />
     <ProcessFile HeaderFile="Uno/_internal.h" />
-    <ProcessFile SourceFile="Uno/_invoke.cpp" />
     <ProcessFile SourceFile="Uno/_main.cpp" />
     <ProcessFile HeaderFile="Uno/GLHelper.h" Condition="OPENGL" />
     <ProcessFile SourceFile="Uno/Memory.cpp" />
     <ProcessFile HeaderFile="Uno/Memory.h" />
-    <ProcessFile SourceFile="Uno/NativeStackTrace.cpp" />
     <ProcessFile SourceFile="Uno/ObjectModel.cpp" />
     <ProcessFile HeaderFile="Uno/ObjectModel.h" />
     <ProcessFile HeaderFile="Uno/ObjectMonitor.h" />
