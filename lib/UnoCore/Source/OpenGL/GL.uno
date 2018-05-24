@@ -8,6 +8,9 @@ namespace OpenGL
     [extern(CPLUSPLUS) Require("Source.Include", "Uno/GLHelper.h")]
     [extern(ANDROID || LINUX && ARM) Require("LinkLibrary", "GLESv2")]
     [extern(MAC || WIN32 || LINUX && !ARM) Require("LinkLibrary", "GLEW")]
+    [extern(MAC) Require("Xcode.Framework", "OpenGL")]
+    [extern(WIN32) Require("LinkLibrary", "opengl32")]
+    [extern(WIN32) Require("PreprocessorDefinition", "GLEW_STATIC")]
     extern(OPENGL) public static class GL
     {
         // Setting and getting state [5.14.3]

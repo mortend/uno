@@ -42,6 +42,7 @@
     "Backends/CPlusPlus/Uno/_config.h:File",
     "Backends/CPlusPlus/Uno/_internal.h:File",
     "Backends/CPlusPlus/Uno/_main.cpp:File",
+    "Backends/CPlusPlus/Uno/GLHelper.h:File",
     "Backends/CPlusPlus/Uno/Memory.cpp:File",
     "Backends/CPlusPlus/Uno/Memory.h:File",
     "Backends/CPlusPlus/Uno/ObjectModel.cpp:File",

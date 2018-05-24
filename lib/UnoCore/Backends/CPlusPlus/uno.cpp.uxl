@@ -45,4 +45,7 @@
     <Require Condition="ANDROID" LinkLibrary="android" />
     <Require Condition="ANDROID" LinkLibrary="log" />
 
+    <Require Condition="MAC" IncludeDirectory="/usr/local/include" />
+    <Require Condition="MAC" LinkDirectory="/usr/local/lib" />
+
 </Extensions>
