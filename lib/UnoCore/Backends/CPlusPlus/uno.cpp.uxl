@@ -48,4 +48,7 @@
     <Require Condition="MAC" IncludeDirectory="/usr/local/include" />
     <Require Condition="MAC" LinkDirectory="/usr/local/lib" />
 
+    <Require Condition="WIN32" IncludeDirectory="@('glew/build/native/include':Path)" />
+    <Require Condition="WIN32" LinkDirectory="@('glew/build/native/lib':Path)" />
+
 </Extensions>

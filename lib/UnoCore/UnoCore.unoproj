@@ -17,6 +17,7 @@
     "Backends/CPlusPlus/ConvertUTF.c:File",
     "Backends/CPlusPlus/ConvertUTF.h:File",
     "Backends/CPlusPlus/CPlusPlus.uxl:Extensions",
+    "Backends/CPlusPlus/libs.stuff:Stuff",
     "Backends/CPlusPlus/uBase/Array.h:File",
     "Backends/CPlusPlus/uBase/ArrayStream.cpp:File",
     "Backends/CPlusPlus/uBase/ArrayStream.h:File",

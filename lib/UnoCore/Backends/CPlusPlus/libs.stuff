@@ -1,0 +1,3 @@
+if WIN32 {
+    glew: "https://www.nuget.org/api/v2/package/glew-vc141-static-x64/2.1.0"
+}
