@@ -29,6 +29,27 @@
         <Require Condition="WIN32" LinkLibrary="advapi32" />
         <Require Condition="WIN32" PreprocessorDefinition="CURL_STATICLIB" />
 
+        <CopyFile HeaderFile="uBase/Array.h" />
+        <CopyFile HeaderFile="uBase/ArrayStream.h" />
+        <CopyFile SourceFile="uBase/ArrayStream.cpp" />
+        <CopyFile HeaderFile="uBase/Atomic.h" />
+        <CopyFile SourceFile="uBase/Buffer.cpp" />
+        <CopyFile HeaderFile="uBase/Buffer.h" />
+        <CopyFile SourceFile="uBase/BufferStream.cpp" />
+        <CopyFile HeaderFile="uBase/BufferStream.h" />
+        <CopyFile HeaderFile="uBase/Config.h" />
+        <CopyFile HeaderFile="uBase/Exception.h" />
+        <CopyFile HeaderFile="uBase/HashMap.h" />
+        <CopyFile HeaderFile="uBase/Memory.h" />
+        <CopyFile SourceFile="uBase/Object.cpp" />
+        <CopyFile HeaderFile="uBase/Object.h" />
+        <CopyFile SourceFile="uBase/Stream.cpp" />
+        <CopyFile HeaderFile="uBase/Stream.h" />
+        <CopyFile SourceFile="uBase/String.cpp" />
+        <CopyFile HeaderFile="uBase/String.h" />
+        <CopyFile SourceFile="uBase/Traits.cpp" />
+        <CopyFile HeaderFile="uBase/Traits.h" />
+
         <CopyFile HeaderFile="XliHttpClient/HttpClient.h" />
         <CopyFile SourceFile="XliHttpClient/CurlHttpClient.h" />
         <CopyFile SourceFile="XliHttpClient/CurlHttpClient.cpp" />
