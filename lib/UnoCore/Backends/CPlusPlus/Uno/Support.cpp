@@ -60,7 +60,7 @@ void uLogv(int level, const char* format, va_list args)
 #if TARGET_OS_IPHONE
     // Defined in ObjC file to call NSLog()
     uLogApple(strings[level], format, args);
-#else
+# else
     FILE* fp = level >= uLogLevelWarning
             ? stderr
             : stdout;
@@ -70,7 +70,7 @@ void uLogv(int level, const char* format, va_list args)
     fputc('\n', fp);
     fflush(fp);
     _Critical.unlock();
-#endif
+# endif
 #endif
 }
 

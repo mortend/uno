@@ -17,9 +17,15 @@
 #ifdef _MSC_VER
 # define U_FUNCTION __FUNCTION__
 # define U_NORETURN __declspec(noreturn)
+# ifdef _WINDLL
+#  define U_DLLEXPORT __declspec(dllexport)
+# else
+#  define U_DLLEXPORT
+# endif
 #else
 # define U_FUNCTION __PRETTY_FUNCTION__
 # define U_NORETURN __attribute__((noreturn))
+# define U_DLLEXPORT __attribute__((visibility("default")))
 #endif
 
 // Constants
