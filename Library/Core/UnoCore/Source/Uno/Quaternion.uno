@@ -166,7 +166,7 @@ namespace Uno
 
         public static float4 FromEulerAngleDegrees(float pitch, float yaw, float roll)
         {
-            return FromEulerAngle(Math.DegreesToRadians(pitch), Math.DegreesToRadians(yaw), Math.DegreesToRadians(roll));
+            return FromEulerAngle(Math.Radians(pitch), Math.Radians(yaw), Math.Radians(roll));
         }
 
         ///
@@ -208,7 +208,7 @@ namespace Uno
             // TODO: Why is this one wrapping the angles while the other one (ToEulerAngle) does not?
             // TODO: Why do we even provide these degree overloads (consistency?)
             var v = ToEulerAngle(q1);
-            return NormalizeAnglesDegrees(float3(Math.RadiansToDegrees(v.X), Math.RadiansToDegrees(v.Y), Math.RadiansToDegrees(v.Z)));
+            return NormalizeAnglesDegrees(float3(Math.Degrees(v.X), Math.Degrees(v.Y), Math.Degrees(v.Z)));
         }
 
         static float3 NormalizeAnglesDegrees(float3 angles)
