@@ -15,58 +15,126 @@ namespace Uno
             Math.negativePowersOfTen = new double[] { 1.0, 0.1, 0.01, 0.001, 0.0001, 1e-05, 1e-06, 1e-07, 1e-08, 1e-09, 1e-10, 1e-11, 1e-12, 1e-13, 1e-14, 1e-15};
         }
 
+        public static double Radians(double degrees)
+        {
+            return degrees * 0.017453292519943295;
+        }
+
+        [global::Uno.Compiler.ExportTargetInterop.GlslIntrinsicAttribute("radians")]
+        public static float Radians(float degrees)
+        {
+            return degrees * 0.0174532924f;
+        }
+
+        [global::Uno.Compiler.ExportTargetInterop.GlslIntrinsicAttribute("radians")]
+        public static Float2 Radians(Float2 degrees)
+        {
+            return degrees * 0.0174532924f;
+        }
+
+        [global::Uno.Compiler.ExportTargetInterop.GlslIntrinsicAttribute("radians")]
+        public static Float3 Radians(Float3 degrees)
+        {
+            return degrees * 0.0174532924f;
+        }
+
+        [global::Uno.Compiler.ExportTargetInterop.GlslIntrinsicAttribute("radians")]
+        public static Float4 Radians(Float4 degrees)
+        {
+            return degrees * 0.0174532924f;
+        }
+
+        public static double Degrees(double radians)
+        {
+            return radians * 57.295779513082323;
+        }
+
+        [global::Uno.Compiler.ExportTargetInterop.GlslIntrinsicAttribute("degrees")]
+        public static float Degrees(float radians)
+        {
+            return radians * 57.2957764f;
+        }
+
+        [global::Uno.Compiler.ExportTargetInterop.GlslIntrinsicAttribute("degrees")]
+        public static Float2 Degrees(Float2 radians)
+        {
+            return radians * 57.2957764f;
+        }
+
+        [global::Uno.Compiler.ExportTargetInterop.GlslIntrinsicAttribute("degrees")]
+        public static Float3 Degrees(Float3 radians)
+        {
+            return radians * 57.2957764f;
+        }
+
+        [global::Uno.Compiler.ExportTargetInterop.GlslIntrinsicAttribute("degrees")]
+        public static Float4 Degrees(Float4 radians)
+        {
+            return radians * 57.2957764f;
+        }
+
+        [global::System.ObsoleteAttribute("Use Math.Radians() instead")]
         public static double DegreesToRadians(double degrees)
         {
             return degrees * 0.017453292519943295;
         }
 
+        [global::System.ObsoleteAttribute("Use Math.Radians() instead")]
         [global::Uno.Compiler.ExportTargetInterop.GlslIntrinsicAttribute("radians")]
         public static float DegreesToRadians(float degrees)
         {
             return degrees * 0.0174532924f;
         }
 
+        [global::System.ObsoleteAttribute("Use Math.Radians() instead")]
         [global::Uno.Compiler.ExportTargetInterop.GlslIntrinsicAttribute("radians")]
         public static Float2 DegreesToRadians(Float2 degrees)
         {
             return degrees * 0.0174532924f;
         }
 
+        [global::System.ObsoleteAttribute("Use Math.Radians() instead")]
         [global::Uno.Compiler.ExportTargetInterop.GlslIntrinsicAttribute("radians")]
         public static Float3 DegreesToRadians(Float3 degrees)
         {
             return degrees * 0.0174532924f;
         }
 
+        [global::System.ObsoleteAttribute("Use Math.Radians() instead")]
         [global::Uno.Compiler.ExportTargetInterop.GlslIntrinsicAttribute("radians")]
         public static Float4 DegreesToRadians(Float4 degrees)
         {
             return degrees * 0.0174532924f;
         }
 
+        [global::System.ObsoleteAttribute("Use Math.Degrees() instead")]
         public static double RadiansToDegrees(double radians)
         {
             return radians * 57.295779513082323;
         }
 
+        [global::System.ObsoleteAttribute("Use Math.Degrees() instead")]
         [global::Uno.Compiler.ExportTargetInterop.GlslIntrinsicAttribute("degrees")]
         public static float RadiansToDegrees(float radians)
         {
             return radians * 57.2957764f;
         }
 
+        [global::System.ObsoleteAttribute("Use Math.Degrees() instead")]
         [global::Uno.Compiler.ExportTargetInterop.GlslIntrinsicAttribute("degrees")]
         public static Float2 RadiansToDegrees(Float2 radians)
         {
             return radians * 57.2957764f;
         }
 
+        [global::System.ObsoleteAttribute("Use Math.Degrees() instead")]
         [global::Uno.Compiler.ExportTargetInterop.GlslIntrinsicAttribute("degrees")]
         public static Float3 RadiansToDegrees(Float3 radians)
         {
             return radians * 57.2957764f;
         }
 
+        [global::System.ObsoleteAttribute("Use Math.Degrees() instead")]
         [global::Uno.Compiler.ExportTargetInterop.GlslIntrinsicAttribute("degrees")]
         public static Float4 RadiansToDegrees(Float4 radians)
         {
