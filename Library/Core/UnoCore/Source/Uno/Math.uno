@@ -16,17 +16,29 @@ namespace Uno
 
         // Angle and trigonometry functions
 
-        public static double DegreesToRadians(double degrees) { return degrees * (PI / 180.0); }
-        [GlslIntrinsic("radians")] public static float DegreesToRadians(float degrees) { return degrees * (PIf / 180.0f); }
-        [GlslIntrinsic("radians")] public static float2 DegreesToRadians(float2 degrees) { return degrees * (PIf / 180.0f); }
-        [GlslIntrinsic("radians")] public static float3 DegreesToRadians(float3 degrees) { return degrees * (PIf / 180.0f); }
-        [GlslIntrinsic("radians")] public static float4 DegreesToRadians(float4 degrees) { return degrees * (PIf / 180.0f); }
+        public static double Radians(double degrees) { return degrees * (PI / 180.0); }
+        [GlslIntrinsic("radians")] public static float Radians(float degrees) { return degrees * (PIf / 180.0f); }
+        [GlslIntrinsic("radians")] public static float2 Radians(float2 degrees) { return degrees * (PIf / 180.0f); }
+        [GlslIntrinsic("radians")] public static float3 Radians(float3 degrees) { return degrees * (PIf / 180.0f); }
+        [GlslIntrinsic("radians")] public static float4 Radians(float4 degrees) { return degrees * (PIf / 180.0f); }
 
-        public static double RadiansToDegrees(double radians) { return radians * (180.0 / PI); }
-        [GlslIntrinsic("degrees")] public static float RadiansToDegrees(float radians) { return radians * (180.0f / PIf); }
-        [GlslIntrinsic("degrees")] public static float2 RadiansToDegrees(float2 radians) { return radians * (180.0f / PIf); }
-        [GlslIntrinsic("degrees")] public static float3 RadiansToDegrees(float3 radians) { return radians * (180.0f / PIf); }
-        [GlslIntrinsic("degrees")] public static float4 RadiansToDegrees(float4 radians) { return radians * (180.0f / PIf); }
+        public static double Degrees(double radians) { return radians * (180.0 / PI); }
+        [GlslIntrinsic("degrees")] public static float Degrees(float radians) { return radians * (180.0f / PIf); }
+        [GlslIntrinsic("degrees")] public static float2 Degrees(float2 radians) { return radians * (180.0f / PIf); }
+        [GlslIntrinsic("degrees")] public static float3 Degrees(float3 radians) { return radians * (180.0f / PIf); }
+        [GlslIntrinsic("degrees")] public static float4 Degrees(float4 radians) { return radians * (180.0f / PIf); }
+
+        [Obsolete("Use Math.Radians() instead")] public static double DegreesToRadians(double degrees) { return degrees * (PI / 180.0); }
+        [Obsolete("Use Math.Radians() instead")] [GlslIntrinsic("radians")] public static float DegreesToRadians(float degrees) { return degrees * (PIf / 180.0f); }
+        [Obsolete("Use Math.Radians() instead")] [GlslIntrinsic("radians")] public static float2 DegreesToRadians(float2 degrees) { return degrees * (PIf / 180.0f); }
+        [Obsolete("Use Math.Radians() instead")] [GlslIntrinsic("radians")] public static float3 DegreesToRadians(float3 degrees) { return degrees * (PIf / 180.0f); }
+        [Obsolete("Use Math.Radians() instead")] [GlslIntrinsic("radians")] public static float4 DegreesToRadians(float4 degrees) { return degrees * (PIf / 180.0f); }
+
+        [Obsolete("Use Math.Degrees() instead")] public static double RadiansToDegrees(double radians) { return radians * (180.0 / PI); }
+        [Obsolete("Use Math.Degrees() instead")] [GlslIntrinsic("degrees")] public static float RadiansToDegrees(float radians) { return radians * (180.0f / PIf); }
+        [Obsolete("Use Math.Degrees() instead")] [GlslIntrinsic("degrees")] public static float2 RadiansToDegrees(float2 radians) { return radians * (180.0f / PIf); }
+        [Obsolete("Use Math.Degrees() instead")] [GlslIntrinsic("degrees")] public static float3 RadiansToDegrees(float3 radians) { return radians * (180.0f / PIf); }
+        [Obsolete("Use Math.Degrees() instead")] [GlslIntrinsic("degrees")] public static float4 RadiansToDegrees(float4 radians) { return radians * (180.0f / PIf); }
 
         public static double Sin(double radians) {
             if defined(DOTNET) return System.Math.Sin(radians);
