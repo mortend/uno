@@ -69,28 +69,4 @@ unsigned int uCreateGLTexture(uImage::Texture* texData, bool generateMipmap = tr
 */
 #define U_BUFFER_PTR(buffer) ((uint8_t*)(buffer)->_data->_ptr + (buffer)->_offset)
 #define U_BUFFER_SIZE(buffer) (buffer)->_sizeInBytes
-
-void uReverseBytes(uint8_t* ptr, size_t size);
-
-template<class T>
-void uReverseBytes(T& ref) {
-    uReverseBytes((uint8_t*)&ref, sizeof(T));
-}
-template<class T>
-T uLoadBytes(uint8_t* ptr, bool littleEndian) {
-    T result;
-    memcpy(&result, ptr, sizeof(T));
-
-    if (!littleEndian)
-        uReverseBytes(result);
-
-    return result;
-}
-template<class T>
-void uStoreBytes(uint8_t* ptr, T value, bool littleEndian) {
-    if (!littleEndian)
-        uReverseBytes(value);
-
-    memcpy(ptr, &value, sizeof(T));
-}
 /** @} */
