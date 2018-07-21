@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.Design;
 using Uno.Compiler.API.Domain;
 using Uno.Compiler.API.Domain.IL;
 using Uno.Compiler.API.Domain.IL.Expressions;
@@ -238,6 +239,10 @@ namespace Uno.Compiler.Core.Syntax.Builders
                 {
                     bool innerTypeFound = false;
 
+                    // Sometimes we need to do this
+                    if (p.NestedTypes.Count == 0)
+                        ParameterizeInnerTypes(p.MasterDefinition, p.MasterDefinition, map, p);
+
                     foreach (var it in p.NestedTypes)
                     {
                         if (arg.MasterDefinition == it.MasterDefinition)
@@ -359,6 +364,7 @@ namespace Uno.Compiler.Core.Syntax.Builders
             {
                 var e = current.NestedTypes[i];
                 var t = CreateParameterizableInnerType(e, result);
+                result.NestedTypes.Add(t);
 
                 if (e.IsGenericDefinition)
                     t.MakeGenericDefinition(e.GenericParameters);
@@ -368,8 +374,13 @@ namespace Uno.Compiler.Core.Syntax.Builders
                 _q.EnqueueType(t,
                     x => ParameterizeBaseType(e, map, x),
                     x => ParameterizeMembers(definition, e, map, x));
+            }
+
+            for (int i = 0; i < current.NestedTypes.Count; i++)
+            {
+                var e = current.NestedTypes[i];
+                var t = result.NestedTypes[i];
                 ParameterizeInnerTypes(definition, e, map, t);
-                result.NestedTypes.Add(t);
             }
         }
 
