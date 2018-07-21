@@ -205,6 +205,8 @@ namespace Uno.Compiler.Core.Syntax.Binding
                         var fieldSizeSum = 0;
                         var fieldAlignMax = 1;
 
+                        dt.PopulateMembers();
+
                         foreach (var f in dt.EnumerateFields())
                         {
                             int fieldSize;
