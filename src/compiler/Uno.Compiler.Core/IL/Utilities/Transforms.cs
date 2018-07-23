@@ -261,22 +261,26 @@ namespace Uno.Compiler.Core.IL.Utilities
 
         public static bool TryTransformGetFixedArrayLength(this GetProperty s, Log log, ref Expression result)
         {
-            var fat = s.Property.DeclaringType as FixedArrayType;
+            if (s.Property.UnoName != "Length")
+                return false;
 
-            if (fat != null && s.Property.UnoName == "Length")
+            var cast = result as CastOp;
+            if (cast != null && cast.Operand.ReturnType is FixedArrayType)
+                result = cast.Operand;
+
+            var fat = result.ReturnType as FixedArrayType;
+            if (fat == null)
+                return false;
+
+            if (fat.OptionalSize != null)
+                result = fat.OptionalSize;
+            else
             {
-                if (fat.OptionalSize != null)
-                    result = fat.OptionalSize;
-                else
-                {
-                    log.Error(s.Source, ErrorCode.E0000, "Cannot get length of 'fixed' array with unknown size");
-                    result = new InvalidExpression();
-                }
-
-                return true;
+                log.Error(s.Source, ErrorCode.E0000, "Cannot get length of 'fixed' array with unknown size");
+                result = new InvalidExpression();
             }
 
-            return false;
+            return true;
         }
     }
 }
