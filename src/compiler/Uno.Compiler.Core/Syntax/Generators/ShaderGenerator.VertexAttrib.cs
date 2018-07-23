@@ -157,16 +157,10 @@ namespace Uno.Compiler.Core.Syntax.Generators
             return result;
         }
 
-        void DetectVertexCount(StageValue buffer)
+        void DetectVertexCount(StageValue array)
         {
-            foreach (var p in buffer.Value.ReturnType.Properties)
-            {
-                if (p.UnoName == "Length")
-                {
-                    AddDetectedVertexCount(new StageValue(new GetProperty(buffer.Value.Source, buffer.Value, p), buffer.MinStage, buffer.MaxStage));
-                    return;
-                }
-            }
+            var len = ILFactory.GetProperty(array.Value.Source, array.Value, "Length");
+            AddDetectedVertexCount(new StageValue(len, array.MinStage, array.MaxStage));
         }
 
         StageValue ProcessVertexAttrib(NewVertexAttrib s)
