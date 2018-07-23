@@ -14,17 +14,6 @@ namespace Uno.Compiler.Core.Syntax.Generators
         readonly Dictionary<string, Expression> VertexBuffers = new Dictionary<string, Expression>();
         readonly List<StageValue> DetectedVertexCounts = new List<StageValue>();
 
-        void AddDetectedVertexCount(StageValue c)
-        {
-            var key = c.Value.ToString();
-
-            foreach (var d in DetectedVertexCounts)
-                if (d.Value.ToString() == key)
-                    return;
-
-            DetectedVertexCounts.Add(c);
-        }
-
         void ProcessIndexBuffer(Source vaSrc, StageValue indexBuffer, StageValue indexType)
         {
             if (IndexBuffer == null && indexBuffer.Value == null && IndexType == null && indexType.Value == null ||
@@ -160,7 +149,13 @@ namespace Uno.Compiler.Core.Syntax.Generators
         void DetectVertexCount(StageValue array)
         {
             var len = ILFactory.GetProperty(array.Value.Source, array.Value, "Length");
-            AddDetectedVertexCount(new StageValue(len, array.MinStage, array.MaxStage));
+            var key = len.ToString();
+
+            foreach (var d in DetectedVertexCounts)
+                if (d.Value.ToString() == key)
+                    return;
+
+            DetectedVertexCounts.Add(new StageValue(len, array.MinStage, array.MaxStage));
         }
 
         StageValue ProcessVertexAttrib(NewVertexAttrib s)
