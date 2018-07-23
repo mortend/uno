@@ -146,16 +146,22 @@ namespace Uno.Compiler.Core.Syntax.Generators
             return result;
         }
 
-        void DetectVertexCount(StageValue array)
+        void DetectVertexCount(StageValue buffer)
         {
-            var len = ILFactory.GetProperty(array.Value.Source, array.Value, "Length");
+            var val = buffer.Value;
+
+            // 'val' might be a DeviceBuffer object, but we can only detect length of arrays.
+            if (!val.ReturnType.IsArray)
+                return;
+
+            var len = ILFactory.GetProperty(val.Source, val, "Length");
             var key = len.ToString();
 
             foreach (var d in DetectedVertexCounts)
                 if (d.Value.ToString() == key)
                     return;
 
-            DetectedVertexCounts.Add(new StageValue(len, array.MinStage, array.MaxStage));
+            DetectedVertexCounts.Add(new StageValue(len, buffer.MinStage, buffer.MaxStage));
         }
 
         StageValue ProcessVertexAttrib(NewVertexAttrib s)
