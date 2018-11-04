@@ -23,6 +23,10 @@ namespace Uno.Net
     [DotNetType("System.Net.IPEndPoint")]
     public class IPEndPoint : EndPoint
     {
+        internal const int AnyPort = 0;
+        internal static readonly IPEndPoint Any = new IPEndPoint(IPAddress.Any, AnyPort);
+        internal static readonly IPEndPoint IPv6Any = new IPEndPoint(IPAddress.IPv6Any, AnyPort);
+
         public int Port { get; private set; }
 
         public IPAddress Address { get; private set; }
