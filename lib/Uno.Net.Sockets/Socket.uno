@@ -456,7 +456,7 @@ namespace Uno.Net.Sockets
 
             // This can throw ObjectDisposedException.
             int bytesTransferred;
-            unsafe
+            /*unsafe
             {
                 if (buffer.Length == 0)
                 {
@@ -481,7 +481,7 @@ namespace Uno.Net.Sockets
                             socketAddress.m_Size);
                     }
                 }
-            }
+            }*/
 
             if ((SocketError)bytesTransferred == SocketError.SocketError)
             {

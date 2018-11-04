@@ -64,7 +64,7 @@ namespace Uno.Net.Sockets
 
             if (_clientSocket != null)
             {
-                _clientSocket.InternalShutdown(SocketShutdown.Both);
+                _clientSocket.Shutdown(SocketShutdown.Both);
                 _clientSocket.Close();
                 _clientSocket = null;
             }
