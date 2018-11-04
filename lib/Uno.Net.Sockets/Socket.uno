@@ -23,6 +23,7 @@ namespace Uno.Net.Sockets
     public enum ProtocolType
     {
         Tcp = 6,
+        Udp = 17
     }
 
     [DotNetType("System.Net.Sockets.SelectMode")]
