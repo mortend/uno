@@ -8,6 +8,7 @@
     "NetworkHelpers.uno:Source",
     "NetworkStream.uno:Source",
     "Socket.uno:Source",
-    "TcpListener.uno:Source"
+    "TcpListener.uno:Source",
+    "UdpClient.uno:Source"
   ]
 }
