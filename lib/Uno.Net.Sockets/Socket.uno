@@ -431,6 +431,86 @@ namespace Uno.Net.Sockets
             return Send(buffer, 0, buffer.Length, SocketFlags.None);
         }
 
+        public int SendTo(byte[] buffer, int offset, int size, SocketFlags socketFlags, EndPoint remoteEP)
+        {
+            if (CleanedUp)
+                throw new ObjectDisposedException(GetType().FullName);
+
+            if (buffer == null)
+                throw new ArgumentNullException(nameof(buffer));
+
+            if (remoteEP == null)
+                throw new ArgumentNullException(nameof(remoteEP));
+
+            if (offset < 0 || offset > buffer.Length)
+                throw new ArgumentOutOfRangeException(nameof(offset));
+
+            if (size < 0 || size > buffer.Length-offset)
+                throw new ArgumentOutOfRangeException(nameof(size));
+
+            ValidateBlockingMode();
+
+            //That will check ConnectPermission for remoteEP
+            EndPoint endPointSnapshot = remoteEP;
+            SocketAddress socketAddress = CheckCacheRemote(ref endPointSnapshot, false);
+
+            // This can throw ObjectDisposedException.
+            int bytesTransferred;
+            unsafe
+            {
+                if (buffer.Length == 0)
+                {
+                    bytesTransferred = UnsafeNclNativeMethods.OSSOCK.sendto(
+                        m_Handle.DangerousGetHandle(),
+                        null,
+                        0,
+                        socketFlags,
+                        socketAddress.m_Buffer,
+                        socketAddress.m_Size);
+                }
+                else
+                {
+                    fixed (byte* pinnedBuffer = buffer)
+                    {
+                        bytesTransferred = UnsafeNclNativeMethods.OSSOCK.sendto(
+                            m_Handle.DangerousGetHandle(),
+                            pinnedBuffer+offset,
+                            size,
+                            socketFlags,
+                            socketAddress.m_Buffer,
+                            socketAddress.m_Size);
+                    }
+                }
+            }
+
+            if ((SocketError)bytesTransferred == SocketError.SocketError)
+            {
+                SocketException socketException = new SocketException();
+                UpdateStatusAfterSocketError(socketException);
+                throw socketException;
+            }
+
+            if (m_RightEndPoint == null)
+                m_RightEndPoint = endPointSnapshot;
+
+            return bytesTransferred;
+        }
+
+        public int SendTo(byte[] buffer, int size, SocketFlags socketFlags, EndPoint remoteEP)
+        {
+            return SendTo(buffer, 0, size, socketFlags, remoteEP);
+        }
+
+        public int SendTo(byte[] buffer, SocketFlags socketFlags, EndPoint remoteEP)
+        {
+            return SendTo(buffer, 0, buffer != null ? buffer.Length : 0, socketFlags, remoteEP);
+        }
+
+        public int SendTo(byte[] buffer, EndPoint remoteEP)
+        {
+            return SendTo(buffer, 0, buffer != null ? buffer.Length : 0, SocketFlags.None, remoteEP);
+        }
+
         public int Receive(byte[] buffer, int offset, int length, SocketFlags flags)
         {
             if ((offset + length) > buffer.Length)
