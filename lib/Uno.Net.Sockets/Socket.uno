@@ -16,6 +16,7 @@ namespace Uno.Net.Sockets
     public enum SocketType
     {
         Stream = 1,
+        Dgram = 2
     }
 
     [DotNetType("System.Net.Sockets.ProtocolType")]
