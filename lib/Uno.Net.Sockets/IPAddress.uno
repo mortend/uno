@@ -84,6 +84,17 @@ namespace Uno.Net
             }
         }
 
+        internal bool IsBroadcast
+        {
+            get
+            {
+                if (_addressFamily == AddressFamily.InterNetworkV6)
+                    return false;
+                else
+                    return Address == Broadcast.Address;
+            }
+        }
+
         readonly byte[] _address;
         readonly uint _scopeId;
         readonly AddressFamily _addressFamily;
