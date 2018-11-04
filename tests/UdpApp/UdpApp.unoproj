@@ -1,0 +1,8 @@
+{
+  "Packages": [
+    "Uno.Net.Sockets"
+  ],
+  "Includes": [
+    "*"
+  ]
+}
