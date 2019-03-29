@@ -14,6 +14,8 @@ namespace Uno.Compiler.API
 
         IEntity GetEntity(string expression, params Namescope[] scopes);
         IEntity GetEntity(Source src, string expression, params Namescope[] scopes);
+        IEntity GetEntity(string expression, Function func, params Namescope[] scopes);
+        IEntity GetEntity(Source src, string expression, Function func, params Namescope[] scopes);
 
         Expression GetExpression(string expression, DataType expectedType = null);
         Expression GetExpression(Source src, string expression, DataType expectedType = null);
