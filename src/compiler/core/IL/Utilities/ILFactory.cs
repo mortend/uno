@@ -58,10 +58,20 @@ namespace Uno.Compiler.Core.IL.Utilities
 
         public IEntity GetEntity(string str, params Namescope[] scopes)
         {
-            return GetEntity(Source.Unknown, str, scopes);
+            return GetEntity(Source.Unknown, str, null, scopes);
         }
 
         public IEntity GetEntity(Source src, string str, params Namescope[] scopes)
+        {
+            return GetEntity(src, str, null, scopes);
+        }
+
+        public IEntity GetEntity(string str, Function func, params Namescope[] scopes)
+        {
+            return GetEntity(Source.Unknown, str, func, scopes);
+        }
+
+        public IEntity GetEntity(Source src, string str, Function func, params Namescope[] scopes)
         {
             if (string.IsNullOrEmpty(str))
             {
@@ -143,7 +153,7 @@ namespace Uno.Compiler.Core.IL.Utilities
                     e = new AstCall(AstCallType.Function, e);
             }
 
-            var result = ResolveExpression(e, null, scopes ?? new Namescope[0]);
+            var result = ResolveExpression(e, null, func, scopes ?? new Namescope[0]);
 
             if (result is Function && e.ExpressionType != AstExpressionType.Call)
             {
@@ -627,7 +637,7 @@ namespace Uno.Compiler.Core.IL.Utilities
             return _compiler.TypeBuilder.Parameterize(src, definition, args);
         }
 
-        SourceObject ResolveExpression(AstExpression e, AstExpression p, params Namescope[] scopes)
+        SourceObject ResolveExpression(AstExpression e, AstExpression p, Function func, params Namescope[] scopes)
         {
             switch (e.ExpressionType)
             {
@@ -638,7 +648,7 @@ namespace Uno.Compiler.Core.IL.Utilities
                 case AstExpressionType.FixedArray:
                 {
                     var s = e as AstFixedArray;
-                    var root = ResolveExpression(s.ElementType, e, scopes);
+                    var root = ResolveExpression(s.ElementType, e, func, scopes);
                     Expression size = null;
 
                     if (s.OptionalSize != null)
@@ -652,7 +662,7 @@ namespace Uno.Compiler.Core.IL.Utilities
                 case AstExpressionType.Array:
                 {
                     var s = e as AstUnary;
-                    var root = ResolveExpression(s.Operand, e, scopes);
+                    var root = ResolveExpression(s.Operand, e, func, scopes);
 
                     if (root is DataType)
                         return _compiler.TypeBuilder.GetArray(root as DataType);
@@ -662,7 +672,7 @@ namespace Uno.Compiler.Core.IL.Utilities
                 case AstExpressionType.Generic:
                 {
                     var s = e as AstGeneric;
-                    var root = ResolveExpression(s.Base, e, scopes);
+                    var root = ResolveExpression(s.Base, e, func, scopes);
 
                     if (root is DataType)
                     {
@@ -699,12 +709,12 @@ namespace Uno.Compiler.Core.IL.Utilities
                 case AstExpressionType.Parameterizer:
                 {
                     var s = e as AstParameterizer;
-                    var root = ResolveExpression(s.Base, e, scopes);
+                    var root = ResolveExpression(s.Base, e, func, scopes);
                     var args = new DataType[s.Arguments.Count];
 
                     for (int i = 0; i < args.Length; i++)
                     {
-                        var a = ResolveExpression(s.Arguments[i], null, scopes);
+                        var a = ResolveExpression(s.Arguments[i], null, func, scopes);
 
                         if (a is DataType)
                             args[i] = a as DataType;
@@ -759,7 +769,7 @@ namespace Uno.Compiler.Core.IL.Utilities
                 case AstExpressionType.Call:
                 {
                     var s = e as AstCall;
-                    var root = ResolveExpression(s.Base, e, scopes);
+                    var root = ResolveExpression(s.Base, e, func, scopes);
                     var parameters = new SourceObject[s.Arguments.Count];
 
                     if (root is Method)
@@ -780,7 +790,7 @@ namespace Uno.Compiler.Core.IL.Utilities
 
                     for (int i = 0; i < parameters.Length; i++)
                     {
-                        var partial = ResolveExpression(s.Arguments[i].Value, e, scopes);
+                        var partial = ResolveExpression(s.Arguments[i].Value, e, func, scopes);
 
                         if (partial is PartialType)
                             parameters[i] = (partial as PartialType).Type;
@@ -905,12 +915,17 @@ namespace Uno.Compiler.Core.IL.Utilities
                 case AstExpressionType.Member:
                 {
                     var s = (AstMember) e;
-                    var root = ResolveExpression(s.Base, e, scopes);
+                    var root = ResolveExpression(s.Base, e, func, scopes);
                     return TryResolveEntity(s.Source, root as Namescope, s.Name.Symbol, p);
                 }
                 case AstExpressionType.Identifier:
                 {
                     var s = (AstIdentifier) e;
+
+                    if (func != null)
+                        foreach (var parameter in func.Parameters)
+                            if (parameter.Name == s.Symbol)
+                                return parameter;
 
                     foreach (var root in scopes)
                     {
