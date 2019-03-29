@@ -570,7 +570,7 @@ namespace Uno.Compiler.Core.Syntax.Macros
                 scopes[0] = DataType.Invalid;
                 scopes[1] = context.Function != null ? context.Function.DeclaringType : DataType.Invalid;
                 Array.Copy(context.Usings, 0, scopes, 2, context.Usings.Length);
-                var root = _ilf.GetEntity(src, calls[0].Root, context.Usings);
+                var root = _ilf.GetEntity(src, calls[0].Root, context.Function, context.Usings);
 
                 // See if generic parameter is flattened to specific type
                 if (root is GenericParameterType)
