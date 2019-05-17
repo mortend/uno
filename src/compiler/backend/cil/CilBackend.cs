@@ -96,11 +96,16 @@ namespace Uno.Compiler.Backends.CIL
                     string.IsNullOrEmpty(Environment.GetString("AppLoader.Assembly")))
                 return;
 
+            var executable = Environment.Combine(Environment.GetString("Product").TrimPath());
+
+            // TODO: Check meta data
+            if (File.Exists(executable))
+                return;
+
             // Create an executable for given architecture (-DX86 or -DX64)
             using (Log.StartProfiler(typeof(AppLoader)))
             {
                 var loader = new AppLoader(Environment.GetString("AppLoader.Assembly"));
-                var executable = Environment.Combine(Environment.GetString("Product").TrimPath());
 
                 if (Environment.IsDefined("X64"))
                     loader.SetX64();
