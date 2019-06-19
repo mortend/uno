@@ -96,23 +96,55 @@ namespace Uno.Compiler.Backends.CPlusPlus
         protected override void ExportNamespace(Namespace ns)
         {
             var joinedTypes = new ListDictionary<string, DataType>();
+            var lonelyTypes = new List<DataType>();
 
             foreach (var dt in ns.Types)
-                JoinTypes(ns, dt, joinedTypes);
+                ClassifyTypes(ns, dt, joinedTypes, lonelyTypes);
 
             foreach (var list in joinedTypes)
                 CppGenerator.ExportTypes(Environment, Essentials, this, ns, list.Key, list.Value);
+            foreach (var item in lonelyTypes)
+                CppGenerator.ExportType(Environment, Essentials, this, item);
 
             foreach (var child in ns.Namespaces)
                 ExportNamespace(child);
         }
 
-        void JoinTypes(Namespace ns, DataType dt, ListDictionary<string, DataType> joinedTypes)
+        void ClassifyTypes(Namespace ns, DataType dt, ListDictionary<string, DataType> joinedTypes, List<DataType> lonelyTypes)
         {
-            joinedTypes.Add(dt.Package.Name + "~" + GetExportName(ns) + ".g", dt);
-
             foreach (var it in dt.NestedTypes)
-                JoinTypes(ns, it, joinedTypes);
+                ClassifyTypes(ns, it, joinedTypes, lonelyTypes);
+
+            // Classes and structs in user projects gets their own source file for better incremental build support.
+            // Other types are grouped into shared source files (per namespace) for better build performance.
+            switch (dt.TypeType)
+            {
+                case TypeType.Delegate:
+                case TypeType.Enum:
+                case TypeType.Interface:
+                    joinedTypes.Add(GetKey(ns), dt);
+                    break;
+                default:
+                    if (dt.Source.Package.IsCached)
+                        joinedTypes.Add(GetKey(ns), dt);
+                    else if (dt.IsNestedType || dt.NestedTypes.Count > 0)
+                        joinedTypes.Add(GetKey(dt), dt);
+                    else
+                        lonelyTypes.Add(dt);
+                    break;
+            }
+        }
+
+        string GetKey(DataType dt)
+        {
+            return dt.IsNestedType
+                ? GetKey(dt.ParentType)
+                : GetExportName(dt) + ".g";
+        }
+
+        string GetKey(Namespace ns)
+        {
+            return GetExportName(ns) + ".g";
         }
 
         public int GetIndex(Field f)
