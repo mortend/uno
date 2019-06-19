@@ -15,6 +15,20 @@ namespace Uno.Compiler.Backends.CPlusPlus
 {
     class CppGenerator : IDisposable
     {
+        public static void ExportType(
+            IEnvironment environment,
+            IEssentials essentials,
+            CppBackend backend,
+            DataType dt)
+        {
+            using (var w = new CppGenerator(
+                    environment,
+                    essentials,
+                    backend.GetNamespaceNames(dt),
+                    backend))
+                w.ExportType(dt);
+        }
+
         public static void ExportTypes(
             IEnvironment environment,
             IEssentials essentials,
@@ -56,6 +70,59 @@ namespace Uno.Compiler.Backends.CPlusPlus
         {
             _cpp?.Dispose();
             _h?.Dispose();
+        }
+
+        void ExportType(DataType dt)
+        {
+            var type = _backend.GetType(dt);
+
+            _typeObjects.Clear();
+            _stringConsts.Clear();
+            foreach (var e in type.StringConsts)
+                if (!_stringConsts.ContainsKey(e))
+                    _stringConsts[e] = _stringConsts.Count;
+            foreach (var e in type.TypeObjects)
+                if (!_typeObjects.ContainsKey(e))
+                    _typeObjects[e] = _typeObjects.Count;
+
+            var basename = _backend.GetExportName(dt);
+            var cppFilename = basename + "." + _backend.GetFileExtension(dt);
+            var hFilename = basename + ".h";
+
+            _env.Require("SourceFile", cppFilename);
+            _env.Require("HeaderFile", hFilename);
+
+            _cpp = CreateWriter(Path.Combine(_backend.SourceDirectory, cppFilename.UnixToNative()));
+            _h = CreateWriter(Path.Combine(_backend.HeaderDirectory, hFilename.UnixToNative()));
+
+            _cpp.WriteOrigin(dt.Source);
+            _h.WriteOrigin(dt.Source);
+            _h.WriteLine("#pragma once");
+
+            foreach (var decl in type.Declarations.Header)
+                _h.WriteLine(decl);
+
+            _h.Skip();
+
+            foreach (var decl in type.Declarations.Source)
+                _cpp.WriteLine(decl);
+
+            // Negate is correct here.
+            // When true these are emitted into the header file.
+            if (!HasInlineMethods(type))
+                foreach (var decl in type.Declarations.Inline)
+                    _cpp.WriteLine(decl);
+
+            _cpp.DeclareGlobals();
+            _cpp.Skip();
+
+            _cpp.BeginNamespace(_namespaces);
+            _h.BeginNamespace(_namespaces);
+
+            EmitType(type, dt);
+
+            _cpp.EndNamespace(_namespaces);
+            _h.EndNamespace(_namespaces);
         }
 
         void ExportTypes(string key, List<DataType> list)
