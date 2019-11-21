@@ -67,7 +67,6 @@
     "Source/Uno/AttributeTargets.uno:Source",
     "Source/Uno/AttributeUsageAttribute.uno:Source",
     "Source/Uno/Bool.uno:Source",
-    "Source/Uno/Buffer.uno:Source",
     "Source/Uno/Byte.uno:Source",
     "Source/Uno/Byte2.uno:Source",
     "Source/Uno/Byte4.uno:Source",
