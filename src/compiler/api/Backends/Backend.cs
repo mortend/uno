@@ -10,6 +10,7 @@ namespace Uno.Compiler.API.Backends
     {
         public abstract string Name { get; }
 
+        public BuildType BuildType { get; set; }
         protected BackendOptions Options { get; set; }
         protected TypeOptions TypeOptions { get; set; }
         protected FunctionOptions FunctionOptions { get; set; }

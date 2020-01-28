@@ -167,6 +167,7 @@
     <Compile Include="Domain\Bytecode\Opcodes.cs" />
     <Compile Include="Domain\Extensions\BundleFile.cs" />
     <Compile Include="Backends\Backend.cs" />
+    <Compile Include="Backends\BuildType.cs" />
     <Compile Include="Backends\BackendOptions.cs" />
     <Compile Include="Backends\BackendResult.cs" />
     <Compile Include="Domain\Extensions\Disambiguation.cs" />

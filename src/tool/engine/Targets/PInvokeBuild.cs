@@ -14,7 +14,7 @@ namespace Uno.Build.Targets
 
         public override Backend CreateBackend()
         {
-            return new PInvokeBackend(ShaderBackend.Dummy);
+            return new PInvokeBackend(ShaderBackend.Dummy) { BuildType = BuildType.Library };
         }
 
         public override void Configure(ICompiler compiler)
