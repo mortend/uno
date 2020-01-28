@@ -15,7 +15,7 @@ namespace Uno.Build.Targets
 
         public override Backend CreateBackend()
         {
-            return new DefaultBackend { BuildType = BuildType.Library };
+            return new DefaultBackend();
         }
 
         public override void Configure(ICompiler compiler)
