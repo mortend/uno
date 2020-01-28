@@ -17,7 +17,6 @@ namespace Uno.Compiler.Backends.CIL
         public override void Configure()
         {
             _linker = new CilLinker(Log, Essentials, true);
-            Environment.Define("LIBRARY");
         }
 
         public override bool CanLink(SourcePackage upk)

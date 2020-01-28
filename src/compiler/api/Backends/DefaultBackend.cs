@@ -11,11 +11,6 @@ namespace Uno.Compiler.API.Backends
             Options = BackendOptions.ExportDontExports;
         }
 
-        public override void Configure()
-        {
-            Environment.Define("LIBRARY");
-        }
-
         public override bool CanLink(Function f)
         {
             return f.IsExtern || !f.Source.Package.IsStartup;
