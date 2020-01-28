@@ -164,8 +164,7 @@ namespace Uno.Compiler.Core
                 Run(new TestSetupTransform(Pass));
             }
 
-            if (Backend.BuildType == BuildType.Executable)
-                Data.ResolveMainClass(Pass, Environment);
+            Data.ResolveMainClass(Pass, Environment);
 
             Run(new ExtensionTransform(Pass));
             Run(new FixedArrayTransform(Pass));
