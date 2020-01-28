@@ -15,11 +15,6 @@ namespace Uno.Compiler.Backends.UnoDoc
             Options = BackendOptions.ExportDontExports;
         }
 
-        public override void Configure()
-        {
-            Environment.Define("LIBRARY");
-        }
-
         public override bool CanLink(Function f)
         {
             return true;

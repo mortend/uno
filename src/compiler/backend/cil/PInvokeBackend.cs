@@ -61,7 +61,6 @@ namespace Uno.Compiler.Backends.CIL
             Types.Add(Essentials.ULong, "uint64_t");
             Types.Add(Essentials.UShort, "uint16_t");
             Types.Add(ILFactory.GetType("global::Uno.IntPtr"), "void*");
-            Environment.Define("LIBRARY");
         }
 
         public override BackendResult Build()
