@@ -30,11 +30,11 @@ import androidx.core.app.ActivityCompat;
 import android.view.View.OnLayoutChangeListener;
 import com.fuse.Activity.ActivityListener;
 
-@(Activity.File.Declaration:Join())
+@(Activity.File.Declaration:join())
 
 public class @(Activity.Name) extends @(Activity.BaseClass) implements ActivityCompat.OnRequestPermissionsResultCallback
 {
-#if !@(LIBRARY:Defined)
+#if !@(LIBRARY:defined)
 
     // state
     private static com.fuse.App fuseApp;  // lasts through all resurrections

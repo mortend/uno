@@ -1,10 +1,10 @@
 cmake_minimum_required(VERSION 3.4.1)
-project(@(Project.Name:QuoteSpace))
+project(@(Project.Name:quoteSpace))
 
 include(AndroidNdkModules)
-include_directories(include@(IncludeDirectory:QuoteSpace:Join('', ' ')))
-link_directories(@(LinkDirectory:QuoteSpace:Join(' ')))
-add_definitions(@(PreprocessorDefinition:Join(' ', '-D')))
+include_directories(include@(IncludeDirectory:quoteSpace:join('', ' ')))
+link_directories(@(LinkDirectory:quoteSpace:join(' ')))
+add_definitions(@(PreprocessorDefinition:join(' ', '-D')))
 
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=@(CStandard)")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=@(CppStandard) -Wno-unused-value -Wno-dangling-else -Wno-switch -Wno-invalid-offsetof -fexceptions -frtti")
@@ -23,16 +23,16 @@ set(CMAKE_NINJA_FORCE_RESPONSE_FILE 1 CACHE INTERNAL "")
 
 # Find libraries extracted from AARs, if applicable.
 #if @(Gradle.Dependency.NativeImplementation:IsRequired)
-link_directories("@(OutputDirectory:Path)/app/build/native/jni/${ANDROID_ABI}")
+link_directories("@(OutputDirectory:path)/app/build/native/jni/${ANDROID_ABI}")
 #endif
 
 add_library(@(Activity.Name) SHARED
-    @(HeaderFile:JoinSorted('\n    ', '"include/', '"'))
-    @(SourceFile:JoinSorted('\n    ', '"jni/', '"')))
+    @(HeaderFile:joinSorted('\n    ', '"include/', '"'))
+    @(SourceFile:joinSorted('\n    ', '"jni/', '"')))
 
 target_link_libraries(@(Activity.Name)
-    @(LinkLibrary:Join('\n    ', '"', '"'))
-    @(SharedLibrary:Join('\n    ', '"', '"'))
-    @(LinkOrderedStaticLibraries:Join('\n    ', '"', '"')))
+    @(LinkLibrary:join('\n    ', '"', '"'))
+    @(SharedLibrary:join('\n    ', '"', '"'))
+    @(LinkOrderedStaticLibraries:join('\n    ', '"', '"')))
 
-@(SharedLibrary:QuoteSpace:Join('\n', 'file(COPY ', ' DESTINATION "@(OutputDirectory:Path)/app/src/main/jniLibs/${ANDROID_ABI}")'))
+@(SharedLibrary:quoteSpace:join('\n', 'file(COPY ', ' DESTINATION "@(OutputDirectory:path)/app/src/main/jniLibs/${ANDROID_ABI}")'))

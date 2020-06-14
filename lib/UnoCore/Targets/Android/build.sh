@@ -4,7 +4,7 @@
 set -e
 cd "`dirname "$0"`"
 
-#if !@(SDK.Directory:IsSet) || !@(NDK.Directory:IsSet)
+#if !@(SDK.Directory:isset) || !@(NDK.Directory:isset)
 echo "ERROR: Could not locate the Android SDK or NDK." >&2
 echo "" >&2
 echo "These dependencies can be acquired by installing 'android-build-tools':" >&2
@@ -18,18 +18,18 @@ echo "" >&2
 exit 1
 #endif
 
-#if @(JDK.Directory:IsSet)
+#if @(JDK.Directory:isset)
 export JAVA_HOME="@(JDK.Directory)"
 #endif
 
 ./gradlew @(Gradle.AssembleTask) "$@"
 
-#if @(LIBRARY:Defined)
-ln -sf @(Outputs.AAR:QuoteSpace) @(Product:QuoteSpace)
+#if @(LIBRARY:defined)
+ln -sf @(Outputs.AAR:quoteSpace) @(Product:quoteSpace)
 #else
-ln -sf @(Outputs.APK:QuoteSpace) @(Product:QuoteSpace)
-# if !@(DEBUG:Defined)
+ln -sf @(Outputs.APK:quoteSpace) @(Product:quoteSpace)
+# if !@(DEBUG:defined)
 ./gradlew @(Gradle.BundleTask)
-ln -sf @(Outputs.Bundle:QuoteSpace) @(Bundle:QuoteSpace)
+ln -sf @(Outputs.Bundle:quoteSpace) @(Bundle:quoteSpace)
 # endif
 #endif

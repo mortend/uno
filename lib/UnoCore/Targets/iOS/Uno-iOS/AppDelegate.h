@@ -3,10 +3,10 @@
 #include <UIKit/UIKit.h>
 
 
-@(AppDelegate.HeaderFile.Declaration:Join())
+@(AppDelegate.HeaderFile.Declaration:join())
 
 
-@interface uAppDelegate : UIViewController<@(AppDelegate.Implements:Join(', '))>
+@interface uAppDelegate : UIViewController<@(AppDelegate.Implements:join(', '))>
 {
     uintptr_t primaryTouch;
 }

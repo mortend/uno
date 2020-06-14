@@ -19,7 +19,7 @@ static std::unordered_map<uObject*, bool>* _HeapObjects;
 
 static bool uTryClearWeak(uObject*);
 
-#if @(REFLECTION:Defined)
+#if @(REFLECTION:defined)
 void uInitReflection();
 void uFreeReflection();
 void uRegisterIntrinsics();
@@ -59,11 +59,11 @@ uRuntime::uRuntime()
 #endif
 
     uAutoReleasePool pool;
-#if @(REFLECTION:Defined)
+#if @(REFLECTION:defined)
     uInitReflection();
 #endif
     uInitObjectModel();
-#if @(REFLECTION:Defined)
+#if @(REFLECTION:defined)
     uRegisterIntrinsics();
 #endif
 }
@@ -71,7 +71,7 @@ uRuntime::uRuntime()
 uRuntime::~uRuntime()
 {
     uFreeObjectModel();
-#if @(REFLECTION:Defined)
+#if @(REFLECTION:defined)
     uFreeReflection();
 #endif
 #ifdef DEBUG_DUMPS

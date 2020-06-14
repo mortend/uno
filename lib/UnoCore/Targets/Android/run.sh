@@ -17,7 +17,7 @@ uninstall)
     ;;
 esac
 
-#if @(LIBRARY:Defined)
+#if @(LIBRARY:defined)
 echo "ERROR: @(Product) is a library and cannot be run directly." >&2
 exit 1
 #else

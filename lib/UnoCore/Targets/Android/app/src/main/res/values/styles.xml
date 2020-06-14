@@ -1,12 +1,12 @@
 <resources>
-    <style name="AppTheme" parent="@(Project.Android.Theme:IsSet:Test('@android:style/@(Project.Android.Theme)', '@style/Theme.AppCompat.Light'))">
+    <style name="AppTheme" parent="@(Project.Android.Theme:isset:test('@android:style/@(Project.Android.Theme)', '@style/Theme.AppCompat.Light'))">
         <item name="windowNoTitle">true</item>
 
 #if !@(Project.Mobile.ShowStatusbar)
         <item name="android:windowFullscreen">true</item>
 #endif
 
-#if @(Project.Android.Splash.Enabled:Test(1, 0))
+#if @(Project.Android.Splash.Enabled:test(1, 0))
         <item name="android:windowBackground">@drawable/@(Project.Android.Splash.SplashFileName || 'splash_background')</item>
 #else
         <item name="android:windowBackground">@android:color/transparent</item>

@@ -56,12 +56,12 @@
     <Declare Element="TypeObjects.FunctionPointer" />
 
     <!-- Native build -->
-    <Set Native.Configuration="@(DEBUG_NATIVE:Defined:Test('Debug', 'Release'))" />
+    <Set Native.Configuration="@(DEBUG_NATIVE:Defined:test('Debug', 'Release'))" />
 
     <!-- Mobile settings -->
-    <Set Mobile.DisableStatusbar="@('@(MOBILE:Defined) && !@(Project.Mobile.ShowStatusbar)':Test(1, 0))" />
-    <Set Mobile.DisableBatterySaver="@('@(MOBILE:Defined) && @(Project.Mobile.KeepAlive)':Test(1, 0))" />
-    <Set Mobile.DisableBackgroundProcess="@('@(MOBILE:Defined) && !@(Project.Mobile.RunsInBackground)':Test(1, 0))" />
+    <Set Mobile.DisableStatusbar="@('@(MOBILE:defined) && !@(Project.Mobile.ShowStatusbar)':test(1, 0))" />
+    <Set Mobile.DisableBatterySaver="@('@(MOBILE:defined) && @(Project.Mobile.KeepAlive)':test(1, 0))" />
+    <Set Mobile.DisableBackgroundProcess="@('@(MOBILE:defined) && !@(Project.Mobile.RunsInBackground)':test(1, 0))" />
 
     <!-- Keywords -->
     <Set Keywords>

@@ -4,15 +4,15 @@
 pushd "%~dp0"
 
 if "%1" == "debug" (
-#if @(JDK.Directory:IsSet)
-    set JAVA_HOME=@(JDK.Directory:NativePath)
+#if @(JDK.Directory:isset)
+    set JAVA_HOME=@(JDK.Directory:nativepath)
 #endif
     echo Opening Android Studio
     @(uno) open -a"Android Studio" -t"@(Project.Name)" "%~dp0"
     exit /b %ERRORLEVEL%
 )
 
-#if @(LIBRARY:Defined)
+#if @(LIBRARY:defined)
 echo ERROR: @(Product) is a library and cannot be run directly.
 exit /b 1
 #else

@@ -17,4 +17,4 @@
 #include <Uno/Uno.h>
 #endif
 
-@(Xcode.PrefixHeader.Declaration:Join())
+@(Xcode.PrefixHeader.Declaration:join())

@@ -25,10 +25,10 @@ if "%1" == "debug" (
     popd && exit /b %ERRORLEVEL%
 )
 
-#if @(LIBRARY:Defined)
+#if @(LIBRARY:defined)
 echo ERROR: @(Product) is a library and cannot be run directly.
 exit /b 1
 #else
-"%~dp0@(Product:Replace('/', '\\'))" %*
+"%~dp0@(Product:replace('/', '\\'))" %*
 exit /b %ERRORLEVEL%
 #endif

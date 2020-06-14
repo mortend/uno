@@ -1,5 +1,5 @@
-apply plugin: 'com.android.@(LIBRARY:Defined:Test('library', 'application'))'
-#if @(KOTLIN:Defined)
+apply plugin: 'com.android.@(LIBRARY:Defined:test('library', 'application'))'
+#if @(KOTLIN:defined)
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 #endif
@@ -8,9 +8,9 @@ configurations { native_implementation }
 
 dependencies {
     implementation fileTree(dir: 'src/main/libs', include: ['*.jar'])
-    @(Gradle.Dependency.Implementation:Join('\n    ', 'implementation \'', '\''))
-    @(Gradle.Dependency.NativeImplementation:Join('\n    ', 'native_implementation \'', '\''))
-    @(Gradle.Dependency:Join('\n    '))
+    @(Gradle.Dependency.Implementation:join('\n    ', 'implementation \'', '\''))
+    @(Gradle.Dependency.NativeImplementation:join('\n    ', 'native_implementation \'', '\''))
+    @(Gradle.Dependency:join('\n    '))
 }
 
 // Extracts native libraries from AARs in the native_implementation configuration.
@@ -36,7 +36,7 @@ tasks.whenTaskAdded {
 }
 
 repositories {
-    @(Gradle.Repository:Join('\n    '))
+    @(Gradle.Repository:join('\n    '))
 }
 
 android {
@@ -44,20 +44,20 @@ android {
     buildToolsVersion = '@(SDK.BuildToolsVersion)'
 
     defaultConfig {
-#if !@(LIBRARY:Defined)
+#if !@(LIBRARY:defined)
         applicationId = '@(Activity.Package)'
 #endif
         minSdkVersion @(SDK.MinVersion)
         targetSdkVersion @(SDK.TargetVersion)
         versionCode = @(Project.Android.VersionCode)
         versionName = '@(Project.Android.VersionName)'
-        multiDexEnabled @(Project.Android.MultiDexEnabled:IsSet:Test(@(Project.Android.MultiDexEnabled:Bool),true))
+        multiDexEnabled @(Project.Android.MultiDexEnabled:isset:test(@(Project.Android.MultiDexEnabled:bool),true))
 
         ndk {
-#if @(DEBUG:Defined)
-            abiFilters = [@(Project.Android.Architectures.Debug:Join(', ', '\'', '\''))]
+#if @(DEBUG:defined)
+            abiFilters = [@(Project.Android.Architectures.Debug:join(', ', '\'', '\''))]
 #else
-            abiFilters = [@(Project.Android.Architectures.Release:Join(', ', '\'', '\''))]
+            abiFilters = [@(Project.Android.Architectures.Release:join(', ', '\'', '\''))]
 #endif
         }
 
@@ -77,33 +77,33 @@ android {
             }
         }
 
-#if @(Project.Android.SupportedLanguages:IsSet)
-        resConfigs @(Project.Android.SupportedLanguages:Join(', ', '\"', '\"'))
+#if @(Project.Android.SupportedLanguages:isset)
+        resConfigs @(Project.Android.SupportedLanguages:join(', ', '\"', '\"'))
 #endif
 
     }
 
-#if @(Project.Android.Bundle.Language.EnableSplit:IsSet) || @(Project.Android.Bundle.Density.EnableSplit:IsSet) || @(Project.Android.Bundle.ABI.EnableSplit:IsSet)
+#if @(Project.Android.Bundle.Language.EnableSplit:isset) || @(Project.Android.Bundle.Density.EnableSplit:isset) || @(Project.Android.Bundle.ABI.EnableSplit:isset)
     bundle {
-        #if @(Project.Android.Bundle.Language.EnableSplit:IsSet)
+        #if @(Project.Android.Bundle.Language.EnableSplit:isset)
         language {
             // Specifies that the app bundle should not support
             // configuration APKs for language resources. These
             // resources are instead packaged with each base and
             // dynamic feature APK.
-            enableSplit = @(Project.Android.Bundle.Language.EnableSplit:ToLower)
+            enableSplit = @(Project.Android.Bundle.Language.EnableSplit:toLower)
         }
         #endif
-        #if @(Project.Android.Bundle.Density.EnableSplit:IsSet)
+        #if @(Project.Android.Bundle.Density.EnableSplit:isset)
         density {
             // This property is set to true by default.
-            enableSplit = @(Project.Android.Bundle.Density.EnableSplit:ToLower)
+            enableSplit = @(Project.Android.Bundle.Density.EnableSplit:toLower)
         }
         #endif
-        #if @(Project.Android.Bundle.ABI.EnableSplit:IsSet)
+        #if @(Project.Android.Bundle.ABI.EnableSplit:isset)
         abi {
             // This property is set to true by default.
-            enableSplit = @(Project.Android.Bundle.ABI.EnableSplit:ToLower)
+            enableSplit = @(Project.Android.Bundle.ABI.EnableSplit:toLower)
         }
         #endif
     }
@@ -115,12 +115,12 @@ android {
         }
     }
 
-#if @(Project.Android.Key.Store:IsSet)
+#if @(Project.Android.Key.Store:isset)
     signingConfigs {
         release {
             keyAlias '@(Project.Android.Key.Alias)'
             keyPassword '@(Project.Android.Key.AliasPassword)'
-            storeFile file('@(Project.Android.Key.Store:Path)')
+            storeFile file('@(Project.Android.Key.Store:path)')
             storePassword '@(Project.Android.Key.StorePassword)'
         }
     }
@@ -128,9 +128,9 @@ android {
 
     buildTypes {
         release {
-#if @(DEBUG:Defined)
+#if @(DEBUG:defined)
             debuggable = true
-#elif @(Project.Android.Key.Store:IsSet)
+#elif @(Project.Android.Key.Store:isset)
             signingConfig = signingConfigs.release
 #endif
             minifyEnabled = false
@@ -147,4 +147,4 @@ android {
     }
 }
 
-@(Gradle.BuildFile.End:Join('\n'))
+@(Gradle.BuildFile.End:join('\n'))

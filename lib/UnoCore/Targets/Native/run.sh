@@ -7,7 +7,7 @@ cd "`dirname "$0"`"
 case $1 in
 debug)
     shift
-#if @(MAC:Defined)
+#if @(MAC:defined)
     cmake -GXcode "$@" .
     echo "Opening Xcode"
     open -aXcode "@(Project.Name).xcodeproj"
@@ -19,14 +19,14 @@ debug)
     ;;
 valgrind)
     shift
-    valgrind "$@" @(Product:QuoteSpace)
+    valgrind "$@" @(Product:quoteSpace)
     exit $?
     ;;
 esac
 
-#if @(LIBRARY:Defined)
+#if @(LIBRARY:defined)
 echo "ERROR: @(Product) is a library and cannot be run directly." >&2
 exit 1
 #else
-@(Product:QuoteSpace)
+@(Product:quoteSpace)
 #endif

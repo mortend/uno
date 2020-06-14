@@ -3,21 +3,21 @@
 
 #include <Uno/ObjectModel.h>
 
-@(TypeObjects.Declaration:JoinSorted())
+@(TypeObjects.Declaration:joinSorted())
 void uInitRtti(uType*(*factories[])());
 
 void uInitRtti()
 {
     static uType*(*factories[])() =
     {
-        @(TypeObjects.FunctionPointer:JoinSorted('\n        ', '', ','))
+        @(TypeObjects.FunctionPointer:joinSorted('\n        ', '', ','))
         nullptr
     };
 
     uInitRtti(factories);
 }
 
-@(Main.Include:JoinSorted('\n', '#include <', '>'))
+@(Main.Include:joinSorted('\n', '#include <', '>'))
 
 void uStartApp()
 {

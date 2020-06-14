@@ -196,7 +196,7 @@ jint JNI_OnLoad(JavaVM* vm, void* reserved)
         U_LOG("&&&&&&& GetEnv failed &&&&&&");
         return -1;
     }
-    jclass activityClass = env->FindClass("@(Activity.Package:Replace('.', '/'))/@(Activity.Name)");
+    jclass activityClass = env->FindClass("@(Activity.Package:replace('.', '/'))/@(Activity.Name)");
     jclass entryPointsClass = env->FindClass("com/fuse/ActivityNativeEntryPoints");
     jclass nativeExternClass = env->FindClass("com/foreign/ExternedBlockHost");
 

@@ -59,7 +59,7 @@ uType* uSwapThreadType(uType* type);
 
 void uInvoke(const void* func, void** args = nullptr, size_t count = 0);
 void uBuildMemory(uType* type);
-#if @(REFLECTION:Defined)
+#if @(REFLECTION:defined)
 void uBuildReflection(uType* type);
 void uRegisterType(uType* type);
 #endif
@@ -760,7 +760,7 @@ void uType::Build()
         uBuildParameterization(this);
         uBuildMemory(this);
         uBuildOperators(this);
-#if @(REFLECTION:Defined)
+#if @(REFLECTION:defined)
         uBuildReflection(this);
 #endif
         uVerifyBuild(this);
@@ -945,7 +945,7 @@ uClassType* uClassType::New(const char* name, uTypeOptions& options)
     }
 
     uClassType* type = (uClassType*)uNewType(uTypeTypeClass, name, options);
-#if @(REFLECTION:Defined)
+#if @(REFLECTION:defined)
     uRegisterType(type);
 #endif
     return type;
@@ -1204,7 +1204,7 @@ uEnumType* uEnumType::New(const char* name, uType* base, size_t literalCount)
     type->fp_Equals = @{Uno.ValueType.Equals(object):Function};
     type->fp_ToString = @{Uno.Enum.ToString():Function};
 
-#if @(REFLECTION:Defined)
+#if @(REFLECTION:defined)
     uRegisterType(type);
 #endif
     return type;
@@ -1353,7 +1353,7 @@ uStructType* uStructType::New(const char* name, uTypeOptions& options)
     type->fp_GetHashCode = uStruct_GetHashCode;
     type->fp_Equals = uStruct_Equals;
     type->fp_ToString = uStruct_ToString;
-#if @(REFLECTION:Defined)
+#if @(REFLECTION:defined)
     uRegisterType(type);
 #endif
     return type;
@@ -1451,7 +1451,7 @@ uInterfaceType* uInterfaceType::New(const char* name, size_t genericCount, size_
     options.Alignment = alignof(uObject*);
     options.BaseDefinition = _ObjectTypePtr;
     uInterfaceType* type = (uInterfaceType*)uNewType(uTypeTypeInterface, name, options);
-#if @(REFLECTION:Defined)
+#if @(REFLECTION:defined)
     uRegisterType(type);
 #endif
     return type;
@@ -1495,7 +1495,7 @@ uDelegateType* uDelegateType::New(const char* name, size_t paramCount, size_t ge
     uDelegateType* type = (uDelegateType*)uNewType(uTypeTypeDelegate, name, options);
     type->ParameterCount = paramCount;
     type->ParameterTypes = (uType**)((uint8_t*)type + sizeof(uDelegateType));
-#if @(REFLECTION:Defined)
+#if @(REFLECTION:defined)
     uRegisterType(type);
 #endif
     return type;

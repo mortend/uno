@@ -1,7 +1,7 @@
 #include <Uno-iOS/AppDelegate.h>
 #include <Uno-iOS/Context.h>
 #include <Window.h>
-@(AppDelegate.SourceFile.Declaration:Join())
+@(AppDelegate.SourceFile.Declaration:join())
 
 @interface uAppDelegate()
 {
@@ -47,7 +47,7 @@
         openURL:url
         sourceApplication:sourceApplication
         annotation:annotation];
-    @(AppDelegate.SourceFile.OpenURL:Join('\n    '));
+    @(AppDelegate.SourceFile.OpenURL:join('\n    '));
     return result;
 }
 
@@ -57,14 +57,14 @@
         application:app
         openURL:url
         options:options];
-    @(AppDelegate.SourceFile.OpenURLLegacy:Join('\n    '));
+    @(AppDelegate.SourceFile.OpenURLLegacy:join('\n    '));
     return result;
 }
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     uAutoReleasePool pool;
-    @(AppDelegate.SourceFile.DidFinishLaunchingWithOptions:Join('\n    '))
+    @(AppDelegate.SourceFile.DidFinishLaunchingWithOptions:join('\n    '))
     return YES;
 }
 
@@ -87,7 +87,7 @@
 }
 
 
-#if @(AppDelegate.PushNotificationMethods:Defined)
+#if @(AppDelegate.PushNotificationMethods:defined)
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
 {
     id cxt = _unoContext;
@@ -117,7 +117,7 @@
 }
 #endif
 
-#if @(AppDelegate.LocalNotificationMethods:Defined)
+#if @(AppDelegate.LocalNotificationMethods:defined)
 - (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification
 {
     id cxt = _unoContext;
@@ -126,6 +126,6 @@
 }
 #endif
 
-@(AppDelegate.SourceFile.ImplementationScope:Join())
+@(AppDelegate.SourceFile.ImplementationScope:join())
 
 @end

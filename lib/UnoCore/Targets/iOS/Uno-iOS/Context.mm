@@ -4,7 +4,7 @@
 @{Uno.Platform.CoreApp:IncludeDirective}
 @{Uno.Platform.iOS.Application:IncludeDirective}
 @{Uno.Platform.EventSources.InterAppInvoke:IncludeDirective}
-@(uContext.SourceFile.Declaration:Join())
+@(uContext.SourceFile.Declaration:join())
 
 @interface uContext()
 {
@@ -139,7 +139,7 @@ static uContext* instance = nil;
 - (void)applicationDidFinishLaunching:(NSNotification*)notification
 {
     @{Uno.Platform.CoreApp.EnterForeground():Call()};
-    @(uContext.SourceFile.DidFinishLaunching:Join('\n    '))
+    @(uContext.SourceFile.DidFinishLaunching:join('\n    '))
 }
 
 - (void)applicationWillEnterForeground:(NSNotification*)notification

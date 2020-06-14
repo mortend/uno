@@ -2,97 +2,97 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="@(Activity.Package)">
 
-    #if @(Project.Android.SupportsScreens.Resizable:IsSet) || @(Project.Android.SupportsScreens.SmallScreens:IsSet) || @(Project.Android.SupportsScreens.NormalScreens:IsSet) || @(Project.Android.SupportsScreens.LargeScreens:IsSet) || @(Project.Android.SupportsScreens.XLargeScreens:IsSet) || @(Project.Android.SupportsScreens.AnyDensity:IsSet) || @(Project.Android.SupportsScreens.RequiresSmallestWidthDp:IsSet) || @(Project.Android.SupportsScreens.CompatibleWidthLimitDp:IsSet) || @(Project.Android.SupportsScreens.LargestWidthLimitDp:IsSet)
+    #if @(Project.Android.SupportsScreens.Resizable:isset) || @(Project.Android.SupportsScreens.SmallScreens:isset) || @(Project.Android.SupportsScreens.NormalScreens:isset) || @(Project.Android.SupportsScreens.LargeScreens:isset) || @(Project.Android.SupportsScreens.XLargeScreens:isset) || @(Project.Android.SupportsScreens.AnyDensity:isset) || @(Project.Android.SupportsScreens.RequiresSmallestWidthDp:isset) || @(Project.Android.SupportsScreens.CompatibleWidthLimitDp:isset) || @(Project.Android.SupportsScreens.LargestWidthLimitDp:isset)
     <supports-screens 
-                  #if @(Project.Android.SupportsScreens.Resizable:IsSet)
-                  android:resizeable="@(Project.Android.SupportsScreens.Resizable:ToLower)"
+                  #if @(Project.Android.SupportsScreens.Resizable:isset)
+                  android:resizeable="@(Project.Android.SupportsScreens.Resizable:toLower)"
                   #endif
-                  #if @(Project.Android.SupportsScreens.SmallScreens:IsSet)
-                  android:smallScreens="@(Project.Android.SupportsScreens.SmallScreens:ToLower)"
+                  #if @(Project.Android.SupportsScreens.SmallScreens:isset)
+                  android:smallScreens="@(Project.Android.SupportsScreens.SmallScreens:toLower)"
                   #endif
-                  #if @(Project.Android.SupportsScreens.NormalScreens:IsSet)
-                  android:normalScreens="@(Project.Android.SupportsScreens.NormalScreens:ToLower)"
+                  #if @(Project.Android.SupportsScreens.NormalScreens:isset)
+                  android:normalScreens="@(Project.Android.SupportsScreens.NormalScreens:toLower)"
                   #endif
-                  #if @(Project.Android.SupportsScreens.LargeScreens:IsSet)
-                  android:largeScreens="@(Project.Android.SupportsScreens.LargeScreens:ToLower)"
+                  #if @(Project.Android.SupportsScreens.LargeScreens:isset)
+                  android:largeScreens="@(Project.Android.SupportsScreens.LargeScreens:toLower)"
                   #endif
-                  #if @(Project.Android.SupportsScreens.XLargeScreens:IsSet)
-                  android:xlargeScreens="@(Project.Android.SupportsScreens.XLargeScreens:ToLower)"
+                  #if @(Project.Android.SupportsScreens.XLargeScreens:isset)
+                  android:xlargeScreens="@(Project.Android.SupportsScreens.XLargeScreens:toLower)"
                   #endif
-                  #if @(Project.Android.SupportsScreens.AnyDensity:IsSet)
-                  android:anyDensity="@(Project.Android.SupportsScreens.AnyDensity:ToLower)"
+                  #if @(Project.Android.SupportsScreens.AnyDensity:isset)
+                  android:anyDensity="@(Project.Android.SupportsScreens.AnyDensity:toLower)"
                   #endif
-                  #if @(Project.Android.SupportsScreens.RequiresSmallestWidthDp:IsSet)
+                  #if @(Project.Android.SupportsScreens.RequiresSmallestWidthDp:isset)
                   android:requiresSmallestWidthDp="@(Project.Android.SupportsScreens.RequiresSmallestWidthDp)"
                   #endif
-                  #if @(Project.Android.SupportsScreens.CompatibleWidthLimitDp:IsSet)
+                  #if @(Project.Android.SupportsScreens.CompatibleWidthLimitDp:isset)
                   android:compatibleWidthLimitDp="@(Project.Android.SupportsScreens.CompatibleWidthLimitDp)"
                   #endif
-                  #if @(Project.Android.SupportsScreens.LargestWidthLimitDp:IsSet)
+                  #if @(Project.Android.SupportsScreens.LargestWidthLimitDp:isset)
                   android:largestWidthLimitDp="@(Project.Android.SupportsScreens.LargestWidthLimitDp)"
                   #endif
                   />
     #endif
     
-#if @(Project.Android.SupportsAndroidGo:Test(1, 0))
+#if @(Project.Android.SupportsAndroidGo:test(1, 0))
     <uses-feature android:name="android.hardware.ram.low" android:required="true"/>
 #endif
     <uses-feature android:glEsVersion="0x00020000"/>
 
-#if @(Project.Android.UsesFeatures.AndroidHardwareLocation:IsSet)
-    <uses-feature android:name="android.hardware.location" android:required="@(Project.Android.UsesFeatures.AndroidHardwareLocation:Bool:ToLower)"/>
+#if @(Project.Android.UsesFeatures.AndroidHardwareLocation:isset)
+    <uses-feature android:name="android.hardware.location" android:required="@(Project.Android.UsesFeatures.AndroidHardwareLocation:bool:toLower)"/>
 #endif
-#if @(Project.Android.UsesFeatures.AndroidHardwareLocationGPS:IsSet)
-    <uses-feature android:name="android.hardware.location.gps" android:required="@(Project.Android.UsesFeatures.AndroidHardwareLocationGPS:Bool:ToLower)"/>
+#if @(Project.Android.UsesFeatures.AndroidHardwareLocationGPS:isset)
+    <uses-feature android:name="android.hardware.location.gps" android:required="@(Project.Android.UsesFeatures.AndroidHardwareLocationGPS:bool:toLower)"/>
 #endif
-#if @(Project.Android.UsesFeatures.AndroidHardwareLocationNetwork:IsSet)
-    <uses-feature android:name="android.hardware.location.network" android:required="@(Project.Android.UsesFeatures.AndroidHardwareLocationNetwork:Bool:ToLower)"/>
+#if @(Project.Android.UsesFeatures.AndroidHardwareLocationNetwork:isset)
+    <uses-feature android:name="android.hardware.location.network" android:required="@(Project.Android.UsesFeatures.AndroidHardwareLocationNetwork:bool:toLower)"/>
 #endif
-#if @(Project.Android.UsesFeatures.AndroidHardwareCamera:IsSet)
-    <uses-feature android:name="android.hardware.camera" android:required="@(Project.Android.UsesFeatures.AndroidHardwareCamera:Bool:ToLower)"/>
+#if @(Project.Android.UsesFeatures.AndroidHardwareCamera:isset)
+    <uses-feature android:name="android.hardware.camera" android:required="@(Project.Android.UsesFeatures.AndroidHardwareCamera:bool:toLower)"/>
 #endif
-#if @(Project.Android.UsesFeatures.AndroidHardwareCameraAutofocus:IsSet)
-    <uses-feature android:name="android.hardware.camera.autofocus" android:required="@(Project.Android.UsesFeatures.AndroidHardwareCameraAutofocus:Bool:ToLower)"/>
+#if @(Project.Android.UsesFeatures.AndroidHardwareCameraAutofocus:isset)
+    <uses-feature android:name="android.hardware.camera.autofocus" android:required="@(Project.Android.UsesFeatures.AndroidHardwareCameraAutofocus:bool:toLower)"/>
 #endif
-#if @(Project.Android.UsesFeatures.AndroidHardwareMicrophone:IsSet)
-    <uses-feature android:name="android.hardware.microphone" android:required="@(Project.Android.UsesFeatures.AndroidHardwareMicrophone:Bool:ToLower)"/>
+#if @(Project.Android.UsesFeatures.AndroidHardwareMicrophone:isset)
+    <uses-feature android:name="android.hardware.microphone" android:required="@(Project.Android.UsesFeatures.AndroidHardwareMicrophone:bool:toLower)"/>
 #endif
-#if @(Project.Android.UsesFeatures.AndroidHardwareTelephony:IsSet)
-    <uses-feature android:name="android.hardware.telephony" android:required="@(Project.Android.UsesFeatures.AndroidHardwareTelephony:Bool:ToLower)"/>
+#if @(Project.Android.UsesFeatures.AndroidHardwareTelephony:isset)
+    <uses-feature android:name="android.hardware.telephony" android:required="@(Project.Android.UsesFeatures.AndroidHardwareTelephony:bool:toLower)"/>
 #endif
-#if @(Project.Android.UsesFeatures.AndroidHardwareScreenPortrait:IsSet)
-    <uses-feature android:name="android.hardware.screen.portrait" android:required="@(Project.Android.UsesFeatures.AndroidHardwareScreenPortrait:Bool:ToLower)"/>
+#if @(Project.Android.UsesFeatures.AndroidHardwareScreenPortrait:isset)
+    <uses-feature android:name="android.hardware.screen.portrait" android:required="@(Project.Android.UsesFeatures.AndroidHardwareScreenPortrait:bool:toLower)"/>
 #endif
-#if @(Project.Android.UsesFeatures.AndroidHardwareScreenLandscape:IsSet)
-    <uses-feature android:name="android.hardware.screen.landscape" android:required="@(Project.Android.UsesFeatures.AndroidHardwareScreenLandscape:Bool:ToLower)"/>
+#if @(Project.Android.UsesFeatures.AndroidHardwareScreenLandscape:isset)
+    <uses-feature android:name="android.hardware.screen.landscape" android:required="@(Project.Android.UsesFeatures.AndroidHardwareScreenLandscape:bool:toLower)"/>
 #endif
-#if @(Project.Android.UsesFeatures.AndroidSoftwareWebview:IsSet)
-    <uses-feature android:name="android.software.webview" android:required="@(Project.Android.UsesFeatures.AndroidSoftwareWebview:Bool:ToLower)"/>
+#if @(Project.Android.UsesFeatures.AndroidSoftwareWebview:isset)
+    <uses-feature android:name="android.software.webview" android:required="@(Project.Android.UsesFeatures.AndroidSoftwareWebview:bool:toLower)"/>
 #endif
 
-    @(AndroidManifest.Permission:Join('\n    ', '<uses-permission android:name="', '" />'))
-    @(AndroidManifest.RootElement:Join('\n    '))
+    @(AndroidManifest.Permission:join('\n    ', '<uses-permission android:name="', '" />'))
+    @(AndroidManifest.RootElement:join('\n    '))
 
-#if @(LIBRARY:Defined)
+#if @(LIBRARY:defined)
     <application android:description="@string/description">
 #else
     <application android:label="@string/app_name"
-    #if @(Project.Android.Icons.Vector:IsSet)
+    #if @(Project.Android.Icons.Vector:isset)
                  android:icon="@drawable/icon"
     #else
                  android:icon="@mipmap/icon"
     #endif
                  android:description="@string/description"
-                 android:largeHeap="@(Project.Android.LargeHeap:IsSet:Test(@(Project.Android.LargeHeap:Bool),false))"
-                 android:allowBackup="@(Project.Android.AllowBackup:IsSet:Test(@(Project.Android.AllowBackup:Bool),false))"
-                 android:usesCleartextTraffic="@(Project.Android.UsesCleartextTraffic:IsSet:Test(@(Project.Android.UsesCleartextTraffic:Bool),false))"
-                 android:extractNativeLibs="@(Project.Android.ExtractNativeLibs:IsSet:Test(@(Project.Android.ExtractNativeLibs:Bool),true))"
+                 android:largeHeap="@(Project.Android.LargeHeap:isset:test(@(Project.Android.LargeHeap:bool),false))"
+                 android:allowBackup="@(Project.Android.AllowBackup:isset:test(@(Project.Android.AllowBackup:bool),false))"
+                 android:usesCleartextTraffic="@(Project.Android.UsesCleartextTraffic:isset:test(@(Project.Android.UsesCleartextTraffic:bool),false))"
+                 android:extractNativeLibs="@(Project.Android.ExtractNativeLibs:isset:test(@(Project.Android.ExtractNativeLibs:bool),true))"
                  >
 
         <activity android:name="@(Activity.Name:EscapeXml)"
                   android:label="@(Project.Android.ApplicationLabel:EscapeXml)"
                   android:launchMode="singleTask"
-#if @(AndroidManifest.DisableTheme:Defined)
+#if @(AndroidManifest.DisableTheme:defined)
                   android:theme="@style/AppTheme"
 #else
                   android:theme="@style/Theme.AppCompat"
@@ -121,28 +121,28 @@
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-#if @(Project.Mobile.UriScheme:IsSet)
+#if @(Project.Mobile.UriScheme:isset)
                 <data android:scheme="@(Project.Mobile.UriScheme)"/>
 #endif
-                @(AndroidManifest.Activity.ViewIntentFilter:Join('\n    ', '<data ', '/>'))
+                @(AndroidManifest.Activity.ViewIntentFilter:join('\n    ', '<data ', '/>'))
             </intent-filter>
             
-#if @(Project.Android.AssociatedDomains:IsSet)
+#if @(Project.Android.AssociatedDomains:isset)
             <intent-filter android:autoVerify="true">
               <action android:name="android.intent.action.VIEW" />
               <category android:name="android.intent.category.DEFAULT" />
               <category android:name="android.intent.category.BROWSABLE" />
-              @(Project.Android.AssociatedDomains:SplitAndJoin('\n\t\t', '<data android:scheme="http" android:host="','" />'))
-              @(Project.Android.AssociatedDomains:SplitAndJoin('\n\t\t', '<data android:scheme="https" android:host="','" />'))
+              @(Project.Android.AssociatedDomains:splitAndJoin('\n\t\t', '<data android:scheme="http" android:host="','" />'))
+              @(Project.Android.AssociatedDomains:splitAndJoin('\n\t\t', '<data android:scheme="https" android:host="','" />'))
             </intent-filter>
 #endif
 
-            @(AndroidManifest.ActivityElement:Join('\n        '))
+            @(AndroidManifest.ActivityElement:join('\n        '))
         </activity>
 #endif
 
-        @(AndroidManifest.ApplicationElement:Join('\n        '))
-#if @(Project.Android.Geo.ApiKey:IsSet)
+        @(AndroidManifest.ApplicationElement:join('\n        '))
+#if @(Project.Android.Geo.ApiKey:isset)
         <meta-data android:name="com.google.android.gms.version" android:value="@integer/google_play_services_version" />
         <meta-data android:name="com.google.android.geo.API_KEY"
                    android:value="@(Project.Android.Geo.ApiKey)"/>

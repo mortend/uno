@@ -16,7 +16,7 @@
 		@(Pbxproj.PBXBuildFiles)
 /* End PBXBuildFile section */
 
-#if @(Pbxproj.PBXEmbedFrameworksBuildPhaseFiles:IsSet)
+#if @(Pbxproj.PBXEmbedFrameworksBuildPhaseFiles:isset)
 /* Begin PBXCopyFilesBuildPhase section */
 		411CA8EC1C3C02DF00161584 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
@@ -36,7 +36,7 @@
 		5AB0DAB218F6CF6C00975F8B /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "@(Project.Name)/Images.xcassets"; sourceTree = "<group>"; };
 		5F0322DF2410910C00F663AF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = "LaunchScreen.storyboard"; path = "@(Project.Name)/LaunchScreen.storyboard"; sourceTree = "<group>"; };
 		5FEB85392417246500A63124 /* default-logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = default-logo.png; path = @(Project.Name)/default-logo.png; sourceTree = "<group>"; };
-#if @(LIBRARY:Defined)
+#if @(LIBRARY:defined)
 		5A493DA5151A216A000ACE3F /* $(Project.Name).framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = "@(Project.Name).framework"; sourceTree = BUILT_PRODUCTS_DIR; };
 #else
 		5A493DA5151A216A000ACE3F /* $(Project.Name).app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "@(Project.Name).app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -73,7 +73,7 @@
 		5A493DA6151A216A000ACE3F /* Products */ = {
 			isa = PBXGroup;
 			children = (
-#if @(LIBRARY:Defined)
+#if @(LIBRARY:defined)
 				5A493DA5151A216A000ACE3F /* @(Project.Name).framework */,
 #else
 				5A493DA5151A216A000ACE3F /* @(Project.Name).app */,
@@ -128,10 +128,10 @@
 				5A493DA1151A216A000ACE3F /* Sources */,
 				5A493DA2151A216A000ACE3F /* Frameworks */,
 				5A493DA3151A216A000ACE3F /* Resources */,
-#if @(Pbxproj.PBXEmbedFrameworksBuildPhaseFiles:IsSet)
+#if @(Pbxproj.PBXEmbedFrameworksBuildPhaseFiles:isset)
 				411CA8EC1C3C02DF00161584 /* Embed Frameworks */,
 #endif
-#if @(Pbxproj.PBXNativeTargetBuildPhases:IsSet)
+#if @(Pbxproj.PBXNativeTargetBuildPhases:isset)
 				@(Pbxproj.PBXNativeTargetBuildPhases)
 #endif
 				9AD4CD511E23E76F005179FC /* ShellScript */,
@@ -142,7 +142,7 @@
 			);
 			name = "@(Project.Name)";
 			productName = "@(Project.Name)";
-#if @(LIBRARY:Defined)
+#if @(LIBRARY:defined)
 			productReference = 5A493DA5151A216A000ACE3F /* @(Project.Name).framework */;
 			productType = "com.apple.product-type.framework";
 #else
@@ -161,91 +161,91 @@
 					5A493DA4151A216A000ACE3F  = {
 						CreatedOnToolsVersion = 6.3.2;
 						SystemCapabilities = {
-#if @(Project.iOS.SystemCapabilities.ApplicationGroups:IsSet)
+#if @(Project.iOS.SystemCapabilities.ApplicationGroups:isset)
 							com.apple.ApplicationGroups.iOS = {
 								enabled = 1;
 							};
 #endif
 
-#if @(Project.iOS.SystemCapabilities.DataProtection:IsSet)
+#if @(Project.iOS.SystemCapabilities.DataProtection:isset)
 							com.apple.DataProtection = {
-								enabled = @(Project.iOS.SystemCapabilities.DataProtection:Test(1,0));
+								enabled = @(Project.iOS.SystemCapabilities.DataProtection:test(1,0));
 							};
 #endif
 
-#if @(Project.iOS.SystemCapabilities.GameCenter:IsSet)
+#if @(Project.iOS.SystemCapabilities.GameCenter:isset)
 							com.apple.GameCenter = {
-								enabled = @(Project.iOS.SystemCapabilities.GameCenter:Test(1,0));
+								enabled = @(Project.iOS.SystemCapabilities.GameCenter:test(1,0));
 							};
 #endif
 
-#if @(Project.iOS.SystemCapabilities.HealthKit:IsSet)
+#if @(Project.iOS.SystemCapabilities.HealthKit:isset)
 							com.apple.HealthKit = {
-								enabled = @(Project.iOS.SystemCapabilities.HealthKit:Test(1,0));
+								enabled = @(Project.iOS.SystemCapabilities.HealthKit:test(1,0));
 							};
 #endif
 
-#if @(Project.iOS.SystemCapabilities.HomeKit:IsSet)
+#if @(Project.iOS.SystemCapabilities.HomeKit:isset)
 							com.apple.HomeKit = {
-								enabled = @(Project.iOS.SystemCapabilities.HomeKit:Test(1,0));
+								enabled = @(Project.iOS.SystemCapabilities.HomeKit:test(1,0));
 							};
 #endif
 
-#if @(Project.iOS.SystemCapabilities.InAppPurchase:IsSet)
+#if @(Project.iOS.SystemCapabilities.InAppPurchase:isset)
 							com.apple.InAppPurchase = {
-								enabled = @(Project.iOS.SystemCapabilities.InAppPurchase:Test(1,0));
+								enabled = @(Project.iOS.SystemCapabilities.InAppPurchase:test(1,0));
 							};
 #endif
 
-#if @(Project.iOS.SystemCapabilities.InterAppAudio:IsSet)
+#if @(Project.iOS.SystemCapabilities.InterAppAudio:isset)
 							com.apple.InterAppAudio = {
-								enabled = @(Project.iOS.SystemCapabilities.InterAppAudio:Test(1,0));
+								enabled = @(Project.iOS.SystemCapabilities.InterAppAudio:test(1,0));
 							};
 #endif
 
-#if @(Project.iOS.SystemCapabilities.KeychainSharing:IsSet)
+#if @(Project.iOS.SystemCapabilities.KeychainSharing:isset)
 							com.apple.Keychain = {
 								enabled = 1;
 							};
 #endif
 
-#if @(Project.iOS.SystemCapabilities.Push:IsSet)
+#if @(Project.iOS.SystemCapabilities.Push:isset)
 							com.apple.Push = {
-								enabled = @(Project.iOS.SystemCapabilities.Push:Test(1,0));
+								enabled = @(Project.iOS.SystemCapabilities.Push:test(1,0));
 							};
 #endif
 
-#if @(Project.iOS.SystemCapabilities.AssociatedDomains:IsSet)
+#if @(Project.iOS.SystemCapabilities.AssociatedDomains:isset)
 							com.apple.SafariKeychain = {
 								enabled = 1;
 							};
 #endif
 
-#if @(Project.iOS.SystemCapabilities.PersonalVPN:IsSet)
+#if @(Project.iOS.SystemCapabilities.PersonalVPN:isset)
 							com.apple.VPNLite = {
-								enabled = @(Project.iOS.SystemCapabilities.PersonalVPN:Test(1,0));
+								enabled = @(Project.iOS.SystemCapabilities.PersonalVPN:test(1,0));
 							};
 #endif
 
-#if @(Project.iOS.SystemCapabilities.WirelessAccessoryConfiguration:IsSet)
+#if @(Project.iOS.SystemCapabilities.WirelessAccessoryConfiguration:isset)
 							com.apple.WAC = {
-								enabled = @(Project.iOS.SystemCapabilities.WirelessAccessoryConfiguration:Test(1,0));
+								enabled = @(Project.iOS.SystemCapabilities.WirelessAccessoryConfiguration:test(1,0));
 							};
 #endif
 
-#if @(Project.iOS.SystemCapabilities.Siri:IsSet)
+#if @(Project.iOS.SystemCapabilities.Siri:isset)
 							com.apple.Siri = {
-								enabled = @(Project.iOS.SystemCapabilities.Siri:Test(1,0));
+								enabled = @(Project.iOS.SystemCapabilities.Siri:test(1,0));
 							};
 #endif
 
-#if @(Project.iOS.PList.UIBackgroundModes:IsSet)
+#if @(Project.iOS.PList.UIBackgroundModes:isset)
 							com.apple.BackgroundModes = {
 								enabled = 1;
 							};
 #endif
 						};
-#if @(Pbxproj.DevelopmentTeam:IsSet)
+#if @(Pbxproj.DevelopmentTeam:isset)
 						DevelopmentTeam = @(Pbxproj.DevelopmentTeam);
 #endif
 					};
@@ -284,7 +284,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-#if @(Pbxproj.PBXShellScriptBuildPhase:IsSet)
+#if @(Pbxproj.PBXShellScriptBuildPhase:isset)
 		@(Pbxproj.PBXShellScriptBuildPhase)
 #endif
 		9AD4CD511E23E76F005179FC /* ShellScript */ = {
@@ -353,7 +353,7 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-#if !@(LIBRARY:Defined)
+#if !@(LIBRARY:defined)
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 #endif
 				COPY_PHASE_STRIP = NO;
@@ -366,10 +366,10 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
-@(PreprocessorDefinition:Join('', '\t\t\t\t\t"', '",\n'))
+@(PreprocessorDefinition:join('', '\t\t\t\t\t"', '",\n'))
 					"$(inherited)",
 				);
-#if @(LIBRARY:Defined)
+#if @(LIBRARY:defined)
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 #endif
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -380,7 +380,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = @(Project.iOS.DeploymentTarget);
 				MTL_ENABLE_DEBUG_INFO = YES;
-#if !@(LIBRARY:Defined)
+#if !@(LIBRARY:defined)
 				ONLY_ACTIVE_ARCH = YES;
 #endif
 				OTHER_CFLAGS = (
@@ -423,7 +423,7 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-#if !@(LIBRARY:Defined)
+#if !@(LIBRARY:defined)
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 #endif
 				COPY_PHASE_STRIP = NO;
@@ -434,7 +434,7 @@
 				GCC_NO_COMMON_BLOCKS = YES;
 #if @(PreprocessorDefinition:IsRequired)
 				GCC_PREPROCESSOR_DEFINITIONS = (
-@(PreprocessorDefinition:Join('', '\t\t\t\t\t"', '",\n'))
+@(PreprocessorDefinition:join('', '\t\t\t\t\t"', '",\n'))
 					"$(inherited)",
 				);
 #endif
@@ -462,20 +462,20 @@
 		5A493DBE151A216A000ACE3F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-#if !@(LIBRARY:Defined)
+#if !@(LIBRARY:defined)
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
 #endif
 				CLANG_WARN_UNREACHABLE_CODE = NO;
 				CODE_SIGN_ENTITLEMENTS = "@(Project.Name)/@(Project.Name).entitlements";
-#if @(Pbxproj.DevelopmentTeam:IsSet)
+#if @(Pbxproj.DevelopmentTeam:isset)
 				DEVELOPMENT_TEAM = @(Pbxproj.DevelopmentTeam);
 #endif
-#if @(LIBRARY:Defined)
+#if @(LIBRARY:defined)
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 #endif
 				ENABLE_BITCODE = NO;
-#if @(Pbxproj.FrameworkDirectories:IsSet)
+#if @(Pbxproj.FrameworkDirectories:isset)
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					@(Pbxproj.FrameworkDirectories)
@@ -484,7 +484,7 @@
 				GCC_INLINES_ARE_PRIVATE_EXTERN = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "@(Project.Name)/@(Project.Name)-Prefix.pch";
-#if @(LIBRARY:Defined)
+#if @(LIBRARY:defined)
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 #endif
 				GCC_WARN_UNINITIALIZED_AUTOS = NO;
@@ -500,7 +500,7 @@
 					@(Pbxproj.LinkDirectories)
 				);
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-#if @(LIBRARY:Defined)
+#if @(LIBRARY:defined)
 				MACH_O_TYPE = mh_dylib;
 #endif
 				OTHER_LDFLAGS = (
@@ -520,14 +520,14 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
 				CLANG_WARN_UNREACHABLE_CODE = NO;
 				CODE_SIGN_ENTITLEMENTS = "@(Project.Name)/@(Project.Name).entitlements";
-#if @(Pbxproj.DevelopmentTeam:IsSet)
+#if @(Pbxproj.DevelopmentTeam:isset)
 				DEVELOPMENT_TEAM = @(Pbxproj.DevelopmentTeam);
 #endif
-#if @(LIBRARY:Defined)
+#if @(LIBRARY:defined)
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 #endif
 				ENABLE_BITCODE = NO;
-#if @(Pbxproj.FrameworkDirectories:IsSet)
+#if @(Pbxproj.FrameworkDirectories:isset)
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					@(Pbxproj.FrameworkDirectories)
@@ -549,7 +549,7 @@
 					@(Pbxproj.LinkDirectories)
 				);
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-#if @(LIBRARY:Defined)
+#if @(LIBRARY:defined)
 				MACH_O_TYPE = mh_dylib;
 #endif
 				OTHER_LDFLAGS = (
@@ -559,7 +559,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = @(BundleIdentifier);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = @(Project.iOS.SwiftVersion || "3.0");
-#if @(LIBRARY:Defined)
+#if @(LIBRARY:defined)
 				WRAPPER_EXTENSION = framework;
 #else
 				WRAPPER_EXTENSION = app;

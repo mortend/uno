@@ -18,7 +18,7 @@
         <Method Signature="RegisterFunctions()">
             <Body><![CDATA[
                 JniHelper jni;
-                @(Java.Extern.RegisterFunction:Join('\n'):Trim())
+                @(Java.Extern.RegisterFunction:join('\n'):trim())
             ]]></Body>
         </Method>
     </Type>

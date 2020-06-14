@@ -1,13 +1,13 @@
 <Extensions Backend="PInvoke">
 
-    <Set Base.Directory="@('Android':Path)" Condition="ANDROID" />
-    <Set Base.Directory="@('iOS':Path)" Condition="IOS" />
-    <Set Base.Directory="@('OSX':Path)" Condition="OSX" />
-    <Set Base.Directory="@('Win32':Path)" Condition="WIN32" />
-    <Set Base.LinkDirectory="@(Base.Directory:Path)/lib/${ANDROID_ABI}" Condition="ANDROID" />
-    <Set Base.LinkDirectory="@(Base.Directory:Path)/lib/$CONFIGURATION$EFFECTIVE_PLATFORM_NAME" Condition="IOS" />
-    <Set Base.LinkDirectory="@(Base.Directory:Path)/lib" />
-    <Set Base.IncludeDirectory="@(Base.Directory:Path)/include" />
+    <Set Base.Directory="@('Android':path)" Condition="ANDROID" />
+    <Set Base.Directory="@('iOS':path)" Condition="IOS" />
+    <Set Base.Directory="@('OSX':path)" Condition="OSX" />
+    <Set Base.Directory="@('Win32':path)" Condition="WIN32" />
+    <Set Base.LinkDirectory="@(Base.Directory:path)/lib/${ANDROID_ABI}" Condition="ANDROID" />
+    <Set Base.LinkDirectory="@(Base.Directory:path)/lib/$CONFIGURATION$EFFECTIVE_PLATFORM_NAME" Condition="IOS" />
+    <Set Base.LinkDirectory="@(Base.Directory:path)/lib" />
+    <Set Base.IncludeDirectory="@(Base.Directory:path)/include" />
 
     <Require IncludeDirectory="@(Base.IncludeDirectory)" />
     <Require LinkDirectory="@(Base.LinkDirectory)" />

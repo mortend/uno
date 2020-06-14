@@ -6,7 +6,7 @@
 #include <cstdarg>
 #include <cstdlib>
 #include <exception>
-#if @(REFLECTION:Defined)
+#if @(REFLECTION:defined)
 #include <Uno/Reflection.h>
 #else
 #include <Uno/Memory.h>
@@ -186,7 +186,7 @@ struct uType : uObject
     uObjectRefs Refs;
 
     // Reflection
-#if @(REFLECTION:Defined)
+#if @(REFLECTION:defined)
     uReflection Reflection;
 #endif
 
