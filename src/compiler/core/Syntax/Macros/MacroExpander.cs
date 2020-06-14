@@ -83,7 +83,7 @@ namespace Uno.Compiler.Core.Syntax.Macros
             // members from higher-level packages.
             if (_env.IsDefined("ANDROID") && (
                     text.Contains(" JNICALL ") ||
-                    text.EndsWith(":Include}")))
+                    text.EndsWith(":include}")))
                 src = Source.Unknown;
 
             text = MacroParser.Expand(src, text, escape, context, ExpandConfigMacro, "@(", ')');

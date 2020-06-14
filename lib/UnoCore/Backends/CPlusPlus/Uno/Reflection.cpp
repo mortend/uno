@@ -4,11 +4,11 @@
 #include <Uno/Reflection.h>
 #include <string>
 #include <unordered_map>
-@{int:IncludeDirective}
-@{bool:IncludeDirective}
-@{string:IncludeDirective}
-@{Uno.Exception:IncludeDirective}
-@{Uno.Type:IncludeDirective}
+@{int:includeDirective}
+@{bool:includeDirective}
+@{string:includeDirective}
+@{Uno.Exception:includeDirective}
+@{Uno.Type:includeDirective}
 
 uType* uGetParameterized(uType* type, uType* root);
 void uInvoke(const void* func, void** args = nullptr, size_t count = 0);

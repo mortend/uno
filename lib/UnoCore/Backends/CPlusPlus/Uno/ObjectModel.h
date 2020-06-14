@@ -11,7 +11,7 @@
 #else
 #include <Uno/Memory.h>
 #endif
-@{Uno.Exception:ForwardDeclaration}
+@{Uno.Exception:forwardDeclaration}
 struct uObjectMonitor;
 
 /**

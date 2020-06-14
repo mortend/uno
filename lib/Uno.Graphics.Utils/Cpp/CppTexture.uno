@@ -5,8 +5,8 @@ using OpenGL;
 
 namespace Uno.Graphics.Utils.Cpp
 {
-    [extern(CPLUSPLUS) Require("Source.Include", "@{texture2D:Include}")]
-    [extern(CPLUSPLUS) Require("Source.Include", "@{Exception:Include}")]
+    [Require("Source.Include", "@{texture2D:include}")]
+    [Require("Source.Include", "@{Exception:include}")]
     [extern(CPLUSPLUS) Require("Source.Include", "uBase/Buffer.h")]
     [extern(CPLUSPLUS) Require("Source.Include", "uBase/BufferStream.h")]
     [extern(CPLUSPLUS) Require("Source.Include", "uBase/Memory.h")]

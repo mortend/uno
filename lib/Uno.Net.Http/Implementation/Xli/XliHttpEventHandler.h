@@ -2,7 +2,7 @@
 #define __UNO_XLI_HTTP_EVENT_HANDLER_H__
 
 #include <XliHttpClient/HttpClient.h>
-#include <@{Uno.Net.Http.HttpMessageHandlerRequest:Include}>
+#include <@{Uno.Net.Http.HttpMessageHandlerRequest:include}>
 #include <Uno/Support.h>
 
 class uXliHttpEventHandler: public Xli::HttpEventHandler

@@ -207,7 +207,7 @@ namespace Uno.IO
 
         [extern(DOTNET) DotNetOverride]
         [extern(APPLE) Require("Source.Import", "Foundation/Foundation.h")]
-        [extern(CPLUSPLUS) Require("Source.Include", "@{Path:Include}")]
+        [extern(CPLUSPLUS) Require("Source.Include", "@{Path:include}")]
         internal static string GetBaseDirectory()
         {
             if defined(WIN32)

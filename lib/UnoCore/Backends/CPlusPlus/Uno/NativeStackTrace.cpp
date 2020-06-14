@@ -1,4 +1,4 @@
-@{Uno.IntPtr:IncludeDirective}
+@{Uno.IntPtr:includeDirective}
 
 #ifdef __APPLE__
 

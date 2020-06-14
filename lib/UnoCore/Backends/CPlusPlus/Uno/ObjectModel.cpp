@@ -7,28 +7,28 @@
 #include <cstdio>
 #include <mutex>
 #include <string>
-@{bool:IncludeDirective}
-@{byte:IncludeDirective}
-@{char:IncludeDirective}
-@{float:IncludeDirective}
-@{int:IncludeDirective}
-@{object:IncludeDirective}
-@{sbyte:IncludeDirective}
-@{short:IncludeDirective}
-@{string:IncludeDirective}
-@{ushort:IncludeDirective}
-@{Uno.Array:IncludeDirective}
-@{Uno.ArgumentNullException:IncludeDirective}
-@{Uno.ArgumentOutOfRangeException:IncludeDirective}
-@{Uno.Delegate:IncludeDirective}
-@{Uno.Enum:IncludeDirective}
-@{Uno.IndexOutOfRangeException:IncludeDirective}
-@{Uno.InvalidCastException:IncludeDirective}
-@{Uno.InvalidOperationException:IncludeDirective}
-@{Uno.NullReferenceException:IncludeDirective}
-@{Uno.TypeInitializationException:IncludeDirective}
-@{Uno.Type:IncludeDirective}
-@{Uno.ValueType:IncludeDirective}
+@{bool:includeDirective}
+@{byte:includeDirective}
+@{char:includeDirective}
+@{float:includeDirective}
+@{int:includeDirective}
+@{object:includeDirective}
+@{sbyte:includeDirective}
+@{short:includeDirective}
+@{string:includeDirective}
+@{ushort:includeDirective}
+@{Uno.Array:includeDirective}
+@{Uno.ArgumentNullException:includeDirective}
+@{Uno.ArgumentOutOfRangeException:includeDirective}
+@{Uno.Delegate:includeDirective}
+@{Uno.Enum:includeDirective}
+@{Uno.IndexOutOfRangeException:includeDirective}
+@{Uno.InvalidCastException:includeDirective}
+@{Uno.InvalidOperationException:includeDirective}
+@{Uno.NullReferenceException:includeDirective}
+@{Uno.TypeInitializationException:includeDirective}
+@{Uno.Type:includeDirective}
+@{Uno.ValueType:includeDirective}
 
 #ifdef DEBUG_GENERICS
 #include <sstream>

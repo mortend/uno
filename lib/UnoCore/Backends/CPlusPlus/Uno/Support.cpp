@@ -12,7 +12,7 @@
 #include <XliPlatform/GL.h>
 #include <XliPlatform/MessageBox.h>
 #include <mutex>
-@{byte:IncludeDirective}
+@{byte:includeDirective}
 
 #if ANDROID
 #include <android/log.h>

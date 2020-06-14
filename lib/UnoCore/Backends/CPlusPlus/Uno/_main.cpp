@@ -12,13 +12,13 @@
 #include <sstream>
 #include <string>
 #include <thread>
-@{Uno.Diagnostics.Clock:IncludeDirective}
-@{Uno.Exception:IncludeDirective}
-@{Uno.Platform.CoreApp:IncludeDirective}
-@{Uno.Platform.WindowBackend:IncludeDirective}
-@{Uno.Runtime.Implementation.Internal.Bootstrapper:IncludeDirective}
-@{Uno.Application:IncludeDirective}
-@{string:IncludeDirective}
+@{Uno.Diagnostics.Clock:includeDirective}
+@{Uno.Exception:includeDirective}
+@{Uno.Platform.CoreApp:includeDirective}
+@{Uno.Platform.WindowBackend:includeDirective}
+@{Uno.Runtime.Implementation.Internal.Bootstrapper:includeDirective}
+@{Uno.Application:includeDirective}
+@{string:includeDirective}
 
 #if WIN32
 #include <Uno/WinAPIHelper.h>

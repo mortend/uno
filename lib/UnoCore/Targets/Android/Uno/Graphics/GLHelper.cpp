@@ -2,7 +2,7 @@
 #include <Uno/JNIHelper.h>
 #include <uBase/Console.h>
 #include <jni.h>
-@{Uno.Exception:IncludeDirective}
+@{Uno.Exception:includeDirective}
 
 EGLDisplay GLHelper::_eglDisplay;
 

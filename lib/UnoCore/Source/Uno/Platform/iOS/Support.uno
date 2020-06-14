@@ -28,7 +28,7 @@ namespace Uno.Platform.iOS
     }
 
 
-    [Require("Source.Include", "@{Uno.Platform.iOS.Application:Include}")]
+    [Require("Source.Include", "@{Uno.Platform.iOS.Application:include}")]
     [Require("Source.Include", "Foundation/Foundation.h")]
     [Require("Source.Include", "CoreGraphics/CoreGraphics.h")]
     [Require("Source.Include", "UIKit/UIKit.h")]

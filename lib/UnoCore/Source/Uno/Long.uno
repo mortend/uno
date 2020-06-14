@@ -44,8 +44,8 @@ namespace Uno
 
         [extern(CPLUSPLUS) Require("Source.Include", "cctype")]
         [extern(CPLUSPLUS) Require("Source.Include", "errno.h")]
-        [extern(CPLUSPLUS) Require("Source.Include", "@{FormatException:Include}")]
-        [extern(CPLUSPLUS) Require("Source.Include", "@{OverflowException:Include}")]
+        [extern(CPLUSPLUS) Require("Source.Include", "@{FormatException:include}")]
+        [extern(CPLUSPLUS) Require("Source.Include", "@{OverflowException:include}")]
         public static long Parse(string str)
         {
             if (str == null)

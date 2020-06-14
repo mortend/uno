@@ -12,7 +12,7 @@
         <Require Source.Include="Source/pugixml.hpp" />
 
         <Method Signature="Parse(string):XmlNodeHandle">
-            <Require Source.Include="@{Uno.Data.Xml.XmlException:Include}" />
+            <Require Source.Include="@{Uno.Data.Xml.XmlException:include}" />
             <Body>
                 pugi::xml_document doc;
                 pugi::xml_parse_result parseResult = doc.load(uCString($0).Ptr, pugi::parse_full);

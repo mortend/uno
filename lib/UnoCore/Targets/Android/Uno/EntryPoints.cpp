@@ -6,12 +6,12 @@
 #include <Uno/JNIHelper.h>
 #include <Uno/Graphics/GLHelper.h>
 
-@{Android.Base.JNI:IncludeDirective}
-@{Uno.Platform.CoreApp:IncludeDirective}
-@{Uno.Platform.TimerEventArgs:IncludeDirective}
-@{Uno.Platform.EventSources.HardwareKeys:IncludeDirective}
-@{Uno.Platform.EventSources.InterAppInvoke:IncludeDirective}
-@{Uno.Compiler.ExportTargetInterop.Foreign.Android.ExternBlockHost:IncludeDirective}
+@{Android.Base.JNI:includeDirective}
+@{Uno.Platform.CoreApp:includeDirective}
+@{Uno.Platform.TimerEventArgs:includeDirective}
+@{Uno.Platform.EventSources.HardwareKeys:includeDirective}
+@{Uno.Platform.EventSources.InterAppInvoke:includeDirective}
+@{Uno.Compiler.ExportTargetInterop.Foreign.Android.ExternBlockHost:includeDirective}
 
 //void uStartApp();
 

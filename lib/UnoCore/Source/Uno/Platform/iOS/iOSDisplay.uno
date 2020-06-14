@@ -9,7 +9,7 @@ namespace Uno.Platform
     [Require("Source.Include", "Uno-iOS/AppDelegate.h")]
     [Require("Source.Include", "Window.h")]
     [Require("Source.Include", "Uno-iOS/Context.h")]
-    [Require("Source.Include", "@{Uno.Platform.iOSDisplay:Include}")]
+    [Require("Source.Include", "@{Uno.Platform.iOSDisplay:include}")]
     public extern(iOS) class iOSDisplay : Uno.Platform.Display
     {
         ObjC.Object _displayLink = null;

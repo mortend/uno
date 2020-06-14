@@ -4,8 +4,8 @@
     <Using Namespace="Android.Base.Primitives" />
 
     <Type Name="Android.Base.Wrappers.JWrapper">
-        <Require Header.Include="@{Android.Base.JNI:Include}" />
-        <Require Header.Include="@{Uno.Exception:Include}" />
+        <Require Header.Include="@{Android.Base.JNI:include}" />
+        <Require Header.Include="@{Uno.Exception:include}" />
 
         <Require Entity="IJWrapper._GetJavaObject()" />
         <Require Entity="IJWrapper._IsSubclassed()" />
@@ -36,7 +36,7 @@
         <Require Entity="Android.Base.Primitives.jfieldID" />
         <Require Entity="Android.Base.AndroidBindingMacros" />
         <Require Entity="JNI.LoadClass(JNIEnvPtr,ConstCharPtr)" />
-        <Require Header.Include="@{Android.Base.AndroidBindingMacros:Include}" />
+        <Require Header.Include="@{Android.Base.AndroidBindingMacros:include}" />
         <Require Header.Declaration>
         //~
         #define MAYBEPROXIFYARG(NUM,ID,NEW) bool subclassed ## NUM = (!ID) ? false : (@{Android.Base.Wrappers.IJWrapper:Of(ID)._IsSubclassed():Call()}); jobject _iProx ## NUM = (!ID) ? nullptr : (subclassed ## NUM ? NEW : @{Android.Base.Wrappers.IJWrapper:Of(ID)._GetJavaObject():Call()});

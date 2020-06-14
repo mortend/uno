@@ -1,7 +1,7 @@
 #include <Uno/Uno.h>
 #include <Uno-iOS/Uno-iOS.h>
 #include <Window.h>
-@{Uno.Platform.iOSDisplay:IncludeDirective}
+@{Uno.Platform.iOSDisplay:includeDirective}
 
 @implementation uWindow
 - (void)setFrame:(CGRect)frame

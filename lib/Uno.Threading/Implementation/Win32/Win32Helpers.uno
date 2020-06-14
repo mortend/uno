@@ -23,7 +23,7 @@ namespace Uno.Threading
         }
 
         [Require("Source.Include", "Uno/WinAPIHelper.h")]
-        [Require("Source.Include", "@{Uno.Exception:Include}")]
+        [Require("Source.Include", "@{Uno.Exception:include}")]
         public static MutexHandle CreateMutex()
         @{
             HANDLE mutexHandle = ::CreateMutexW(nullptr, false, nullptr);

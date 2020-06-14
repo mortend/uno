@@ -1,8 +1,8 @@
 #include <Uno/Uno.h>
 
-#include <@{Uno.Byte:Include}>
-#include <@{Uno.String:Include}>
-#include <@{Uno.Net.Http.HttpMessageHandlerRequest:Include}>
+#include <@{Uno.Byte:include}>
+#include <@{Uno.String:include}>
+#include <@{Uno.Net.Http.HttpMessageHandlerRequest:include}>
 
 #include <Foundation/Foundation.h>
 

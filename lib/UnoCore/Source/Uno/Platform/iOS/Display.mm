@@ -4,9 +4,9 @@
 #include <Uno-iOS/AppDelegate.h>
 #include <Uno-iOS/Uno-iOS.h>
 
-#include <@{Uno.Platform.Displays:Include}>
-#include <@{Uno.Platform.TimerEventArgs:Include}>
-#include <@{Uno.Diagnostics.Clock:Include}>
+#include <@{Uno.Platform.Displays:include}>
+#include <@{Uno.Platform.TimerEventArgs:include}>
+#include <@{Uno.Diagnostics.Clock:include}>
 
 @implementation uDisplayTickNotifier
 - (void)uOnDisplayTick:(CADisplayLink *)sender

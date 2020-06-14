@@ -24,7 +24,7 @@
         <Require Header.Include="android/log.h" />
         <Require Header.Include="jni.h" />
         <Require Header.Include="Uno/JNIHelper.h" />
-        <Require Header.Include="@{Uno.Exception:Include}" />
+        <Require Header.Include="@{Uno.Exception:include}" />
         <Require Entity="Android.Base.Types.Bridge" />
         <Require Entity="Android.Base.Types.ByteBuffer" />
         <Require Entity="Android.Base.Types.String" />
@@ -409,8 +409,8 @@
     <Type Name="AndroidBindingMacros">
         <Require Header.Declaration>
         #include <jni.h>
-        #include <@{Uno.Type:Include}>
-        #include <@{Uno.Exception:Include}>
+        #include <@{Uno.Type:include}>
+        #include <@{Uno.Exception:include}>
 
         #define U_JNIVAR jni
         #define U_JOBJECT @{Android.Base.Primitives.ujobject}

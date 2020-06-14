@@ -6,8 +6,8 @@
 #include <Uno/Support.h>
 #include <string>
 #include <sstream>
-@{Uno.Type:IncludeDirective}
-@{string:IncludeDirective}
+@{Uno.Type:includeDirective}
+@{string:includeDirective}
 
 static bool _Initialized;
 static std::mutex _Mutex;

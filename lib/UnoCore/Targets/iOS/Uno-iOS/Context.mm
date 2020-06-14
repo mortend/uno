@@ -1,9 +1,9 @@
 #include <Uno-iOS/Context.h>
 #include <Uno-iOS/Uno-iOS.h>
 #include <uObjC.Foreign.h>
-@{Uno.Platform.CoreApp:IncludeDirective}
-@{Uno.Platform.iOS.Application:IncludeDirective}
-@{Uno.Platform.EventSources.InterAppInvoke:IncludeDirective}
+@{Uno.Platform.CoreApp:includeDirective}
+@{Uno.Platform.iOS.Application:includeDirective}
+@{Uno.Platform.EventSources.InterAppInvoke:includeDirective}
 @(uContext.SourceFile.Declaration:join())
 
 @interface uContext()

@@ -6,8 +6,8 @@
     <Type Name="Bridge">
         <ProcessFile Name="UnoHelper.java" TargetName="@(Java.SourceDirectory)/com/foreign/UnoHelper.java" />
         <Require Header.Include="android/log.h" />
-        <Require Header.Include="@{Android.Base.JNI:Include}" />
-        <Require Header.Include="@{Uno.Exception:Include}" />
+        <Require Header.Include="@{Android.Base.JNI:include}" />
+        <Require Header.Include="@{Uno.Exception:include}" />
 
         <Method Signature="Init()">
             <Body>
@@ -90,7 +90,7 @@
 
     <Type Name="ByteBuffer">
         <Require Header.Include="android/log.h" />
-        <Require Header.Include="@{Android.Base.JNI:Include}" />
+        <Require Header.Include="@{Android.Base.JNI:include}" />
 
         <Method Signature="NewDirectByteBuffer(byte[]):ujobject">
             <Body>
@@ -147,7 +147,7 @@
 
     <Type Name="String">
         <Require Header.Include="android/log.h" />
-        <Require Header.Include="@{Android.Base.JNI:Include}" />
+        <Require Header.Include="@{Android.Base.JNI:include}" />
 
         <Method Signature="JavaToUno(JNIEnvPtr,ujobject):string">
             <Body>
@@ -177,7 +177,7 @@
 
     <Type Name="Arrays">
         <Require Header.Include="android/log.h" />
-        <Require Header.Include="@{Android.Base.JNI:Include}" />
+        <Require Header.Include="@{Android.Base.JNI:include}" />
 
         <Method Signature="JavaToUnoBoolArray(ujobject,long):bool[]">
             <Body>

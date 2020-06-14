@@ -1,12 +1,12 @@
 ﻿<Extensions Backend="CPlusPlus" Condition="ANDROID">
     <Using Namespace="Android.com.fuse.ExperimentalHttp" />
     <Type Name="HttpRequest">
-        <Require Source.Include="@{Android.Base.AndroidBindingMacros:Include}" />
-        <Require Android.Bindings.Bootstrapper.Include="#include <@{Android.com.fuse.ExperimentalHttp.HttpRequest:Include}>" />
+        <Require Source.Include="@{Android.Base.AndroidBindingMacros:include}" />
+        <Require Android.Bindings.Bootstrapper.Include="#include <@{Android.com.fuse.ExperimentalHttp.HttpRequest:include}>" />
         <Require Android.Bindings.Bootstrapper.Statement="@{Android.Base.Types.Bridge.RegisterUnoType(Android.Base.Primitives.ConstCharPtr,int,Uno.Type):Call(&quot;com.fuse.ExperimentalHttp.HttpRequest&quot;,37,@{Android.com.fuse.ExperimentalHttp.HttpRequest:TypeOf})};" />
-        <Require Source.Include="@{Android.Base.Wrappers.JWrapper:Include}" />
-        <Require Source.Include="@{Android.Base.JNI:Include}" />
-        <Require Source.Include="@{Uno.Exception:Include}" />
+        <Require Source.Include="@{Android.Base.Wrappers.JWrapper:include}" />
+        <Require Source.Include="@{Android.Base.JNI:include}" />
+        <Require Source.Include="@{Uno.Exception:include}" />
         <Method Signature="HttpResponseTypeNone_GET_44276():int">
             <Body>
 INIT_JNI;
