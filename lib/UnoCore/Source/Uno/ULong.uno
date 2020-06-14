@@ -63,10 +63,10 @@ namespace Uno
                     end++;
 
                 if (strchr(trimmed, '-'))
-                    U_THROW(@{OverflowException(string):New(uString::Const("Value was either too large or too small for ulong"))});
+                    U_THROW(@{OverflowException(string):new(uString::Const("Value was either too large or too small for ulong"))});
 
                 if (!strlen(trimmed) || strlen(end))
-                    U_THROW(@{FormatException(string):New(uString::Const("Unable to convert string to ulong"))});
+                    U_THROW(@{FormatException(string):new(uString::Const("Unable to convert string to ulong"))});
 
                 return (uint64_t)retval;
             @}

@@ -12,7 +12,7 @@ template<class ReturnType, class... Params>
 
 inline uDelegate* NewUnoDelegate(uType* type, const void* func, uObject* object)
 {
-    return object == nullptr ? nullptr : uDelegate::New(type, func, object);
+    return object == nullptr ? nullptr : uDelegate::new(type, func, object);
 }
 
 }

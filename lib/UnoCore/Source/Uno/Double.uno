@@ -94,10 +94,10 @@ namespace Uno
                     end++;
 
                 if (errno == ERANGE)
-                    U_THROW(@{OverflowException(string):New(uString::Const("Value was either too large or too small for double"))});
+                    U_THROW(@{OverflowException(string):new(uString::Const("Value was either too large or too small for double"))});
 
                 if (!strlen(trimmed) || strlen(end))
-                    U_THROW(@{FormatException(string):New(uString::Const("Unable to convert string to double"))});
+                    U_THROW(@{FormatException(string):new(uString::Const("Unable to convert string to double"))});
 
                 return retval;
             @}

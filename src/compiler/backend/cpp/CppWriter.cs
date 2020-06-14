@@ -882,7 +882,7 @@ namespace Uno.Compiler.Backends.CPlusPlus
 
         public override void WriteNewDelegate(NewDelegate s, ExpressionUsage u)
         {
-            Write("uDelegate::New(" + GetTypeOf(s.ReturnType));
+            Write("uDelegate::new(" + GetTypeOf(s.ReturnType));
 
             if (!s.Method.IsVirtual || s.Object is Base)
             {
@@ -1003,7 +1003,7 @@ namespace Uno.Compiler.Backends.CPlusPlus
 
         public override void WriteNewArray(Source src, ArrayType type, Expression size, ExpressionUsage u)
         {
-            Write("uArray::New(" + GetTypeOf(type) + ", ");
+            Write("uArray::new(" + GetTypeOf(type) + ", ");
             WriteExpression(size);
             Write(")");
         }

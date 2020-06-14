@@ -108,13 +108,13 @@ namespace Uno.Permissions
         [Foreign(Language.Java), ForeignFixedName]
         static void permissionRequestSucceeded(object x)
         @{
-            @{Succeeded(object):Call(x)};
+            @{Succeeded(object):call(x)};
         @}
 
         [Foreign(Language.Java), ForeignFixedName]
         static void permissionRequestFailed(object x)
         @{
-            @{Failed(object):Call(x)};
+            @{Failed(object):call(x)};
         @}
 
         public static extern(android) class Android

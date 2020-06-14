@@ -82,9 +82,9 @@ void uInitObjectModel()
     _ObjectTypePtr->Type = uTypeTypeClass;
     _ObjectTypePtr->FullName = "Uno.Object";
     _ObjectTypePtr->TypeSize = sizeof(uType);
-    _ObjectTypePtr->fp_Equals = @{object.Equals(object):Function};
-    _ObjectTypePtr->fp_GetHashCode = @{object.GetHashCode():Function};
-    _ObjectTypePtr->fp_ToString = @{object.ToString():Function};
+    _ObjectTypePtr->fp_Equals = @{object.Equals(object):function};
+    _ObjectTypePtr->fp_GetHashCode = @{object.GetHashCode():function};
+    _ObjectTypePtr->fp_ToString = @{object.ToString():function};
     _ObjectTypePtr->__retains = 1;
 
     memcpy(_VoidTypePtr, _ObjectTypePtr, sizeof(uType));
@@ -95,15 +95,15 @@ void uInitObjectModel()
     _ObjectTypePtr->ObjectSize = sizeof(uObject);
     _ObjectTypePtr->ValueSize = sizeof(uObject*);
     _ObjectTypePtr->Alignment = alignof(uObject*);
-    _ObjectTypePtr->__type = @{Uno.Type:TypeOf};
-    _VoidTypePtr->__type = @{Uno.Type:TypeOf};
-    _ByteTypePtr = @{byte:TypeOf};
-    _SByteTypePtr = @{sbyte:TypeOf};
-    _BoolTypePtr = @{bool:TypeOf};
-    _ShortTypePtr = @{short:TypeOf};
-    _UShortTypePtr = @{ushort:TypeOf};
-    _CharTypePtr = @{char:TypeOf};
-    _FloatTypePtr = @{float:TypeOf};
+    _ObjectTypePtr->__type = @{Uno.Type:typeof};
+    _VoidTypePtr->__type = @{Uno.Type:typeof};
+    _ByteTypePtr = @{byte:typeof};
+    _SByteTypePtr = @{sbyte:typeof};
+    _BoolTypePtr = @{bool:typeof};
+    _ShortTypePtr = @{short:typeof};
+    _UShortTypePtr = @{ushort:typeof};
+    _CharTypePtr = @{char:typeof};
+    _FloatTypePtr = @{float:typeof};
 }
 
 void uFreeObjectModel()
@@ -133,7 +133,7 @@ static uType* uNewType(uint32_t type, const char* name, const uTypeOptions& opti
         (uType*)uNew(
             isType
                 ? _ObjectTypePtr
-                : @{Uno.Type:TypeOf},
+                : @{Uno.Type:typeof},
             options.TypeSize
                 + options.GenericCount * sizeof(uType*)
                 + options.MethodTypeCount * sizeof(uType*)
@@ -341,7 +341,7 @@ uArrayType* uType::Array()
     options.ObjectSize = sizeof(uArray);
     options.ValueSize = sizeof(uArray*);
     options.Alignment = alignof(uArray*);
-    options.BaseDefinition = @{Uno.Array:TypeOf};
+    options.BaseDefinition = @{Uno.Array:typeof};
     uArrayType* type = (uArrayType*)uNewType(uTypeTypeArray, name, options);
     type->Definition = type;
     type->ElementType = this;
@@ -732,7 +732,7 @@ uType* uType::MakeType(uType* first, ...)
     return uGetParameterization(key);
 }
 
-uObject* uType::New()
+uObject* uType::new()
 {
     if (!U_IS_OBJECT(this) ||
             !fp_ctor_)
@@ -804,7 +804,7 @@ void uType::Init()
         }
         catch (const uThrowable& t)
         {
-            U_THROW(@{Uno.TypeInitializationException(string, Uno.Exception):New(uString::Utf8(FullName), t.Exception)});
+            U_THROW(@{Uno.TypeInitializationException(string, Uno.Exception):new(uString::Utf8(FullName), t.Exception)});
         }
 
         for (size_t i = 0; i < DependencyCount; i++)
@@ -838,8 +838,8 @@ void uInitRtti(uType*(*factories[])())
     // Init char & string
     _VoidTypePtr->Init();
     _ObjectTypePtr->Init();
-    @{char:TypeOf}->Init();
-    @{string:TypeOf}->Init();
+    @{char:typeof}->Init();
+    @{string:typeof}->Init();
 }
 
 bool uType::IsClosed()
@@ -929,7 +929,7 @@ bool uType::Is(const uType* type) const
     return false;
 }
 
-uClassType* uClassType::New(const char* name, uTypeOptions& options)
+uClassType* uClassType::new(const char* name, uTypeOptions& options)
 {
     if (options.ObjectSize)
     {
@@ -1062,7 +1062,7 @@ uString* uString::CharArray(const uArray* array)
     if (!array)
         return New(0);
 
-    U_ASSERT(array->GetType() == @{char[]:TypeOf});
+    U_ASSERT(array->GetType() == @{char[]:typeof});
 
     uString* string = New(array->Length());
     memcpy(string->_ptr, array->Ptr(), sizeof(char16_t) * array->Length());
@@ -1072,15 +1072,15 @@ uString* uString::CharArray(const uArray* array)
 uString* uString::CharArrayRange(const uArray* array, size_t startIndex, size_t length)
 {
     if (!array)
-        throw uThrowable(@{Uno.ArgumentNullException(string):New(uString::Utf8("array"))}, __FILE__, __LINE__);
+        throw uThrowable(@{Uno.ArgumentNullException(string):new(uString::Utf8("array"))}, __FILE__, __LINE__);
 
     if (startIndex > array->_length)
-        throw uThrowable(@{Uno.ArgumentOutOfRangeException(string):New(uString::Utf8("startIndex"))}, __FILE__, __LINE__);
+        throw uThrowable(@{Uno.ArgumentOutOfRangeException(string):new(uString::Utf8("startIndex"))}, __FILE__, __LINE__);
 
     if (startIndex + length > array->_length)
-        throw uThrowable(@{Uno.ArgumentOutOfRangeException(string):New(uString::Utf8("length"))}, __FILE__, __LINE__);
+        throw uThrowable(@{Uno.ArgumentOutOfRangeException(string):new(uString::Utf8("length"))}, __FILE__, __LINE__);
 
-    U_ASSERT(array->GetType() == @{char[]:TypeOf});
+    U_ASSERT(array->GetType() == @{char[]:typeof});
 
     uString* string = New(length);
     memcpy(string->_ptr, (char16_t*)array->Ptr() + startIndex, sizeof(char16_t) * length);
@@ -1106,7 +1106,7 @@ static bool uCompareCharStrings(const char16_t* a, const char16_t* b, size_t len
     if (ignoreCase)
     {
         for (size_t i = 0; i < length; i++)
-            if (a[i] != b[i] && @{char.ToUpper(char):Call(a[i])} != @{char.ToUpper(char):Call(b[i])})
+            if (a[i] != b[i] && @{char.ToUpper(char):call(a[i])} != @{char.ToUpper(char):call(b[i])})
                 return false;
 
         return true;
@@ -1186,7 +1186,7 @@ void uFreeCStr(const char* cstr)
     free((void*)cstr);
 }
 
-uEnumType* uEnumType::New(const char* name, uType* base, size_t literalCount)
+uEnumType* uEnumType::new(const char* name, uType* base, size_t literalCount)
 {
     U_ASSERT(base);
     uTypeOptions options;
@@ -1200,9 +1200,9 @@ uEnumType* uEnumType::New(const char* name, uType* base, size_t literalCount)
     type->Base = base;
     type->LiteralCount = literalCount;
     type->Literals = (uEnumLiteral*)((uint8_t*)type + sizeof(uEnumType));
-    type->fp_GetHashCode = @{Uno.ValueType.GetHashCode():Function};
-    type->fp_Equals = @{Uno.ValueType.Equals(object):Function};
-    type->fp_ToString = @{Uno.Enum.ToString():Function};
+    type->fp_GetHashCode = @{Uno.ValueType.GetHashCode():function};
+    type->fp_Equals = @{Uno.ValueType.Equals(object):function};
+    type->fp_ToString = @{Uno.Enum.ToString():function};
 
 #if @(REFLECTION:defined)
     uRegisterType(type);
@@ -1324,7 +1324,7 @@ static void uStruct_GetHashCode(uObject* object, int32_t* result)
     uStructType* type = (uStructType*)object->__type;
     type->fp_GetHashCode_struct
         ? (*type->fp_GetHashCode_struct)((uint8_t*)object + sizeof(uObject), type, result)
-        : @{Uno.ValueType.GetHashCode():Function}(object, result);
+        : @{Uno.ValueType.GetHashCode():function}(object, result);
 }
 
 static void uStruct_Equals(uObject* obj1, uObject* obj2, bool* result)
@@ -1333,7 +1333,7 @@ static void uStruct_Equals(uObject* obj1, uObject* obj2, bool* result)
     uStructType* type = (uStructType*)obj1->__type;
     type->fp_Equals_struct
         ? (*type->fp_Equals_struct)((uint8_t*)obj1 + sizeof(uObject), type, obj2, result)
-        : @{Uno.ValueType.Equals(object):Function}(obj1, obj2, result);
+        : @{Uno.ValueType.Equals(object):function}(obj1, obj2, result);
 }
 
 static void uStruct_ToString(uObject* object, uString** result)
@@ -1342,10 +1342,10 @@ static void uStruct_ToString(uObject* object, uString** result)
     uStructType* type = (uStructType*)object->__type;
     type->fp_ToString_struct
         ? (*type->fp_ToString_struct)((uint8_t*)object + sizeof(uObject), type, result)
-        : @{object.ToString():Function}(object, result);
+        : @{object.ToString():function}(object, result);
 }
 
-uStructType* uStructType::New(const char* name, uTypeOptions& options)
+uStructType* uStructType::new(const char* name, uTypeOptions& options)
 {
     options.ObjectSize = options.ValueSize + sizeof(uObject);
     options.BaseDefinition = _ObjectTypePtr;
@@ -1440,7 +1440,7 @@ void uUnboxPtr(uType* type, uObject* object, void* dst)
     }
 }
 
-uInterfaceType* uInterfaceType::New(const char* name, size_t genericCount, size_t methodCount)
+uInterfaceType* uInterfaceType::new(const char* name, size_t genericCount, size_t methodCount)
 {
     uTypeOptions options;
     options.GenericCount = genericCount;
@@ -1482,7 +1482,7 @@ const void* uType::InterfacePtr(const uObject* object)
     U_FATAL();
 }
 
-uDelegateType* uDelegateType::New(const char* name, size_t paramCount, size_t genericCount)
+uDelegateType* uDelegateType::new(const char* name, size_t paramCount, size_t genericCount)
 {
     uTypeOptions options;
     options.GenericCount = genericCount;
@@ -1490,7 +1490,7 @@ uDelegateType* uDelegateType::New(const char* name, size_t paramCount, size_t ge
     options.ObjectSize = sizeof(uDelegate);
     options.ValueSize = sizeof(uDelegate*);
     options.Alignment = alignof(uDelegate*);
-    options.BaseDefinition = @{Uno.Delegate:TypeOf};
+    options.BaseDefinition = @{Uno.Delegate:typeof};
 
     uDelegateType* type = (uDelegateType*)uNewType(uTypeTypeDelegate, name, options);
     type->ParameterCount = paramCount;
@@ -1691,7 +1691,7 @@ uDelegate* uDelegate::Copy()
     return delegate;
 }
 
-uDelegate* uDelegate::New(uType* type, const void* func, uObject* object, uType* generic)
+uDelegate* uDelegate::new(uType* type, const void* func, uObject* object, uType* generic)
 {
     U_ASSERT(func);
     uDelegate* delegate = (uDelegate*)uNew(type);
@@ -1704,7 +1704,7 @@ uDelegate* uDelegate::New(uType* type, const void* func, uObject* object, uType*
     return delegate;
 }
 
-uDelegate* uDelegate::New(uType* type, uObject* object, size_t offset, uType* generic)
+uDelegate* uDelegate::new(uType* type, uObject* object, size_t offset, uType* generic)
 {
     U_ASSERT(offset && offset < 0xffff); // Max ‭8191‬ virtual functions is enough for now
     uDelegate* result = New(type, *(void**)((uint8_t*)uPtr(object)->GetType() + offset), object, generic);
@@ -1712,7 +1712,7 @@ uDelegate* uDelegate::New(uType* type, uObject* object, size_t offset, uType* ge
     return result;
 }
 
-uDelegate* uDelegate::New(uType* type, const uInterface& iface, size_t offset, uType* generic)
+uDelegate* uDelegate::new(uType* type, const uInterface& iface, size_t offset, uType* generic)
 {
     U_ASSERT(iface._object && iface._vtable);
     return New(type, iface._object, (size_t)((uint8_t*)iface._vtable - (uint8_t*)iface._object->__type) + offset, generic);
@@ -1785,7 +1785,7 @@ uArray* uArray::InitT(uType* type, size_t length, ...)
     return array;
 }
 
-uArray* uArray::New(uType* type, size_t length, const void* optionalData)
+uArray* uArray::new(uType* type, size_t length, const void* optionalData)
 {
     U_ASSERT(type && type->Type == uTypeTypeArray);
     uArrayType* arrayType = (uArrayType*)type;
@@ -1817,12 +1817,12 @@ const char* uThrowable::what() const throw()
 
 void uThrowable::ThrowNullReference(const char* file, int line)
 {
-    throw uThrowable(@{Uno.NullReferenceException():New()}, file, line);
+    throw uThrowable(@{Uno.NullReferenceException():new()}, file, line);
 }
 
 void uThrowable::ThrowInvalidCast(const char* file, int line)
 {
-    throw uThrowable(@{Uno.InvalidCastException():New()}, file, line);
+    throw uThrowable(@{Uno.InvalidCastException():new()}, file, line);
 }
 
 void uThrowable::ThrowInvalidCast(const uType* from, const uType* to, const char* file, int line)
@@ -1830,17 +1830,17 @@ void uThrowable::ThrowInvalidCast(const uType* from, const uType* to, const char
     std::string fromType = from ? from->FullName : "<Unknown type>";
     std::string toType = to ? to->FullName : "<Unknown type>";
     std::string message = "Unable to cast object of type '" + fromType + "' to type '" + toType + "'.";
-    throw uThrowable(@{Uno.InvalidCastException(string):New(uString::Utf8(message.c_str(), message.length()))}, file, line);
+    throw uThrowable(@{Uno.InvalidCastException(string):new(uString::Utf8(message.c_str(), message.length()))}, file, line);
 }
 
 void uThrowable::ThrowInvalidOperation(const char* message, const char* file, int line)
 {
-    throw uThrowable(@{Uno.InvalidOperationException(string):New(uString::Utf8(message))}, file, line);
+    throw uThrowable(@{Uno.InvalidOperationException(string):new(uString::Utf8(message))}, file, line);
 }
 
 void uThrowable::ThrowIndexOutOfRange(const char* file, int line)
 {
-    throw uThrowable(@{Uno.IndexOutOfRangeException():New()}, file, line);
+    throw uThrowable(@{Uno.IndexOutOfRangeException():new()}, file, line);
 }
 
 // Type specific operators

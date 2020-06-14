@@ -33,7 +33,7 @@ public:
                     return;
 
                 uAutoReleasePool pool;
-                @{Uno.Net.Http.HttpMessageHandlerRequest:Of(unoRequest).OnDone():Call()};
+                @{Uno.Net.Http.HttpMessageHandlerRequest:of(unoRequest).OnDone():call()};
                 CompleteUnoRequest(request);
                 break;
             }
@@ -47,7 +47,7 @@ public:
                     return;
 
                 uAutoReleasePool pool;
-                @{Uno.Net.Http.HttpMessageHandlerRequest:Of(unoRequest).OnHeadersReceived():Call()};
+                @{Uno.Net.Http.HttpMessageHandlerRequest:of(unoRequest).OnHeadersReceived():call()};
                 break;
             }
 
@@ -66,7 +66,7 @@ public:
             return;
 
         uAutoReleasePool pool;
-        @{Uno.Net.Http.HttpMessageHandlerRequest:Of(unoRequest).OnProgress(int,int,bool):Call(position, total, totalKnown)};
+        @{Uno.Net.Http.HttpMessageHandlerRequest:of(unoRequest).OnProgress(int,int,bool):call(position, total, totalKnown)};
     }
 
     virtual void OnRequestAborted(Xli::HttpRequest* request)
@@ -78,7 +78,7 @@ public:
             return;
 
         uAutoReleasePool pool;
-        @{Uno.Net.Http.HttpMessageHandlerRequest:Of(unoRequest).OnAborted():Call()};
+        @{Uno.Net.Http.HttpMessageHandlerRequest:of(unoRequest).OnAborted():call()};
         CompleteUnoRequest(request);
     }
 
@@ -91,7 +91,7 @@ public:
             return;
 
         uAutoReleasePool pool;
-        @{Uno.Net.Http.HttpMessageHandlerRequest:Of(unoRequest).OnTimeout():Call()};
+        @{Uno.Net.Http.HttpMessageHandlerRequest:of(unoRequest).OnTimeout():call()};
         CompleteUnoRequest(request);
     }
 
@@ -104,7 +104,7 @@ public:
             return;
 
         uAutoReleasePool pool;
-        @{Uno.Net.Http.HttpMessageHandlerRequest:Of(unoRequest).OnError(string):Call(uString::Utf8(message.Ptr()))};
+        @{Uno.Net.Http.HttpMessageHandlerRequest:of(unoRequest).OnError(string):call(uString::Utf8(message.Ptr()))};
         CompleteUnoRequest(request);
     }
 };

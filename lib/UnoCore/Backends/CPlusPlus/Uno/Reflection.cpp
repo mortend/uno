@@ -32,13 +32,13 @@ void uRegisterType(uType* type)
 
 void uRegisterIntrinsics()
 {
-    @{object:TypeOf}->Reflection.SetFunctions(3,
-        new uFunction("Equals", nullptr, nullptr, offsetof(uType, fp_Equals), false, @{bool:TypeOf}, 1, @{object:TypeOf}),
-        new uFunction("GetHashCode", nullptr, nullptr, offsetof(uType, fp_GetHashCode), false, @{int:TypeOf}),
-        new uFunction("ToString", nullptr, nullptr, offsetof(uType, fp_ToString), false, @{string:TypeOf}));
+    @{object:typeof}->Reflection.SetFunctions(3,
+        new uFunction("Equals", nullptr, nullptr, offsetof(uType, fp_Equals), false, @{bool:typeof}, 1, @{object:typeof}),
+        new uFunction("GetHashCode", nullptr, nullptr, offsetof(uType, fp_GetHashCode), false, @{int:typeof}),
+        new uFunction("ToString", nullptr, nullptr, offsetof(uType, fp_ToString), false, @{string:typeof}));
 
-    uRegisterType(@{object:TypeOf});
-    uRegisterType(@{void:TypeOf});
+    uRegisterType(@{object:typeof});
+    uRegisterType(@{void:typeof});
 }
 
 void uBuildReflection(uType* type)
@@ -64,7 +64,7 @@ void uBuildReflection(uType* type)
     for (size_t i = 0; i < def->Reflection.FunctionCount; i++)
     {
         uFunction* f = def->Reflection.Functions[i];
-        uArray* paramTypes = @{Uno.Type[]:New(f->ParameterTypes->Length())};
+        uArray* paramTypes = @{Uno.Type[]:new(f->ParameterTypes->Length())};
 
         for (int32_t j = 0; j < paramTypes->Length(); j++)
             paramTypes->UnsafeStrong<uType*>(j) = uGetParameterized(f->ParameterTypes->Unsafe<uType*>(j), type);
@@ -95,7 +95,7 @@ uType* uReflection::GetType(uString* name)
 
 uArray* uReflection::GetTypes()
 {
-    uArray* result = @{Uno.Type[]:New(_Types->size())};
+    uArray* result = @{Uno.Type[]:new(_Types->size())};
     int32_t i = 0;
 
     for (auto it = _Types->begin(); it != _Types->end(); ++it)
@@ -246,7 +246,7 @@ uFunction::uFunction(const char* name, uType* generic, const void* func, size_t 
     Name = uString::Const(name);
     Generic = generic;
     ReturnType = returnType;
-    ParameterTypes = @{Uno.Type[]:New(paramCount)};
+    ParameterTypes = @{Uno.Type[]:new(paramCount)};
     Flags = 0;
 
     if (func)
@@ -317,10 +317,10 @@ uDelegate* uFunction::CreateDelegate(uType* type, uObject* object)
     U_ASSERT(DeclaringType);
     DeclaringType->Init();
     return DeclaringType->Type == uTypeTypeInterface
-            ? uDelegate::New(type, uInterface(object, DeclaringType), _offset, Generic) :
+            ? uDelegate::new(type, uInterface(object, DeclaringType), _offset, Generic) :
         Flags & uFunctionFlagsVirtual
-            ? uDelegate::New(type, object, _offset, Generic)
-            : uDelegate::New(type, _func, Flags & uFunctionFlagsStatic ? nullptr : uPtr(object), Generic);
+            ? uDelegate::new(type, object, _offset, Generic)
+            : uDelegate::new(type, _func, Flags & uFunctionFlagsStatic ? nullptr : uPtr(object), Generic);
 }
 
 uObject* uFunction::Invoke(uObject* object, uArray* args)

@@ -64,10 +64,10 @@ namespace Uno
                     end++;
 
                 if (errno == ERANGE)
-                    U_THROW(@{OverflowException(string):New(uString::Const("Value was either too large or too small for long"))});
+                    U_THROW(@{OverflowException(string):new(uString::Const("Value was either too large or too small for long"))});
 
                 if (!strlen(trimmed) || strlen(end))
-                    U_THROW(@{FormatException(string):New(uString::Const("Unable to convert string to long"))});
+                    U_THROW(@{FormatException(string):new(uString::Const("Unable to convert string to long"))});
 
                 return (int64_t)retval;
             @}

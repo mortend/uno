@@ -155,7 +155,7 @@ namespace Uno
             UuidCreate(&guid);
             // relies of msvc's ulong being the same size as uno's int
             // https://msdn.microsoft.com/en-us/library/s3f49ktz.aspx
-            return @{Uno.Guid(uint, ushort, ushort, byte, byte, byte, byte, byte, byte, byte, byte):New(
+            return @{Uno.Guid(uint, ushort, ushort, byte, byte, byte, byte, byte, byte, byte, byte):new(
                     (@{uint})guid.Data1,
                     (@{ushort})guid.Data2,
                     (@{ushort})guid.Data3,
@@ -183,7 +183,7 @@ namespace Uno
             buffer.order(java.nio.ByteOrder.BIG_ENDIAN);
             buffer.putLong(guid.getLeastSignificantBits());
             byte[] result = buffer.array();
-            return @{Guid(byte[]):New(new ByteArray(result))};
+            return @{Guid(byte[]):new(new ByteArray(result))};
         @}
 
         [Require("Source.Include", "Foundation/Foundation.h")]
@@ -193,7 +193,7 @@ namespace Uno
             NSUUID* guid = [[NSUUID alloc] init];
             unsigned char buf[16];
             [guid getUUIDBytes:buf];
-            return @{Uno.Guid(uint, ushort, ushort, byte, byte, byte, byte, byte, byte, byte, byte):New(
+            return @{Uno.Guid(uint, ushort, ushort, byte, byte, byte, byte, byte, byte, byte, byte):new(
                               (@{uint})CFSwapInt32(*(uint32_t*)&buf),
                               (@{ushort})CFSwapInt16(*(uint16_t*)&buf[4]),
                               (@{ushort})CFSwapInt16(*(uint16_t*)&buf[6]),
@@ -214,7 +214,7 @@ namespace Uno
         @{
             unsigned char buf[16];
             uuid_generate_time_safe(buf);
-            return @{Uno.Guid(uint, ushort, ushort, byte, byte, byte, byte, byte, byte, byte, byte):New(
+            return @{Uno.Guid(uint, ushort, ushort, byte, byte, byte, byte, byte, byte, byte, byte):new(
                               (@{uint})*(uint32_t*)&buf,
                               (@{ushort})*(uint16_t*)&buf[4],
                               (@{ushort})*(uint16_t*)&buf[6],

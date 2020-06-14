@@ -50,7 +50,7 @@ namespace Uno.Compiler.Foreign.Java
 
 		string InterceptField(string macroText, string expansionResult, Field field, object callArgs)
         {
-            var isGetter = !macroText.Contains(":Set(");
+            var isGetter = !macroText.Contains(":set(");
 			var ufunc = new ForeignMacroExpr(field, isGetter, Convert, Helpers);
 			var entrypointName = Convert.Name.GenNativeFieldName(field, isGetter);
 
@@ -72,7 +72,7 @@ namespace Uno.Compiler.Foreign.Java
 
         string InterceptProperty(string macroText, string expansionResult, Property property, object callArgs)
         {
-            var isGetter = !macroText.Contains(":Set(");
+            var isGetter = !macroText.Contains(":set(");
 			var ufunc = new ForeignMacroExpr(property, isGetter, Convert, Helpers);
             var entrypointName = Convert.Name.GenNativePropertyName(property, isGetter);
 

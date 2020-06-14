@@ -397,7 +397,7 @@ namespace Uno.IO
         {
             get
             @{
-                @{$$.CheckDisposed():Call()};
+                @{$$.CheckDisposed():call()};
                 return AAsset_getLength(@{$$._fp});
             @}
         }
@@ -406,12 +406,12 @@ namespace Uno.IO
         {
             get
             @{
-                @{$$.CheckDisposed():Call()};
+                @{$$.CheckDisposed():call()};
                 return AAsset_getLength(@{$$._fp}) - AAsset_getRemainingLength(@{$$._fp});
             @}
             set
             @{
-                @{$$.CheckDisposed():Call()};
+                @{$$.CheckDisposed():call()};
                 AAsset_seek(@{$$._fp}, $0, SEEK_SET);
             @}
         }
@@ -437,7 +437,7 @@ namespace Uno.IO
 
         public override long Seek(long byteOffset, SeekOrigin origin)
         @{
-            @{$$.CheckDisposed():Call()};
+            @{$$.CheckDisposed():call()};
 
             switch ($1)
             {

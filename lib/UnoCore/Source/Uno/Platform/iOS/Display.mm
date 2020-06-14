@@ -15,8 +15,8 @@
     @{double} tickDuration = sender.duration * sender.frameInterval;
 
     uAutoReleasePool pool;
-    double currentTime = @{Uno.Diagnostics.Clock.GetSeconds():Call()};
-    @{Uno.Platform.TimerEventArgs} args = @{Uno.Platform.TimerEventArgs(double,double,double):New(lastTickTimestamp,tickDuration, currentTime)};
-    @{Uno.Platform.Displays.TickAll(Uno.Platform.TimerEventArgs):Call(args)};
+    double currentTime = @{Uno.Diagnostics.Clock.GetSeconds():call()};
+    @{Uno.Platform.TimerEventArgs} args = @{Uno.Platform.TimerEventArgs(double,double,double):new(lastTickTimestamp,tickDuration, currentTime)};
+    @{Uno.Platform.Displays.TickAll(Uno.Platform.TimerEventArgs):call(args)};
 }
 @end

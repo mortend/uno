@@ -304,7 +304,7 @@ namespace Uno.Text
 
                 @{
                     uCString cstr($0);
-                    return uArray::New(@{byte[]:TypeOf}, cstr.Length, cstr.Ptr);
+                    return uArray::new(@{byte[]:typeof}, cstr.Length, cstr.Ptr);
                 @}
             }
         }

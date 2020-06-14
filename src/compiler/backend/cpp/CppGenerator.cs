@@ -497,7 +497,7 @@ namespace Uno.Compiler.Backends.CPlusPlus
                         dt.IsValueType
                             ? "uStructType"
                             : "uClassType"
-                    ) + "::New(" + type.ReflectedName.ToLiteral() + ", options);");
+                    ) + "::new(" + type.ReflectedName.ToLiteral() + ", options);");
 
                 foreach (var e in type.MethodTypes)
                     _cpp.WriteLine("type->MethodTypes[" + e.MethodIndex + "] = type->NewMethodType(" + e.MethodRank + ", " + e.PrecalcedTypes.Count + "," + e.Dependencies.Count + ");");
@@ -605,7 +605,7 @@ namespace Uno.Compiler.Backends.CPlusPlus
             _cpp.WriteLine("static uSStrong<uInterfaceType*> type;");
             _cpp.WriteLine("if (type != nullptr) return type;");
             _cpp.Skip();
-            _cpp.WriteLine("type = uInterfaceType::New(" + type.ReflectedName.ToLiteral() +
+            _cpp.WriteLine("type = uInterfaceType::new(" + type.ReflectedName.ToLiteral() +
                 ", " + (dt.IsFlattenedDefinition ? dt.FlattenedParameters.Length : 0) +
                 ", " + type.MethodTypes.Count + ");");
 
@@ -703,7 +703,7 @@ namespace Uno.Compiler.Backends.CPlusPlus
             _cpp.WriteLine("if (type != nullptr) return type;");
             _cpp.Skip();
 
-            _cpp.WriteLine("type = uDelegateType::New(" + type.ReflectedName.ToLiteral() +
+            _cpp.WriteLine("type = uDelegateType::new(" + type.ReflectedName.ToLiteral() +
                            ", " + dt.Parameters.Length +
                            ", " + (dt.IsFlattenedDefinition ? dt.FlattenedParameters.Length : 0) + ");");
             _cpp.BeginLine("type->SetSignature(" + _backend.GetTypeOf(dt.ReturnType, dt, "type"));
@@ -737,7 +737,7 @@ namespace Uno.Compiler.Backends.CPlusPlus
             _cpp.WriteLine("if (type != nullptr) return type;");
             _cpp.Skip();
 
-            _cpp.WriteLine("type = uEnumType::New(" + type.ReflectedName.ToLiteral() + ", " + _backend.GetTypeOf(dt.Base, dt, "type") + ", " + dt.Literals.Count + ");");
+            _cpp.WriteLine("type = uEnumType::new(" + type.ReflectedName.ToLiteral() + ", " + _backend.GetTypeOf(dt.Base, dt, "type") + ", " + dt.Literals.Count + ");");
 
             if (dt.Literals.Count > 0)
             {

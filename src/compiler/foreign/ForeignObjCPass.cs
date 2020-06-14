@@ -361,8 +361,8 @@ namespace Uno.Compiler.Foreign.ObjC
                 x => "(" + typeName + ")" + Helpers.CallStatic(_getHandle, Helpers.StringExpr(_objCObject, x)),
                 x => "[](" + typeName + " x) -> " + ct + " { if (x == nil) return nullptr; " +
                     // TODO How to not have to touch :New in a comment to get it not to strip?
-                    ct + " r = \\@{" + fullName + "():New()}; /* @{" + fullName + "():New()} */ \\@{" + fullName +
-                    ":Of(r).Handle:Set(x)}; return r; }(" + x + ")");
+                    ct + " r = \\@{" + fullName + "():new()}; /* @{" + fullName + "():new()} */ \\@{" + fullName +
+                    ":of(r).Handle:set(x)}; return r; }(" + x + ")");
         }
 
         TypeConversion GetArrayConversion(Source src, ArrayType at)

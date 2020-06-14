@@ -65,10 +65,10 @@ namespace Uno
                     end++;
 
                 if (errno == ERANGE || retval > @{MaxValue} || retval < @{MinValue})
-                    U_THROW(@{OverflowException(string):New(uString::Const("Value was either too large or too small for float"))});
+                    U_THROW(@{OverflowException(string):new(uString::Const("Value was either too large or too small for float"))});
 
                 if (!strlen(trimmed) || strlen(end))
-                    U_THROW(@{FormatException(string):New(uString::Const("Unable to convert string to float"))});
+                    U_THROW(@{FormatException(string):new(uString::Const("Unable to convert string to float"))});
 
                 return (float)retval;
             @}

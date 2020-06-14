@@ -62,10 +62,10 @@ namespace Uno
                     end++;
 
                 if (errno == ERANGE || retval > INT_MAX || retval < INT_MIN)
-                    U_THROW(@{OverflowException(string):New(uString::Const("Value was either too large or too small for int"))});
+                    U_THROW(@{OverflowException(string):new(uString::Const("Value was either too large or too small for int"))});
 
                 if (!strlen(trimmed) || strlen(end))
-                    U_THROW(@{FormatException(string):New(uString::Const("Unable to convert string to int"))});
+                    U_THROW(@{FormatException(string):new(uString::Const("Unable to convert string to int"))});
 
                 return (int)retval;
             @}

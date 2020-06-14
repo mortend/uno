@@ -289,7 +289,7 @@ namespace Uno.Compiler.Foreign
                         "Foreign CPlusPlus: A delegate array parameter has to be followed by an 'int' parameter describing its length");
 
                 foreignType = GetParamConversion(src, dt).ForeignType;
-                convertedArg = "::uArray::New(" + Helpers.TypeOf(dt) + ", " + lengthp.Name + ", " + p.Name + ")";
+                convertedArg = "::uArray::new(" + Helpers.TypeOf(dt) + ", " + lengthp.Name + ", " + p.Name + ")";
                 return;
             }
             if (dt == Essentials.String)

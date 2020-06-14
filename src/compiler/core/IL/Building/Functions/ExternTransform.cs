@@ -159,7 +159,7 @@ namespace Uno.Compiler.Core.IL.Building.Functions
                                 if (obj == null)
                                     Log.Error(src, ErrorCode.E9006, "'$$' is not allowed in static context");
                                 else if (isInsideMacro)
-                                    sb.Append(GetTypeName(obj.ReturnType) + ":Of(@IL$$)");
+                                    sb.Append(GetTypeName(obj.ReturnType) + ":of(@IL$$)");
                                 else
                                     sb.Append("@IL$$");
                                 break;
@@ -180,7 +180,7 @@ namespace Uno.Compiler.Core.IL.Building.Functions
                                 if (argIndex >= args.Length)
                                     Log.Error(src, ErrorCode.E9007, "'$" + argIndex + "' is out of range");
                                 else if (isInsideMacro)
-                                    sb.Append(GetTypeName(args[argIndex].ReturnType) + ":Of(@IL$" + argIndex + ")");
+                                    sb.Append(GetTypeName(args[argIndex].ReturnType) + ":of(@IL$" + argIndex + ")");
                                 else
                                     sb.Append("@IL$" + argIndex);
                                 break;

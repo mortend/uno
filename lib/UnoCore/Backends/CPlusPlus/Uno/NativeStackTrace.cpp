@@ -7,7 +7,7 @@ uArray* uGetNativeStackTrace(int skipFrames)
 {
     void* callStack[64];
     int callStackDepth = backtrace(callStack, sizeof(callStack) / sizeof(callStack[0]));
-    return uArray::New(@{Uno.IntPtr[]:TypeOf}, callStackDepth - skipFrames, callStack + skipFrames);
+    return uArray::new(@{Uno.IntPtr[]:typeof}, callStackDepth - skipFrames, callStack + skipFrames);
 }
 
 #elif defined(__GNUC__) && !defined(ANDROID)
@@ -53,7 +53,7 @@ uArray* uGetNativeStackTrace(int skipFrames)
     };
 
     _Unwind_Backtrace(uUnwindCallback, &state);
-    return uArray::New(@{Uno.IntPtr[]:TypeOf}, state._callStackDepth, state._callStack);
+    return uArray::new(@{Uno.IntPtr[]:typeof}, state._callStackDepth, state._callStack);
 }
 
 #elif defined(WIN32)
@@ -65,7 +65,7 @@ uArray* uGetNativeStackTrace(int skipFrames)
 {
     void* callStack[64];
     int callStackDepth = CaptureStackBackTrace(skipFrames, sizeof(callStack) / sizeof(callStack[0]), callStack, nullptr);
-    return uArray::New(@{Uno.IntPtr[]:TypeOf}, callStackDepth, callStack);
+    return uArray::new(@{Uno.IntPtr[]:typeof}, callStackDepth, callStack);
 }
 
 #else

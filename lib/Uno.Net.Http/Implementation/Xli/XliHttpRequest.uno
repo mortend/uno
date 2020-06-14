@@ -112,7 +112,7 @@ namespace Uno.Net.Http.Implementation
         public byte[] GetResponseContentByteArray()
         {
             extern(_requestHandle) "uBase::DataAccessor* body = $0->GetResponseBody()";
-            return extern<byte[]>(typeof(byte)) "uArray::New($0->Array(), (int)body->GetSizeInBytes(), body->GetPtr())";
+            return extern<byte[]>(typeof(byte)) "uArray::new($0->Array(), (int)body->GetSizeInBytes(), body->GetPtr())";
         }
     }
 }

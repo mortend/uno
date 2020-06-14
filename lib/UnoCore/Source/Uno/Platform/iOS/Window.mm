@@ -11,7 +11,7 @@
     if (self.uDisplay)
     {
         uAutoReleasePool pool;
-        @{Uno.Platform.iOSDisplay:Of(((@{Uno.Platform.iOSDisplay})self.uDisplay)).OnFrameChanged():Call()};
+        @{Uno.Platform.iOSDisplay:of(((@{Uno.Platform.iOSDisplay})self.uDisplay)).OnFrameChanged():call()};
     }
 }
 @end
