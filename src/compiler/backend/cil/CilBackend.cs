@@ -142,7 +142,7 @@ namespace Uno.Compiler.Backends.CIL
             using (Log.StartProfiler(g.GetType().FullName + ".Save"))
                 g.Save();
 
-            return new CilResult(g.Assembly, _linker.TypeMap, g.Locations);
+            return new CilResult(g.Assembly, g.Locations);
         }
     }
 }
