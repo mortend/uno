@@ -7,7 +7,7 @@ using OpenGL;
 using OpenTK.Graphics.ES20;
 using TKGL = OpenTK.Graphics.ES20.GL;
 
-namespace Uno.Support.OpenTK
+namespace Uno.AppLoader.OpenTK
 {
     public class GL : IGL
     {
