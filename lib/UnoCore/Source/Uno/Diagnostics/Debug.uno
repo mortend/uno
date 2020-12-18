@@ -3,6 +3,7 @@ using System;
 
 namespace Uno.Diagnostics
 {
+    [Obsolete("Please use Uno.Diagnostics.LogLevel instead.")]
     public enum DebugMessageType
     {
         Debug,
@@ -12,14 +13,15 @@ namespace Uno.Diagnostics
         Fatal,
     }
 
+    [Obsolete]
     public delegate void AssertionHandler(bool value, string expression, string filename, int line, params object[] operands);
 
     [Obsolete("Please use the Uno.Diagnostics.Log class instead.")]
     public delegate void LogHandler(string message, DebugMessageType type);
 
+    [Obsolete]
     public static class Debug
     {
-        // TODO: Deprecated
         static AssertionHandler _assertionHandler;
 
         [Obsolete]
@@ -28,7 +30,7 @@ namespace Uno.Diagnostics
             _assertionHandler = handler;
         }
 
-        // TODO: Deprecated
+        [Obsolete]
         public static void Assert(bool value, string expression, string filename, int line, params object[] operands)
         {
             if (_assertionHandler != null)
