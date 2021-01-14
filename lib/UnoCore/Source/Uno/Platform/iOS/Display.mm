@@ -12,7 +12,7 @@
 - (void)uOnDisplayTick:(CADisplayLink *)sender
 {
     @{double} lastTickTimestamp = sender.timestamp;
-    @{double} tickDuration = sender.duration * sender.frameInterval;
+    @{double} tickDuration = sender.duration * sender.preferredFramesPerSecond;
 
     uAutoReleasePool pool;
     double currentTime = @{Uno.Diagnostics.Clock.GetSeconds():Call()};
