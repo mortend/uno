@@ -1,0 +1,7 @@
+<App Background="#1d3042" xmlns:gst="GStreamer.Controls">
+    <ClientPanel>
+        <Rectangle>
+            <gst:BackgroundEffect />
+        </Rectangle>
+    </ClientPanel>
+</App>
