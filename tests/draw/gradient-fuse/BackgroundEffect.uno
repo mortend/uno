@@ -52,6 +52,7 @@ namespace GStreamer.Controls
                 float Gradient:
                     Sin(pixel Rotate(VertexData, a2).Y * PIf - a1) * .5f + .5f;
                 PixelColor:
+                    //float4(1, 0, 0, 1);
                     float4(Lerp(Color1, Color2, Gradient), 1);
             };
         }

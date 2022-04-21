@@ -7,6 +7,14 @@ public class App : Application
     public App()
     {
         GL.ClearColor(1, 0, 0, 1);
+
+        var vs = GL.CreateShader(GLShaderType.VertexShader);
+        GL.ShaderSource(vs, VertexShaderSrc);
+        Log.Debug(GL.GetShaderInfoLog(vs));
+
+        //GL.DeleteShader(vs);
+
+        Log.Debug("Success!?");
     }
 
     public override void Update()
@@ -19,7 +27,7 @@ public class App : Application
         Log.Debug("Draw");
     }
 
-    const string VertexShader =
+    const string VertexShaderSrc =
         "#ifdef GL_ES\n" +
         "precision highp float;\n" +
         "#endif\n" +
@@ -38,5 +46,19 @@ public class App : Application
         "{\n" +
         "    h = i(a, c).y;\n" +
         "    gl_Position = b * (g * vec4(vec3(a, float(0)), 1.));\n" +
+        "}\n";
+
+    const string FragmentShaderSrc =
+        "#ifdef GL_ES\n" +
+        "precision highp float;\n" +
+        "#endif\n" +
+        "uniform float d;\n" +
+        "uniform vec3 e, f;\n" +
+        "\n" +
+        "varying float h;\n" +
+        "\n" +
+        "void main()\n" +
+        "{\n" +
+        "    gl_FragColor = vec4(mix(e, f, (sin((h * 3.14159274) - d) * 0.5) + 0.5), float(1));\n" +
         "}\n";
 }

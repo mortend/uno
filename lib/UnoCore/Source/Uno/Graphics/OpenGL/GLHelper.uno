@@ -128,10 +128,14 @@ namespace Uno.Graphics.OpenGL
             GL.ShaderSource(handle, source);
             GL.CompileShader(handle);
 
-            if (GL.GetShaderParameter(handle, GLShaderParameter.CompileStatus) != 1)
+            var status = GL.GetShaderParameter(handle, GLShaderParameter.CompileStatus);
+            Log.Debug("Compile status: " + status);
+
+            if (status != 1)
             {
                 var log = GL.GetShaderInfoLog(handle);
-                throw new GLException("Error compiling shader (" + type + "):\n\n" + log + "\n\nSource:\n\n" + source);
+                Log.Debug(log);
+                throw new GLException("Error compiling shader (" + type + "):\n\nLog: " + log + "\n\nStatus: " + status + "\n\nSource:\n\n" + source);
             }
 
             CheckError();
@@ -146,10 +150,13 @@ namespace Uno.Graphics.OpenGL
             GL.AttachShader(handle, fragmentShader);
             GL.LinkProgram(handle);
 
-            if (GL.GetProgramParameter(handle, GLProgramParameter.LinkStatus) != 1)
+            var status = GL.GetProgramParameter(handle, GLProgramParameter.LinkStatus);
+
+            if (status != 1)
             {
+                Log.Debug("Link status: " + status);
                 var log = GL.GetProgramInfoLog(handle);
-                throw new GLException("Error linking shader program:\n\n" + log);
+                throw new GLException("Error linking shader program:\n\nLog: " + log + "\n\nLink Status: " + status);
             }
 
             GL.UseProgram(handle);

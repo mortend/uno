@@ -1,5 +1,6 @@
 using OpenGL;
 using Uno.Compiler.ExportTargetInterop;
+using Uno.Diagnostics;
 
 namespace Uno.Graphics.OpenGL
 {
@@ -27,6 +28,9 @@ namespace Uno.Graphics.OpenGL
 
         internal GLCompiledProgram(string vsSource, string fsSource, int constCount, int attribCount, string[] constAttribAndUniformNames)
         {
+            Log.Debug("\n\nVS:\n\n" + vsSource);
+            Log.Debug("\n\nFS:\n\n" + fsSource);
+
             _vsHandle = GLHelper.CompileShader(GLShaderType.VertexShader, vsSource);
             _fsHandle = GLHelper.CompileShader(GLShaderType.FragmentShader, fsSource);
 
