@@ -38,9 +38,6 @@ namespace Uno.Net.Http
 
         public string Query { get; private set; }
 
-        [Obsolete("Use Uri.Fragment instead")]
-        public string Hash { get { return Fragment; } }
-
         public string Scheme { get; private set; }
 
         public string[] Segments { get; private set; }
@@ -59,26 +56,6 @@ namespace Uno.Net.Http
                 throw new UriFormatException("The length of uriString exceeds 65519 characters.");
 
             CreateThis(uriString);
-        }
-
-        [Obsolete("Use `Query.Substring(1).Split('&')` instead")]
-        public Dictionary<string, string> GetQueryParameters()
-        {
-            var result = new Dictionary<string, string>();
-            if (!string.IsNullOrEmpty(Query))
-            {
-                var parameters = Query.Substring(1);
-                var parts = parameters.Split('&');
-                foreach (var part in parts)
-                {
-                    var index = part.IndexOf("=");
-                    if (index != -1)
-                        result.Add(part.Substring(0, index), part.Substring(index + 1));
-                    else
-                        result.Add(part, string.Empty);
-                }
-            }
-            return result;
         }
 
         bool _hasDoubleSlash;
@@ -135,14 +112,6 @@ namespace Uno.Net.Http
             }
         }
 
-        [Obsolete("Use `String.Format(\"{0}/{1}\", baseUri.TrimEnd(new char[] { '/' }, uri.TrimStart(new char[] { '/' }))` instead")]
-        public static string Combine(string baseUri, string uri)
-        {
-            return String.Format("{0}/{1}",
-                baseUri.TrimEnd(new char[] { '/' }),
-                uri.TrimStart(new char[] { '/' }));
-        }
-
         public static string EscapeDataString(string stringToEscape)
         {
             byte[] bytes = Utf8.GetBytes(stringToEscape);
@@ -174,13 +143,6 @@ namespace Uno.Net.Http
             return new string(result);
         }
 
-        [Obsolete("Use `Uri.EscapeDataString(string)` instead")]
-        public static string Encode(string value)
-        {
-            return EscapeDataString(value);
-        }
-
-
         public static string UnescapeDataString(string stringToUnescape)
         {
             var count = 0;
@@ -207,12 +169,6 @@ namespace Uno.Net.Http
                 return Utf8.GetString(result);
             }
             return Utf8.GetString(buffer);
-        }
-
-        [Obsolete("Use `Uri.UnescapeDataString(string)` instead")]
-        public static string Decode(string value)
-        {
-            return UnescapeDataString(value);
         }
     }
 }

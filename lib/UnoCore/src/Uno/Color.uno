@@ -234,19 +234,6 @@ namespace Uno
             return false;
         }
 
-        [Obsolete("Use Color.Parse(string) instead")]
-        static public float4 FromHex( string hex )
-        {
-            if (hex.Length > 0 && hex[0] == '#')
-                hex = hex.Substring(1);
-
-            int4 result;
-            if (!TryParseHexString(hex, out result))
-                throw new ArgumentException(nameof(hex));
-
-            return FromInt4( result );
-        }
-
         static public float4 Parse(string str)
         {
             if (str.Length > 0 && str[0] == '#')

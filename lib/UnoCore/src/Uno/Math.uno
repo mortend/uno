@@ -443,24 +443,6 @@ namespace Uno
 
         public static double Round(double x) { return Floor(x + 0.5); }
 
-        [Obsolete("Use Floor(x + 0.5f) instead")]
-        public static float Round(float x) { return Floor(x + 0.5f); }
-
-        [Obsolete("Use Floor(x + 0.5f) instead")]
-        public static float2 Round(float2 x) { return Floor(x + 0.5f); }
-
-        [Obsolete("Use Floor(x + 0.5f) instead")]
-        public static float3 Round(float3 x) { return Floor(x + 0.5f); }
-
-        [Obsolete("Use Floor(x + 0.5f) instead")]
-        public static float4 Round(float4 x) { return Floor(x + 0.5f); }
-
-        [Obsolete("Use (float)Floor((double)d, decimals) instead")]
-        public static float Round(float d, int decimals)
-        {
-            return (float)Round((double)d, decimals);
-        }
-
         static double[] positivePowersOfTen = new double[]
         {
             1e0, 1e1, 1e2, 1e3, 1e4, 1e5, 1e6, 1e7, 1e8,
@@ -482,24 +464,6 @@ namespace Uno
                 return Round(d * positivePowersOfTen[digits]) * negativePowersOfTen[digits];
             else
                 return d;
-        }
-
-        [Obsolete("Use float2((float)Floor((double)x.X, decimals), (float)Floor((double)x.Y, decimals)) instead")]
-        public static float2 Round(float2 x, int decimals)
-        {
-            return float2(Round(x.X, decimals), Round(x.Y, decimals));
-        }
-
-        [Obsolete("Use float3((float)Floor((double)x.X, decimals), (float)Floor((double)x.Y, decimals), (float)Floor((double)x.Z, decimals)) instead")]
-        public static float3 Round(float3 x, int decimals)
-        {
-            return float3(Round(x.X, decimals), Round(x.Y, decimals), Round(x.Z, decimals));
-        }
-
-        [Obsolete("Use float4((float)Floor((double)x.X, decimals), (float)Floor((double)x.Y, decimals), (float)Floor((double)x.Z, decimals), (float)Floor((double)x.W, decimals)) instead")]
-        public static float4 Round(float4 x, int decimals)
-        {
-            return float4(Round(x.X, decimals), Round(x.Y, decimals), Round(x.Z, decimals), Round(x.W, decimals));
         }
 
 

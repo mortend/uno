@@ -19,12 +19,6 @@ namespace Uno.Threading
             }
         }
 
-        [Obsolete]
-        public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator()
-        {
-            return ((ICollection<KeyValuePair<TKey, TValue>>)this).GetEnumerator();
-        }
-
         // Note: returns a copy of the keys at the time of calling
         ICollection<TKey> IDictionary<TKey, TValue>.Keys
         {
@@ -74,18 +68,6 @@ namespace Uno.Threading
         {
             lock (_mutex)
                 return _dictionary.Remove(key);
-        }
-
-        [Obsolete]
-        public void Add(TKey key, TValue value)
-        {
-            ((IDictionary<TKey, TValue>)this).Add(key, value);
-        }
-
-        [Obsolete]
-        public void Remove(TKey key)
-        {
-            ((IDictionary<TKey, TValue>)this).Remove(key);
         }
 
         public bool ContainsKey(TKey key)
