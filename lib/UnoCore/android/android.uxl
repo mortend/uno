@@ -116,11 +116,11 @@
 
     <!-- C++ source -->
 
-    <ProcessFile SourceFile="Uno/EntryPoints.cpp" />
-    <ProcessFile HeaderFile="Uno/JNIHelper.h" />
-    <ProcessFile SourceFile="Uno/JNIHelper.cpp" />
-    <ProcessFile HeaderFile="Uno/Graphics/GLHelper.h" />
-    <ProcessFile SourceFile="Uno/Graphics/GLHelper.cpp" />
+    <ProcessFile SourceFile="uDroid/EntryPoints.cpp" />
+    <ProcessFile HeaderFile="uDroid/JNIHelper.h" />
+    <ProcessFile SourceFile="uDroid/JNIHelper.cpp" />
+    <ProcessFile HeaderFile="uDroid/gl/GLHelper.h" />
+    <ProcessFile SourceFile="uDroid/gl/GLHelper.cpp" />
 
     <!-- Java source -->
 

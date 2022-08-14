@@ -3,8 +3,8 @@
 #include <uBase/BaseLib.h>
 #include <XliPlatform/PlatformSpecific/Android.h>
 
-#include <Uno/JNIHelper.h>
-#include <Uno/Graphics/GLHelper.h>
+#include <uDroid/JNIHelper.h>
+#include <uDroid/gl/GLHelper.h>
 
 @{Android.Base.JNI:IncludeDirective}
 @{Uno.Platform.CoreApp:IncludeDirective}
