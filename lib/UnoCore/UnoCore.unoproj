@@ -107,7 +107,6 @@
     "cpp/Uno/Support.cpp:File",
     "cpp/Uno/Support.h:File",
     "cpp/Uno/SupportApple.mm:File",
-    "cpp/Uno/Uno.h:File",
     "cpp/uPlatform/WinAPIHelper.h:File",
     "ios/@(Icons)/Contents.json:File",
     "ios/@(Project.Name).xcodeproj/project.pbxproj:File",
