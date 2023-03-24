@@ -6,11 +6,14 @@
     "@fuse-open/opentk": "^3.2.0",
     "@fuse-open/transpiler": "^1.17.4",
     "@fuse-open/xamarin-mac": "^8.12.0",
-    "dotnet-run": "^2.0.0-beta.2"
+    "dotnet-run": "^2.0.0-beta.3"
   },
   "devDependencies": {
     "filecompare": "^1.0.4",
     "xbash": "^1.6.0"
+  },
+  "optionalDependencies": {
+    "@fuse-open/mac-binaries": "file:../mac-binaries/fuse-open-mac-binaries-3.0.0-beta.0.tgz"
   },
   "scripts": {
     "build": "bash scripts/build.sh",

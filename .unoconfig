@@ -1,4 +1,5 @@
 // Core config
+AppLoader.Mac: node_modules/@fuse-open/mac-binaries/x64/uno-app-loader.app/Contents/MonoBundle
 AppLoader.Generic: bin/generic/net6.0
 AppLoader.Windows: bin/win/net6.0-windows
 
@@ -6,7 +7,7 @@ if WIN32 {
     AppLoader.Assembly: bin/win/net6.0-windows/uno-app.dll
     Uno.Command: bin/net6.0/uno.exe
 } else if MAC {
-    AppLoader.Assembly: bin/generic/net6.0/uno-app.dll
+    // AppLoader.Assembly is not used to create macOS apps
     Uno.Command: bin/net6.0/uno
 } else {
     AppLoader.Assembly: bin/generic/net6.0/uno-app.dll
