@@ -11,4 +11,10 @@
     <ProjectReference Include="..\..\common\Uno.Common.csproj" />
     <ProjectReference Include="..\frontend\Uno.Compiler.Frontend.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <None Remove="Magick.NET-Q8-AnyCPU" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Magick.NET-Q8-AnyCPU" Version="13.0.1" />
+  </ItemGroup>
 </Project>

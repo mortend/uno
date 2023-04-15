@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
-using System.Drawing.Drawing2D;
 using System.IO;
 using System.Linq;
+using ImageMagick;
 using Uno.Collections;
 using Uno.Compiler.API.Domain.Extensions;
 using Uno.Compiler.API.Domain.IL;
@@ -11,7 +10,6 @@ using Uno.Compiler.API.Domain.IL.Members;
 using Uno.Compiler.API.Domain.IL.Types;
 using Uno.Compiler.API.Domain.UXL;
 using Uno.Compiler.Core.IL.Utilities;
-using Uno.Diagnostics;
 using Uno.IO;
 using Uno.Logging;
 using Uno.Macros;
@@ -641,59 +639,24 @@ namespace Uno.Compiler.Core.Syntax
                 Log.Event(IOEvent.Write, dst);
                 _disk.CreateDirectory(Path.GetDirectoryName(dst));
 
-                if (OperatingSystem.IsWindows())
+                using (var image = new MagickImage(src))
                 {
-                    // Use System.Drawing to convert images on Windows:
-
-                    using var originalImg = Image.FromFile(src);
-
-                    if (_env.IsDefined("iOS") && Image.IsAlphaPixelFormat(originalImg.PixelFormat))
+                    /*if (_env.IsDefined("iOS") && Image.IsAlphaPixelFormat(originalImg.PixelFormat))
                     {
                         var source = new Source(src);
                         Log.Warning(source, ErrorCode.W0000, "iOS App Store doesn't accept Images with transparency.");
-                    }
+                    }*/
 
-                    int width = f.TargetWidth ?? f.TargetHeight ?? originalImg.Width;
-                    int height = f.TargetHeight ?? f.TargetWidth ?? originalImg.Height;
+                    int width = f.TargetWidth ?? f.TargetHeight ?? image.Width;
+                    int height = f.TargetHeight ?? f.TargetWidth ?? image.Height;
 
-                    using var resizedImg = new Bitmap(width, height, originalImg.PixelFormat);
-                    using var graphics = Graphics.FromImage(resizedImg);
-
-                    graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
-                    graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
-                    graphics.DrawImage(originalImg, new Rectangle(0, 0, width, height));
-
-                    resizedImg.Save(dst);
-                }
-                else
-                {
-                    // Alternative code path not using System.Drawing:
-
-                    int width = f.TargetWidth ?? f.TargetHeight ?? 0;
-                    int height = f.TargetHeight ?? f.TargetWidth ?? 0;
-
-                    if (width == 0 || height == 0)
+                    var size = new MagickGeometry(width, height)
                     {
-                        // No resizing required; direct copy
-                        File.Copy(src, dst);
-                    }
-                    else if (OperatingSystem.IsMacOS())
-                    {
-                        // Use the 'sips' command on macOS:
-                        new Shell(Log).GetOutput("sips",
-                            "--resampleHeightWidth " + height + " " + width + " " +
-                            src.QuoteSpace() + " --out " + dst.QuoteSpace(),
-                            RunFlags.NoOutput);
-                    }
-                    else
-                    {
-                        // Use the 'convert' command as fallback:
-                        new Shell(Log).GetOutput("convert",
-                            src.QuoteSpace() +
-                            " -resize " + width + "x" + height + "! " +
-                            dst.QuoteSpace(),
-                            RunFlags.NoOutput);
-                    }
+                        IgnoreAspectRatio = true
+                    };
+
+                    image.Resize(size);
+                    image.Write(dst);
                 }
             }
             catch (Exception e)
