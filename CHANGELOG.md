@@ -4,6 +4,30 @@ Uno Changelog
 Unreleased
 ----------
 
+### .NET 6.0
+- Port codebase to .NET 6.0 and Visual Studio 2022 (#424)
+- Update default output directory (#435)
+- Update restore script for .NET 6.0 (#436)
+- Remove version directory when building libraries (#437)
+
+### macOS
+- Switch to Microsoft.macOS.SDK (#438)
+
+### UnoCore
+- Remove legacy `Uno.Buffer` class (#441)
+- Remove legacy `Uno.Diagnostics.Debug` class (#442)
+
+### Standard library
+- Remove legacy `Uno.Permissions` library (#443)
+
+### Uno.Graphics.Utils
+- Remove reference to `Experimental.TextureLoader` (#444)
+
+
+
+
+[`v2.8.0...beta-3.0`](https://github.com/fuse-open/uno/compare/v2.8.0...beta-3.0)
+
 2.8
 ---
 
