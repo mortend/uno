@@ -166,7 +166,7 @@ namespace Uno.Compiler.Core
             if (Environment.Options.TestOptions.HasValue)
                 Run(new TestSetupTransform(Pass));
 
-            if (!Environment.IsConsole && !Environment.IsLibrary)
+            if (!Environment.IsConsole && !Environment.IsLibrary || Environment.IsApp)
                 Data.ResolveMainClass(Pass, Environment);
 
             if (Environment.IsConsole && Environment.HasCustomEntrypoint)

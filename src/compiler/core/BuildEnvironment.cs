@@ -25,6 +25,7 @@ namespace Uno.Compiler.Core
         public bool Debug => Options.Debug;
         public bool Parallel => Options.Parallel;
         public bool Strip => Options.Strip;
+        public bool IsApp => IsDefined("APP") || IsDefined("APPTEST");
         public bool IsConsole => IsDefined("CONSOLE");
         public bool IsLibrary => IsDefined("LIBRARY");
         public bool IsTest => IsDefined("TEST") || IsDefined("APPTEST");
