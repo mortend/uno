@@ -68,12 +68,12 @@ namespace Uno.Compiler.Backends.CIL
             _assembly.SetCustomAttribute(
                 new CustomAttributeBuilder(
                     _linker.System_Reflection_AssemblyMetadataAttribute_ctor,
-                    new object[] { "DllImportResolver", true.ToString() }));
+                    new object[] {"DllImportResolver", true.ToString()}));
 
             _assembly.SetCustomAttribute(
                 new CustomAttributeBuilder(
                     _linker.System_Reflection_AssemblyMetadataAttribute_ctor,
-                    new object[] { "uno", UnoVersion.InformationalVersion }));
+                    new object[] {"uno", UnoVersion.InformationalVersion}));
         }
 
         public void Save()
