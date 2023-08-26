@@ -9,9 +9,11 @@ while [ -h "$SOURCE" ]; do
     [[ "$SOURCE" != /* ]] && SOURCE="$DIR/$SOURCE"
 done
 
-#if @(LIBRARY:Defined)
+#if @(LIBRARY:defined) || @(PREVIEW:defined)
 echo "ERROR: @(Product) is a library and cannot be run directly." >&2
 exit 1
-#else
+#elif @(CONSOLE:defined) || @(TEST:defined) && !@(APPTEST:defined) || !@(HOST_MAC:defined)
 exec dotnet "@(Product)" "$@"
+#else
+exec "@(Product)" "$@"
 #endif
