@@ -7,6 +7,7 @@ using IKVM.Reflection;
 using IKVM.Reflection.Emit;
 using Uno.Compiler.API;
 using Uno.Compiler.API.Domain.IL;
+using Uno.Diagnostics;
 using Uno.IO;
 
 namespace Uno.Compiler.Backends.CIL
@@ -63,6 +64,16 @@ namespace Uno.Compiler.Backends.CIL
                     new CustomAttributeBuilder(
                         _linker.System_Runtime_CompilerServices_InternalsVisibleToAttribute_ctor,
                         new object[] {name}));
+
+            _assembly.SetCustomAttribute(
+                new CustomAttributeBuilder(
+                    _linker.System_Reflection_AssemblyMetadataAttribute_ctor,
+                    new object[] { "DllImportResolver", true.ToString() }));
+
+            _assembly.SetCustomAttribute(
+                new CustomAttributeBuilder(
+                    _linker.System_Reflection_AssemblyMetadataAttribute_ctor,
+                    new object[] { "uno", UnoVersion.InformationalVersion }));
         }
 
         public void Save()
@@ -103,7 +114,7 @@ namespace Uno.Compiler.Backends.CIL
                     foreach (var m in asm.GetModules())
                     {
                         var dll = m.FullyQualifiedName;
-                        var pdb = dll.Substring(dll.Length - 4) + ".pdb";
+                        var pdb = string.Concat(dll.AsSpan(dll.Length - 4), ".pdb");
 
                         if (File.Exists(dll))
                             Disk.CopyFile(dll, Path.Combine(_outputDir, Path.GetFileName(dll)));

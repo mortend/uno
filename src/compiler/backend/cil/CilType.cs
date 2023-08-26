@@ -252,7 +252,7 @@ namespace Uno.Compiler.Backends.CIL
             }
 
             if (p.Modifier == ParameterModifier.Params)
-                pb.SetCustomAttribute(new CustomAttributeBuilder(_linker.System_ParamAttribute_ctor, new object[0]));
+                pb.SetCustomAttribute(new CustomAttributeBuilder(_linker.System_ParamArrayAttribute_ctor, new object[0]));
         }
 
         void SetConstraints(GenericTypeParameterBuilder builder, GenericParameterType definition)

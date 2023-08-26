@@ -66,7 +66,7 @@ namespace Uno.AppLoader
                 {
                     var asm = ev.LoadedAssembly;
 
-                    if (!GetAssemblySetDllImportResolver(asm))
+                    if (!GetDllImportResolverEnabled(asm))
                         return;
 
                     // Set DllImportResolver for loading native libraries used in generated assemblies
@@ -105,13 +105,13 @@ namespace Uno.AppLoader
             };
         }
 
-        static bool GetAssemblySetDllImportResolver(Assembly asm)
+        static bool GetDllImportResolverEnabled(Assembly asm)
         {
             foreach (var attr in asm.GetCustomAttributes())
             {
                 var metadata = attr as AssemblyMetadataAttribute;
 
-                if (metadata?.Key == "SetDllImportResolver")
+                if (metadata?.Key == "DllImportResolver")
                     return bool.Parse(metadata.Value);
             }
 

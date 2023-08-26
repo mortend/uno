@@ -48,8 +48,9 @@ namespace Uno.Compiler.Backends.CIL
         public readonly Type System_IntPtr;
         public readonly Type System_Int32;
         public readonly Type System_Void;
-        public readonly ConstructorInfo System_ParamAttribute_ctor;
+        public readonly ConstructorInfo System_ParamArrayAttribute_ctor;
         public readonly ConstructorInfo System_Diagnostics_DebuggableAttribute_ctor;
+        public readonly ConstructorInfo System_Reflection_AssemblyMetadataAttribute_ctor;
         public readonly ConstructorInfo System_Runtime_CompilerServices_ExtensionAttribute_ctor;
         public readonly ConstructorInfo System_Runtime_CompilerServices_InternalsVisibleToAttribute_ctor;
         public readonly ConstructorInfo System_NotSupportedException_ctor;
@@ -71,8 +72,9 @@ namespace Uno.Compiler.Backends.CIL
             System_IntPtr = Universe.Import(typeof(IntPtr));
             System_Int32 = Universe.Import(typeof(int));
             System_Void = Universe.Import(typeof(void));
-            System_ParamAttribute_ctor = Universe.Import(typeof(ParamArrayAttribute)).GetConstructor(Type.EmptyTypes);
+            System_ParamArrayAttribute_ctor = Universe.Import(typeof(ParamArrayAttribute)).GetConstructor(Type.EmptyTypes);
             System_Diagnostics_DebuggableAttribute_ctor = Universe.Import(typeof(DebuggableAttribute)).GetConstructor(new[] { Universe.Import(typeof(DebuggableAttribute.DebuggingModes)) });
+            System_Reflection_AssemblyMetadataAttribute_ctor = Universe.Import(typeof(System.Reflection.AssemblyMetadataAttribute)).GetConstructor(new[] {System_String, System_String});
             System_Runtime_CompilerServices_ExtensionAttribute_ctor = Universe.Import(typeof(ExtensionAttribute)).GetConstructor(Type.EmptyTypes);
             System_Runtime_CompilerServices_InternalsVisibleToAttribute_ctor = Universe.Import(typeof(InternalsVisibleToAttribute)).GetConstructor(new[] {System_String});
             System_NotSupportedException_ctor = Universe.Import(typeof(NotSupportedException)).GetConstructor(new[] {System_String});
