@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Globalization;
 using System.IO;
+using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows.Forms;
@@ -35,8 +36,13 @@ namespace Uno.AppLoader
             AppDomain.CurrentDomain.AssemblyLoad += (sender, ev) => {
                 try
                 {
+                    var asm = ev.LoadedAssembly;
+
+                    if (!GetAssemblySetDllImportResolver(asm))
+                        return;
+
                     // Set DllImportResolver for loading native libraries used in generated assemblies
-                    NativeLibrary.SetDllImportResolver(ev.LoadedAssembly, (libraryName, assembly, searchPath) => {
+                    NativeLibrary.SetDllImportResolver(asm, (libraryName, assembly, searchPath) => {
                         if (!libraryName.Contains(".dll") || libraryName.StartsWith("/"))
                             return IntPtr.Zero;
 
@@ -55,6 +61,19 @@ namespace Uno.AppLoader
                     Console.Error.WriteLine("NativeLibrary.SetDllImportResolver: " + e);
                 }
             };
+        }
+
+        static bool GetAssemblySetDllImportResolver(Assembly asm)
+        {
+            foreach (var attr in asm.GetCustomAttributes())
+            {
+                var metadata = attr as AssemblyMetadataAttribute;
+
+                if (metadata?.Key == "SetDllImportResolver")
+                    return bool.Parse(metadata.Value);
+            }
+
+            return false;
         }
 
         static void UnoGenerated()
