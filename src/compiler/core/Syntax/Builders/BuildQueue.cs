@@ -103,7 +103,7 @@ namespace Uno.Compiler.Core.Syntax.Builders
                 while (_populateMembersIndex < count)
                     if (_backend.CanLink(_enqueuedTypes[_populateMembersIndex]))
                         _enqueuedTypes[_populateMembersIndex++].Stats |= EntityStats.CanLink;
-                    else if (_env.Lazy && _enqueuedTypes[_populateMembersIndex].Bundle.IsCached)
+                    else if (_env.Strip && _env.Lazy && _enqueuedTypes[_populateMembersIndex].Bundle.IsCached)
                         _populateMembersIndex++;
                     else
                         _enqueuedTypes[_populateMembersIndex++].PopulateMembers();
