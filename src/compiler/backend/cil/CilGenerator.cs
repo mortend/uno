@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Diagnostics.SymbolStore;
 using System.IO;
+using System.Runtime.InteropServices;
 using IKVM.Reflection;
 using IKVM.Reflection.Emit;
 using Uno.Compiler.API;
@@ -67,6 +68,11 @@ namespace Uno.Compiler.Backends.CIL
 
             _assembly.SetCustomAttribute(
                 new CustomAttributeBuilder(
+                    _linker.System_Runtime_InteropServices_DefaultDllImportSearchPathsAttribute_ctor,
+                    new object[] {DllImportSearchPath.AssemblyDirectory | DllImportSearchPath.System32}));
+
+            _assembly.SetCustomAttribute(
+                new CustomAttributeBuilder(
                     _linker.System_Reflection_AssemblyMetadataAttribute_ctor,
                     new object[] {"DllImportResolver", true.ToString()}));
 
@@ -89,11 +95,11 @@ namespace Uno.Compiler.Backends.CIL
                         continue;
 
                     var stream = File.OpenRead(file.SourcePath);
-                    streams.Add(stream); // Add it here before we give the stream away
+                    streams.Add(stream); // Add before we give the stream away
                     _module.DefineManifestResource(file.TargetName, stream, ResourceAttributes.Public);
                 }
 
-                // Output assembly
+                // Save assembly
                 Disk.CreateDirectory(_outputDir);
                 _assembly.Save(_assembly.GetName().Name + ".dll");
             }
