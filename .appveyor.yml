@@ -6,8 +6,7 @@ environment:
   matrix:
   - TARGET: dotnet
     PUSH_ARTIFACT: 1
-  - TARGET: dotnet
-    UNO_TEST_ARGS: -DLAZY --build-only
+    UNO_TEST_ARGS: -DLAZY
   - TARGET: native
     UNO_TEST_ARGS: -DDEBUG_UNSAFE
     SKIP_UNO_TESTS: 1
