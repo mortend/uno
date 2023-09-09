@@ -15,7 +15,7 @@ environment:
   #   SKIP_LIB_TESTS: 1
 
 install:
-  - ps: Install-Product node $env:nodejs_version
+  - ps: Install-Product node $env:nodejs_version x64
   - ps: |
       if ($env:TARGET -eq "android") {
         Invoke-Expression "npm install android-build-tools@1.x -g"
